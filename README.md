@@ -24,12 +24,12 @@ Finally, run.sh will use pyATK to initialize the most important hardware of the 
 
 ## ToDos
 This project is in an early stage and lot of things have to be done:
-[ ] create an initramfs with some useful programs
-[ ] implement a function to upload original FPGA-bitstream to the X32-FPGA from the original firmware to initialize the heart of the audio-processing
-[ ] reverse-engineer the communication-protocol between the individual hardware-components (e.g. faderboards) and the i.MX253
-[ ] implement a nice user-interface to control things
-[ ] test this system using an SD-card
-[ ] more funny stuff
+* [ ] create an initramfs with some useful programs
+* [ ] implement a function to upload original FPGA-bitstream to the X32-FPGA from the original firmware to initialize the heart of the audio-processing
+* [ ] reverse-engineer the communication-protocol between the individual hardware-components (e.g. faderboards) and the i.MX253
+* [ ] implement a nice user-interface to control things
+* [ ] test this system using an SD-card
+* [ ] more funny stuff
 
 ## What's the reason for developing such a thing?
 I want to learn things about embedded systems and how they work. The X32 is a very powerful playground with lots of different controllers, nice faders and displays. So that's the only reason why I'm doing this :-)
