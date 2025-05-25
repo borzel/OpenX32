@@ -1,0 +1,7 @@
+# binaries and C-files
+*.bin
+*.elf
+*.map
+*.o
+*.exe
+
