@@ -9,17 +9,28 @@ Using the pyATK-software we can upload individual files directly to the RAM of t
 
 As the linux is started from RAM directly, this project is a temporary replacement of the mixer. After a power-cycle, the original firmware is in place again. But its possible to replace the original SD-card with a new one containing the OpenX32, to boot the linux automatically after a power-cycle.
 
-## Steps to load the new operating system
-1. Clone the repository into a folder like ~/GitCheckout/openx32
-2. Setup your debian-based system by calling the script ./setup.sh
-3. Compile u-boot and Linux by calling the script ./compile.sh
-4. Upload the new operating system by calling the script ./run.sh
+## Steps to compile and load the new operating system
 
-setup.sh will install several dependencies to compile u-boot and the linux-kernel. After installing the packets, it will clone three repositories to ~/GitCheckout: pyATK, u-boot (v2020.10 as the last U-Boot supporting the i.MX25) and linux (v6.12, the most recent LTS-kernel). After downloading it will configure pyATK in a virtual python-environment and reconfigure the u-boot and linux-kernel with some patched files to support the X32.
+### Init Git-Submodules
+This repository uses other GitHub-repositories as submodules. Please use the following command to checkout the main-repo together with submodules:
+```
+git clone --recurse-submodules https://github.com/xn--nding-jua/OpenX32.git
+```
 
-compile.sh will compile a small program called "miniloader", the U-Boot-bootloader and the Linux kernel. The kernel-image "zImage" will be converted to a "uImage" and will be merged together with the miniloader and u-boot-image into a single binary-file.
+If you have already checkout the repo without submodules, you can checkout them using the following command:
+```
+git submodule update --init --recursive
+```
 
-Finally, run.sh will use pyATK to initialize the most important hardware of the i.MX253 using the file "meminit.txt" and upload the generated binary-blob into the RAM of the processor. The Serial-Download-Program of the i.MX will then start the small assembler-program "miniloader" placed at address 0x80000000 - hence the begin of the RAM. The only task of Miniloader is to jumpstart the U-Boot-Bootloader at offset 0x3C0. U-Boot is placed at offset 0x0C0, but the first function-entry of the U-Boot will not start when using the Serial-Download-Program. So with this small hack, U-Boot takes control over the i.MX, reallocate itself to a higher memory-region and starts the linux-kernel together with the DeviceTreeBlob. The kernel is then decompressed and will start up.
+### Run the scripts
+
+1. Setup your debian-based system by calling the script ./setup.sh (tested with Debian 12)
+2. Compile u-boot and Linux by calling the script ./compile.sh
+3. Upload the new operating system by calling the script ./run.sh
+
+* setup.sh will install several dependencies to compile u-boot and the linux-kernel. After installing the packets, it will clone three repositories to ~/GitCheckout: pyATK, u-boot (v2020.10 as the last U-Boot supporting the i.MX25) and linux (v6.12, the most recent LTS-kernel). After downloading it will configure pyATK in a virtual python-environment and reconfigure the u-boot and linux-kernel with some patched files to support the X32.
+* compile.sh will compile a small program called "miniloader", the U-Boot-bootloader and the Linux kernel. The kernel-image "zImage" will be converted to a "uImage" and will be merged together with the miniloader and u-boot-image into a single binary-file.
+* Finally, run.sh will use pyATK to initialize the most important hardware of the i.MX253 using the file "meminit.txt" and upload the generated binary-blob into the RAM of the processor. The Serial-Download-Program of the i.MX will then start the small assembler-program "miniloader" placed at address 0x80000000 - hence the begin of the RAM. The only task of Miniloader is to jumpstart the U-Boot-Bootloader at offset 0x3C0. U-Boot is placed at offset 0x0C0, but the first function-entry of the U-Boot will not start when using the Serial-Download-Program. So with this small hack, U-Boot takes control over the i.MX, reallocate itself to a higher memory-region and starts the linux-kernel together with the DeviceTreeBlob. The kernel is then decompressed and will start up.
 
 ## ToDos
 This project is in an early stage and lot of things have to be done:
