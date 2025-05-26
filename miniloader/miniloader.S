@@ -60,6 +60,7 @@ FIQAddr:       .word FIQHandler
 
 ResetHandler:
         /* turn on MCU_BUSY at GPIO4-24 */
+/*
         ldr r0, =0x43FAC178
         mov r1, #0x00000065
         str r1, [r0]
@@ -75,10 +76,11 @@ ResetHandler:
         ldr r0, =0x53F9C000
         mov r1, #0x01000000
         str r1, [r0]
+*/
 
         /* jump to u-Boot */
 	/* we do jump over the reallocation-part directly into the reset-vector at address 0x300 of u-Boot */
-        LDR PC, =0x800003C0
+        LDR PC, =0x800000C0
 
 	/* jump to Linux kernel directly */
 	/*LDR PC, =0x80060000*/

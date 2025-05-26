@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Mount devtmpfs und proc/sys
+/bin/mount -t proc none /proc
+/bin/mount -t sysfs none /sys
+/bin/mount -t devtmpfs none /dev
+
+# Eine einfache Shell starten
+echo "Booting into busybox shell..."
+exec /bin/sh # Startet die BusyBox-Shell
+
+# Fallback, falls switch_root fehlschlägt
+echo "Failed to switch root. Kernel panic imminent!"
+while true; do sleep 1; done # Endlosschleife, um Kernel Panic zu verhindern

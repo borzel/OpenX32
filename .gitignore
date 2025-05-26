@@ -5,3 +5,11 @@
 *.o
 *.exe
 
+# initramfs
+initramfs_root/bin
+initramfs_root/dev
+initramfs_root/etc
+initramfs_root/linuxrc
+initramfs_root/proc
+initramfs_root/sbin
+initramfs_root/sys

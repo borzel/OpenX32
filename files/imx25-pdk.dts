@@ -1,0 +1,194 @@
+// SPDX-License-Identifier: GPL-2.0+
+//
+// Copyright 2013 Freescale Semiconductor, Inc.
+
+/dts-v1/;
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+#include "imx25.dtsi"
+
+/ {
+	model = "Behringer X32 - OpenX32";
+	compatible = "fsl,imx25-pdk", "fsl,imx25";
+
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x80000000 0x4000000>;
+	};
+
+	wvga: display {
+		model = "Innolux-AT070TN";
+		bits-per-pixel = <32>;
+		fsl,pcr = <0xFC268B80>;
+		bus-width = <18>;
+		display-timings {
+			native-mode = <&wvga_timings>;
+			wvga_timings: timing0 {
+				hactive = <800>;
+				vactive = <480>;
+				hback-porch = <45>; // HSYNC Back Porch (typ. 45)
+				hfront-porch = <201>; // Calculated: 1056 - 800 - 45 - 10 = 201
+				hsync-len = <10>; // HSYNC Pulse Width (typ. 10)
+				vback-porch = <22>; // VSYNC Back Porch (typ. 22)
+				vfront-porch = <132>; // Calculated: 635 - 480 - 22 - 1 = 132
+				vsync-len = <1>; // VSYNC Pulse Width (typ. 1)
+				clock-frequency = <40000000>; // DCLK = 40MHz (1/25ns)
+			};
+		};
+	};
+};
+
+&esdhc1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_esdhc1>;
+	status = "okay";
+};
+
+&fec {
+	phy-mode = "rmii";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_fec>;
+	phy-reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+	status = "okay";
+};
+
+&i2c1 {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c1>;
+	status = "okay";
+
+	codec: sgtl5000@a {
+		compatible = "fsl,sgtl5000";
+		reg = <0x0a>;
+		#sound-dai-cells = <0>;
+		clocks = <&clks 129>;
+	};
+};
+
+&iomuxc {
+	imx25-pdk {
+		pinctrl_esdhc1: esdhc1grp {
+			fsl,pins = <
+				MX25_PAD_SD1_CMD__ESDHC1_CMD		0x80000000
+				MX25_PAD_SD1_CLK__ESDHC1_CLK		0x80000000
+				MX25_PAD_SD1_DATA0__ESDHC1_DAT0		0x80000000
+				MX25_PAD_SD1_DATA1__ESDHC1_DAT1		0x80000000
+				MX25_PAD_SD1_DATA2__ESDHC1_DAT2		0x80000000
+				MX25_PAD_SD1_DATA3__ESDHC1_DAT3		0x80000000
+			>;
+		};
+
+		pinctrl_fec: fecgrp {
+			fsl,pins = <
+				MX25_PAD_FEC_MDC__FEC_MDC		0x80000000
+				MX25_PAD_FEC_MDIO__FEC_MDIO		0x400001e0
+				MX25_PAD_FEC_TDATA0__FEC_TDATA0		0x80000000
+				MX25_PAD_FEC_TDATA1__FEC_TDATA1		0x80000000
+				MX25_PAD_FEC_TX_EN__FEC_TX_EN		0x80000000
+				MX25_PAD_FEC_RDATA0__FEC_RDATA0		0x80000000
+				MX25_PAD_FEC_RDATA1__FEC_RDATA1		0x80000000
+				MX25_PAD_FEC_RX_DV__FEC_RX_DV		0x80000000
+				MX25_PAD_FEC_TX_CLK__FEC_TX_CLK		0x1c0
+				MX25_PAD_GPIO_B__GPIO_1_1		0x80000000
+			>;
+		};
+
+		pinctrl_i2c1: i2c1grp {
+			fsl,pins = <
+				MX25_PAD_I2C1_CLK__I2C1_CLK		0x80000000
+				MX25_PAD_I2C1_DAT__I2C1_DAT		0x80000000
+			>;
+		};
+
+		pinctrl_lcd: lcdgrp {
+			fsl,pins = <
+				MX25_PAD_LD0__LD0		0xe0
+				MX25_PAD_LD1__LD1		0xe0
+				MX25_PAD_LD2__LD2		0xe0
+				MX25_PAD_LD3__LD3		0xe0
+				MX25_PAD_LD4__LD4		0xe0
+				MX25_PAD_LD5__LD5		0xe0
+				MX25_PAD_LD6__LD6		0xe0
+				MX25_PAD_LD7__LD7		0xe0
+				MX25_PAD_LD8__LD8		0xe0
+				MX25_PAD_LD9__LD9		0xe0
+				MX25_PAD_LD10__LD10		0xe0
+				MX25_PAD_LD11__LD11		0xe0
+				MX25_PAD_LD12__LD12		0xe0
+				MX25_PAD_LD13__LD13		0xe0
+				MX25_PAD_LD14__LD14		0xe0
+				MX25_PAD_LD15__LD15		0xe0
+				MX25_PAD_GPIO_E__LD16		0xe0
+				MX25_PAD_GPIO_F__LD17		0xe0
+				MX25_PAD_HSYNC__HSYNC		0xe0
+				MX25_PAD_VSYNC__VSYNC		0xe0
+				MX25_PAD_LSCLK__LSCLK		0xe0
+				MX25_PAD_OE_ACD__OE_ACD		0xe0
+				MX25_PAD_CONTRAST__CONTRAST	0xe0
+			>;
+		};
+
+		pinctrl_uart1: uart1grp {
+			fsl,pins = <
+				MX25_PAD_UART1_TXD__UART1_TXD	0x80000000
+				MX25_PAD_UART1_RXD__UART1_RXD	0xc0
+			>;
+		};
+
+		pinctrl_uart5: uart5grp {
+			fsl,pins = <
+				MX25_PAD_ECB__UART5_TXD		0x80000000
+				MX25_PAD_LBA__UART5_RXD		0xc0
+			>;
+		};
+	};
+};
+
+&lcdc {
+	display = <&wvga>;
+	fsl,lpccr = <0x00a903ff>;
+	fsl,lscr1 = <0x00120300>;
+	fsl,dmacr = <0x00020010>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lcd>;
+	status = "okay";
+};
+
+&nfc {
+	nand-on-flash-bbt;
+	status = "okay";
+};
+
+&ssi1 {
+	status = "okay";
+};
+
+&tsc {
+	status = "okay";
+};
+
+&tscadc {
+	status = "okay";
+};
+
+&uart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart1>;
+	status = "okay";
+};
+
+&uart5 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart5>;
+	status = "okay";
+};
+
+&usbhost1 {
+	status = "okay";
+};
+
+&usbotg {
+	external-vbus-divider;
+	status = "okay";
+};

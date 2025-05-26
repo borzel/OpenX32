@@ -11,7 +11,8 @@ echo "Cloning U-Boot..."
 git clone --branch v2020.10 https://github.com/u-boot/u-boot
 echo "Cloning linux..."
 git clone --branch v6.12 https://github.com/torvalds/linux
-
+echo "Cloning busybox..."
+git clone https://git.busybox.net/busybox
 
 
 echo "Configuring pyATK..."
@@ -24,13 +25,10 @@ deactivate
 cd ../openx32
 cp files/meminit.txt ../pyatk/bin/
 
-
-
 echo "Configuring U-Boot..."
-#TODO
-
-
+cp files/imximage.cfg ../u-boot/board/freescale/mx25pdk/imximage.cfg
+cp files/mx25pdk.c ../u-boot/board/freescale/mx25pdk/mx25pdk.c
+cp files/mx25pdk.h ../u-boot/include/configs/mx25pdk.h
 
 echo "Configuring Linux Sources..."
-#TODO
-
+cp files/imx25-pdk.dts ../linux/arch/arm/boot/dts/nxp/imx/imx25-pdk.dts
