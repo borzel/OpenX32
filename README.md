@@ -21,10 +21,8 @@ compile.sh will compile a small program called "miniloader", the U-Boot-bootload
 
 Finally, run.sh will use pyATK to initialize the most important hardware of the i.MX253 using the file "meminit.txt" and upload the generated binary-blob into the RAM of the processor. The Serial-Download-Program of the i.MX will then start the small assembler-program "miniloader" placed at address 0x80000000 - hence the begin of the RAM. The only task of Miniloader is to jumpstart the U-Boot-Bootloader at offset 0x3C0. U-Boot is placed at offset 0x0C0, but the first function-entry of the U-Boot will not start when using the Serial-Download-Program. So with this small hack, U-Boot takes control over the i.MX, reallocate itself to a higher memory-region and starts the linux-kernel together with the DeviceTreeBlob. The kernel is then decompressed and will start up.
 
-
 ## ToDos
 This project is in an early stage and lot of things have to be done:
-* [ ] create an initramfs with some useful programs
 * [ ] implement a function to upload original FPGA-bitstream to the X32-FPGA from the original firmware to initialize the heart of the audio-processing
 * [ ] reverse-engineer the communication-protocol between the individual hardware-components (e.g. faderboards) and the i.MX253
 * [ ] implement a nice user-interface to control things
@@ -33,3 +31,9 @@ This project is in an early stage and lot of things have to be done:
 
 ## What's the reason for developing such a thing?
 I want to learn things about embedded systems and how they work. The X32 is a very powerful playground with lots of different controllers, nice faders and displays. So that's the only reason why I'm doing this :-)
+
+## Used third-party software
+* U-Boot in Version 2020.10 (https://github.com/u-boot/u-boot/tree/v2020.10)
+* Linux in Version 6.12 (https://github.com/torvalds/linnux/tree/v6.12)
+* Busybox (https://git.busybox.net/busybox)
+* pyATK in Version 0.1.0 (https://github.com/hbock/pyatk)

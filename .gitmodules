@@ -1,0 +1,12 @@
+[submodule "pyatk"]
+	path = pyatk
+	url = https://github.com/hbock/pyatk
+[submodule "busybox"]
+	path = busybox
+	url = https://git.busybox.net/busybox
+[submodule "linux"]
+	path = linux
+	url = https://github.com/torvalds/linux
+[submodule "u-boot"]
+	path = u-boot
+	url = https://github.com/u-boot/u-boot

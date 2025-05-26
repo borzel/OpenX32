@@ -1,46 +1,61 @@
 #!/bin/bash
 
-echo "0/7 Copying patched files for OpenX32 to U-Boot- and Linux-Sources..."
-cp files/imximage.cfg ../u-boot/board/freescale/mx25pdk/imximage.cfg
-cp files/mx25pdk.c ../u-boot/board/freescale/mx25pdk/mx25pdk.c
-cp files/mx25pdk.h ../u-boot/include/configs/mx25pdk.h
-cp files/imx25-pdk.dts ../linux/arch/arm/boot/dts/nxp/imx/imx25-pdk.dts
+echo "0/9 Copying configuration- and patched files for OpenX32 to U-Boot- and Linux-Sources..."
+# configuration-files
+cp files/config_uboot u-boot/.config
+cp files/config_linux linux/.config
+cp files/config_busybox busybox/.config
+cp files/meminit.txt pyatk/bin/
+# patched source-files
+cp files/imximage.cfg u-boot/board/freescale/mx25pdk/imximage.cfg
+cp files/mx25pdk.c u-boot/board/freescale/mx25pdk/mx25pdk.c
+cp files/mx25pdk.h u-boot/include/configs/mx25pdk.h
+cp files/imx25-pdk.dts linux/arch/arm/boot/dts/nxp/imx/imx25-pdk.dts
 
-echo "1/7 Compiling Miniloader..."
+# =================== Loader =======================
+
+echo "1/9 Compiling Miniloader..."
 cd miniloader
 make > /dev/null
-
-echo "2/7 Compiling u-boot..."
-cd ../../u-boot
+echo "2/9 Compiling u-boot..."
+cd ../u-boot
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-none-eabi- make -j$(nproc) > /dev/null
 
-echo "3/7 Compiling linux..."
+# =================== Linux =======================
+
+echo "3/9 Compiling linux..."
 cd ../linux
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make -j$(nproc) > /dev/null
-echo "4/7 Creating zImage..."
+echo "4/9 Creating zImage..."
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make zImage > /dev/null
-
-echo "5/7 Creating U-Boot-Image..."
+echo "5/9 Creating U-Boot-Image..."
 mkimage -A ARM -O linux -T kernel -C none -a 0x80060000 -e 0x80060000 -n "Linux kernel (OpenX32)" -d arch/arm/boot/zImage uImage
 
-echo "6/7 Compiling busybox and initramfs..."
+# =================== Programs =======================
+
+echo "6/9 Compiling busybox..."
 cd ../busybox
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make -j$(nproc) > /dev/null
 ARCH=arm make install > /dev/null
-sudo rm -r ../openx32/initramfs_root/bin
-sudo rm -r ../openx32/initramfs_root/sbin
-mv /tmp/busybox_install/bin ../openx32/initramfs_root/
-mv /tmp/busybox_install/sbin ../openx32/initramfs_root/
-mv /tmp/busybox_install/linuxrc ../openx32/initramfs_root/
-cd ../openx32/initramfs_root
+echo "7/9 Creating initramfs..."
+cd ..
+sudo rm -r initramfs_root/bin
+sudo rm -r initramfs_root/sbin
+mv /tmp/busybox_install/bin initramfs_root/
+mv /tmp/busybox_install/sbin initramfs_root/
+mv /tmp/busybox_install/linuxrc initramfs_root/
+cd initramfs_root
 mkdir -p dev proc sys etc
 rm /tmp/initramfs.cpio.gz
 rm /tmp/uramdisk.bin
 find . -print0 | cpio --null -ov --format=newc > /tmp/initramfs.cpio
 gzip -9 /tmp/initramfs.cpio /tmp/initramfs.cpio.gz > /dev/null
+echo "8/9 Creating U-Boot-Image..."
 mkimage -A ARM -O linux -T ramdisk -C gzip -a 0 -e 0 -n "Ramdisk Image" -d /tmp/initramfs.cpio.gz /tmp/uramdisk.bin
 
-echo "7/7 Merging Miniloader, U-Boot, Linux kernel and DeviceTreeBlob..."
+# =================== Binary-Blob =======================
+
+echo "9/9 Merging Miniloader, U-Boot, Linux kernel and DeviceTreeBlob..."
 cd ..
 rm /tmp/openx32.bin
 # Miniloader at offset 0x000000: will be started by i.MX Serial Download Program
@@ -48,13 +63,13 @@ echo "    0% Copying Miniloader..."
 dd if=miniloader/miniloader.bin of=/tmp/openx32.bin bs=1 conv=notrunc > /dev/null 2>&1
 # U-Boot at offset 0x0000C0: will be started by Miniloader
 echo "    20% Copying U-Boot..."
-dd if=../u-boot/u-boot.bin of=/tmp/openx32.bin bs=1 seek=$((0xC0)) conv=notrunc > /dev/null 2>&1
+dd if=u-boot/u-boot.bin of=/tmp/openx32.bin bs=1 seek=$((0xC0)) conv=notrunc > /dev/null 2>&1
 # Linux-Kernel at offset 0x060000 (384 kiB for Miniloader + U-Boot): will be started by U-Boot
 echo "    40% Copying Linux-Kernel...."
-dd if=../linux/uImage of=/tmp/openx32.bin bs=1 seek=$((0x60000)) conv=notrunc > /dev/null 2>&1
+dd if=linux/uImage of=/tmp/openx32.bin bs=1 seek=$((0x60000)) conv=notrunc > /dev/null 2>&1
 # DeviceTreeBlob at offset 0x800000 (~8 MiB for Kernel)
 echo "    60% Copying DeviceTreeBlob..."
-dd if=../linux/arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb of=/tmp/openx32.bin bs=1 seek=$((0x800000)) conv=notrunc > /dev/null 2>&1
+dd if=linux/arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb of=/tmp/openx32.bin bs=1 seek=$((0x800000)) conv=notrunc > /dev/null 2>&1
 # InitramFS at offset 0x810000 (~64kiB for DeviceTreeBlob)
 echo "    80% Copying initramfs..."
 dd if=/tmp/uramdisk.bin of=/tmp/openx32.bin bs=1 seek=$((0x810000)) conv=notrunc > /dev/null 2>&1
