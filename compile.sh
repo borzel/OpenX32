@@ -1,4 +1,11 @@
 #!/bin/bash
+
+echo "0/7 Copying patched files for OpenX32 to U-Boot- and Linux-Sources..."
+cp files/imximage.cfg ../u-boot/board/freescale/mx25pdk/imximage.cfg
+cp files/mx25pdk.c ../u-boot/board/freescale/mx25pdk/mx25pdk.c
+cp files/mx25pdk.h ../u-boot/include/configs/mx25pdk.h
+cp files/imx25-pdk.dts ../linux/arch/arm/boot/dts/nxp/imx/imx25-pdk.dts
+
 echo "1/7 Compiling Miniloader..."
 cd miniloader
 make > /dev/null
@@ -19,7 +26,7 @@ mkimage -A ARM -O linux -T kernel -C none -a 0x80060000 -e 0x80060000 -n "Linux 
 echo "6/7 Compiling busybox and initramfs..."
 cd ../busybox
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make -j$(nproc) > /dev/null
-ARCH=arm make install
+ARCH=arm make install > /dev/null
 sudo rm -r ../openx32/initramfs_root/bin
 sudo rm -r ../openx32/initramfs_root/sbin
 mv /tmp/busybox_install/bin ../openx32/initramfs_root/
@@ -30,7 +37,7 @@ mkdir -p dev proc sys etc
 rm /tmp/initramfs.cpio.gz
 rm /tmp/uramdisk.bin
 find . -print0 | cpio --null -ov --format=newc > /tmp/initramfs.cpio
-gzip -9 /tmp/initramfs.cpio /tmp/initramfs.cpio.gz
+gzip -9 /tmp/initramfs.cpio /tmp/initramfs.cpio.gz > /dev/null
 mkimage -A ARM -O linux -T ramdisk -C gzip -a 0 -e 0 -n "Ramdisk Image" -d /tmp/initramfs.cpio.gz /tmp/uramdisk.bin
 
 echo "7/7 Merging Miniloader, U-Boot, Linux kernel and DeviceTreeBlob..."
@@ -52,4 +59,4 @@ dd if=../linux/arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb of=/tmp/openx32.bin bs=1 
 echo "    80% Copying initramfs..."
 dd if=/tmp/uramdisk.bin of=/tmp/openx32.bin bs=1 seek=$((0x810000)) conv=notrunc > /dev/null 2>&1
 
-echo "Done. System-Image with Miniloader, u-Boot, Linux Kernel and DeviceTreeBlob is ready: openx32.bin"
+echo "Done. System-Image with Miniloader, u-Boot, Linux Kernel, Ramdisk and DeviceTreeBlob is stored as /tmp/openx32.bin"

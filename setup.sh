@@ -14,7 +14,6 @@ git clone --branch v6.12 https://github.com/torvalds/linux
 echo "Cloning busybox..."
 git clone https://git.busybox.net/busybox
 
-
 echo "Configuring pyATK..."
 cd pyatk
 python3 -m venv pyatk_venv
@@ -24,11 +23,3 @@ sudo python3 setup.py install
 deactivate
 cd ../openx32
 cp files/meminit.txt ../pyatk/bin/
-
-echo "Configuring U-Boot..."
-cp files/imximage.cfg ../u-boot/board/freescale/mx25pdk/imximage.cfg
-cp files/mx25pdk.c ../u-boot/board/freescale/mx25pdk/mx25pdk.c
-cp files/mx25pdk.h ../u-boot/include/configs/mx25pdk.h
-
-echo "Configuring Linux Sources..."
-cp files/imx25-pdk.dts ../linux/arch/arm/boot/dts/nxp/imx/imx25-pdk.dts
