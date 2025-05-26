@@ -29,7 +29,7 @@ ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make -j$(nproc) > /dev/null
 echo "4/9 Creating zImage..."
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make zImage > /dev/null
 echo "5/9 Creating U-Boot-Image..."
-mkimage -A ARM -O linux -T kernel -C none -a 0x80060000 -e 0x80060000 -n "Linux kernel (OpenX32)" -d arch/arm/boot/zImage uImage
+mkimage -A ARM -O linux -T kernel -C none -a 0x80060000 -e 0x80060000 -n "Linux kernel (OpenX32)" -d arch/arm/boot/zImage /tmp/uImage
 
 # =================== Programs =======================
 
@@ -49,7 +49,7 @@ mkdir -p dev proc sys etc
 rm /tmp/initramfs.cpio.gz
 rm /tmp/uramdisk.bin
 find . -print0 | cpio --null -ov --format=newc > /tmp/initramfs.cpio
-gzip -9 /tmp/initramfs.cpio /tmp/initramfs.cpio.gz > /dev/null
+gzip -9 /tmp/initramfs.cpio > /dev/null
 echo "8/9 Creating U-Boot-Image..."
 mkimage -A ARM -O linux -T ramdisk -C gzip -a 0 -e 0 -n "Ramdisk Image" -d /tmp/initramfs.cpio.gz /tmp/uramdisk.bin
 
@@ -66,7 +66,7 @@ echo "    20% Copying U-Boot..."
 dd if=u-boot/u-boot.bin of=/tmp/openx32.bin bs=1 seek=$((0xC0)) conv=notrunc > /dev/null 2>&1
 # Linux-Kernel at offset 0x060000 (384 kiB for Miniloader + U-Boot): will be started by U-Boot
 echo "    40% Copying Linux-Kernel...."
-dd if=linux/uImage of=/tmp/openx32.bin bs=1 seek=$((0x60000)) conv=notrunc > /dev/null 2>&1
+dd if=/tmp/uImage of=/tmp/openx32.bin bs=1 seek=$((0x60000)) conv=notrunc > /dev/null 2>&1
 # DeviceTreeBlob at offset 0x800000 (~8 MiB for Kernel)
 echo "    60% Copying DeviceTreeBlob..."
 dd if=linux/arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb of=/tmp/openx32.bin bs=1 seek=$((0x800000)) conv=notrunc > /dev/null 2>&1

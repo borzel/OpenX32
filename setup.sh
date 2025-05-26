@@ -5,10 +5,11 @@ sudo apt install libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-d
 
 echo "Configuring pyATK..."
 cp files/usbdev.py pyatk/pyatk/channel/
+cp files/boot.py pyatk/pyatk/
 cd pyatk
 python3 -m venv pyatk_venv
 source pyatk_venv/bin/activate
 pip install pyserial pyusb==1.0.0
-python3 setup.py install
+sudo pyatk_venv/bin/python3 setup.py install
 deactivate
 cd ..
