@@ -12,14 +12,11 @@ As the linux is started from RAM directly, this project is a temporary replaceme
 ## Steps to compile and load the new operating system
 
 ### Init Git-Submodules
-This repository uses other GitHub-repositories as submodules. Please use the following command to checkout the main-repo together with submodules:
+This repository uses other GitHub-repositories as submodules (u-Boot, Linux and pyATK). Please use the following command to checkout the main-repo together with submodules. To minimze the download-size and -time, we will clone the submodules separately:
 ```
-git clone --recurse-submodules https://github.com/xn--nding-jua/OpenX32.git
-```
-
-If you have already checkout the repo without submodules, you can checkout them using the following command:
-```
-git submodule update --init --recursive
+git clone --depth 1 https://github.com/xn--nding-jua/OpenX32.git
+cd openx32
+./gitinitsubmodules.sh
 ```
 
 ### Run the scripts
