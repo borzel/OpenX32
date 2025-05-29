@@ -1,13 +1,20 @@
 #!/bin/sh
 
-# Mount devtmpfs und proc/sys
+# mount system-folders
 /bin/mount -t proc none /proc
 /bin/mount -t sysfs none /sys
 /bin/mount -t devtmpfs none /dev
 
-# Eine einfache Shell starten
+
+echo "Starting a nice program..."
+/usr/bin/InfoNES /home/smb1.nes
+
+# start a simple shell
 echo "Booting into busybox shell..."
-exec /bin/sh # Startet die BusyBox-Shell
+# Try to make the current shell a controlling terminal
+/bin/setsid /bin/cttyhack /bin/sh
+# exec /bin/sh < /dev/ttymxc4 > /dev/ttymxc4 2>&1
+#exec /bin/sh # Startet die BusyBox-Shell
 
 # Fallback, falls switch_root fehlschlägt
 echo "Failed to switch root. Kernel panic imminent!"

@@ -19,13 +19,13 @@ cd miniloader
 make > /dev/null
 echo "2/9 Compiling u-boot..."
 cd ../u-boot
-ARCH=arm CROSS_COMPILE=/usr/bin/arm-none-eabi- make -j$(nproc) > /dev/null
+ARCH=arm CROSS_COMPILE=/usr/bin/arm-none-eabi- make > /dev/null
 
 # =================== Linux =======================
 
 echo "3/9 Compiling linux..."
 cd ../linux
-ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make -j$(nproc) > /dev/null
+ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make > /dev/null
 echo "4/9 Creating zImage..."
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make zImage > /dev/null
 echo "5/9 Creating U-Boot-Image..."
@@ -41,15 +41,15 @@ echo "7/9 Creating initramfs..."
 cd ..
 sudo rm -r initramfs_root/bin
 sudo rm -r initramfs_root/sbin
-mv /tmp/busybox_install/bin initramfs_root/
-mv /tmp/busybox_install/sbin initramfs_root/
-mv /tmp/busybox_install/linuxrc initramfs_root/
+mv /tmp/busybox_install/bin initramfs_root/ > /dev/null
+mv /tmp/busybox_install/sbin initramfs_root/ > /dev/null
+mv /tmp/busybox_install/linuxrc initramfs_root/ > /dev/null
 cd initramfs_root
 mkdir -p dev proc sys etc
 rm /tmp/initramfs.cpio.gz
 rm /tmp/uramdisk.bin
 find . -print0 | cpio --null -ov --format=newc > /tmp/initramfs.cpio
-gzip -9 /tmp/initramfs.cpio > /dev/null
+gzip -9 /tmp/initramfs.cpio
 echo "8/9 Creating U-Boot-Image..."
 mkimage -A ARM -O linux -T ramdisk -C gzip -a 0 -e 0 -n "Ramdisk Image" -d /tmp/initramfs.cpio.gz /tmp/uramdisk.bin
 

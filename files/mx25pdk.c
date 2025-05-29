@@ -21,6 +21,7 @@
 #define FEC_RESET_B		IMX_GPIO_NR(1, 1)
 #define MCU_BUSY		IMX_GPIO_NR(4, 24)
 #define LAMP_PWM		IMX_GPIO_NR(1, 26)
+#define USB_POWER		IMX_GPIO_NR(4, 11)
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -66,12 +67,16 @@ static void mx25pdk_fec_init(void)
 
 	imx_iomux_v3_setup_multiple_pads(fec_pads, ARRAY_SIZE(fec_pads));
 
-	/* Assert RESET and ENABLE low */
-	gpio_direction_output(FEC_RESET_B, 0);
+	/* configure FEC_RESET as output */
+	gpio_request(FEC_RESET_B, "FEC_RESET");
+	gpio_direction_output(FEC_RESET_B, 1);
+
+	/* Assert RESET */
+	gpio_set_value(FEC_RESET_B, 0);
 
 	udelay(10);
 
-	/* Deassert RESET and ENABLE */
+	/* Deassert RESET */
 	gpio_set_value(FEC_RESET_B, 1);
 
 	/* Setup I2C pins */
@@ -151,6 +156,7 @@ int board_init(void)
 		NEW_PAD_CTRL(MX25_PAD_CONTRAST__PWM4_PWMO, 0),
 		NEW_PAD_CTRL(MX25_PAD_UART1_RTS__GPIO_4_24, 0),
 		NEW_PAD_CTRL(MX25_PAD_PWM__GPIO_1_26, 0),
+		NEW_PAD_CTRL(MX25_PAD_D9__GPIO_4_11, 0),
 	};
 	imx_iomux_v3_setup_multiple_pads(gpio_pads, ARRAY_SIZE(gpio_pads));
 
@@ -186,6 +192,11 @@ int board_init(void)
 	gpio_request(LAMP_PWM, "LAMP_PWM");
 	gpio_direction_output(LAMP_PWM, 1);
 	gpio_set_value(LAMP_PWM, 1);
+
+	// enable USB_POWER
+	gpio_request(USB_POWER, "USB_POWER");
+	gpio_direction_output(USB_POWER, 1);
+	gpio_set_value(USB_POWER, 1);
 
 	mx25pdk_uart_init();
 
