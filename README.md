@@ -35,6 +35,25 @@ setup.sh will install several dependencies to compile u-boot and the linux-kerne
 * compile.sh will copy some patched files into the submodules, compile a small program called "miniloader", the U-Boot-bootloader and the Linux kernel. The kernel-image "zImage" will be converted to a "uImage" and will be merged together with the miniloader and u-boot-image into a single binary-file.
 * Finally, run.sh will use pyATK to initialize the most important hardware of the i.MX253 using the file "meminit.txt" and upload the generated binary-blob into the RAM of the processor. The Serial-Download-Program of the i.MX will then start the small assembler-program "miniloader" placed at address 0x80000000 - hence the begin of the RAM. The only task of Miniloader is to jumpstart the U-Boot-Bootloader at offset 0x3C0. U-Boot is placed at offset 0x0C0, but the first function-entry of the U-Boot will not start when using the Serial-Download-Program. So with this small hack, U-Boot takes control over the i.MX, reallocate itself to a higher memory-region and starts the linux-kernel together with the DeviceTreeBlob. The kernel is then decompressed and will start up.
 
+## What is working at the moment
+* [x] Linux-Kernel starts to shell (Display and MIDI In/Out)
+* [x] Support of 800x480 framebuffer for applications
+* [x] Full 10/100MBit network-support with DHCP
+* [x] USB-Host support (HID-Keyboard, Mass-Storage-Devices, etc.)
+* [x] Realtime-Clock
+* [x] Control of I2C- and SPI-Bus
+* [x] init-script for setting up the operating system
+
+## Connecting a serial terminal to MIDI In/Out
+The MIDI-Ports are connected to the UART5 of the i.MX25. With a simple resistor and a RS232/USB-converter the MIDI-ports can be used for a serial-terminal with 115200 baud:
+
+    MIDI Out+ o---->---|       MIDI GND o------|          +5V o----->----o MIDI In+
+      Pin 4          -----       Pin 2         o                           Pin 4
+                     |   |                Pin 5 (GND)
+                     |4k7|
+      Pin 5          |___|                                                 Pin 5
+    MIDI OUT- o----<---|----->----o Pin 2 (RxD)   Pin 3 (TxD) o-----<----o MIDI In-
+
 ## ToDos
 This project is in an early stage and lot of things have to be done:
 * [ ] implement a function to upload original FPGA-bitstream to the X32-FPGA from the original firmware to initialize the heart of the audio-processing
