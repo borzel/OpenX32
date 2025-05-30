@@ -2,6 +2,10 @@
 
 This repository contains software to load and start the Linux-Kernel on the Behringer X32. This audio-mixing-console uses a Freescale/NXP i.MX253 Microcontroller with an ARM926EJ-S core that supports booting Linux.
 
+![alt_text](Documentation/openx32_1.jpg)
+
+![alt_text](Documentation/openx32_2.jpg)
+
 ## General idea
 The Behringer X32 has an USB-Type-B-Connector and two hidden switches at its back. The USB-connector is connected to an NXP i.MX253 microcontroller while the two switches are connected to its reset and boot-mode-switch. This allows us to boot the system in a firmware-update-mode.
 
