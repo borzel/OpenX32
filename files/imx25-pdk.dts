@@ -59,10 +59,16 @@
 	mdio {
 		#address-cells = <1>;
 		#size-cells = <0>;
+
 		ethphy0: ethernet-phy@0 {
-			compatible = "smsc,lan8720a", "ethernet-phy-ieee802.3-c22";
-			reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+			compatible = "microchip,lan87xx", "ethernet-phy-ieee802.3-c22";
 			reg = <0>;
+//			max-speed = <100>;
+			phy-type = "microchip,lan87xx";
+			phy-address = <0>;
+			mdio_bus_num = <0>;
+			phy-reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+			phy-reset-duration = <5>;
 		};
 	};
 };
@@ -101,16 +107,16 @@
 
 		pinctrl_fec: fecgrp {
 			fsl,pins = <
-				MX25_PAD_FEC_MDC__FEC_MDC		0x80000000
-				MX25_PAD_FEC_MDIO__FEC_MDIO		0x400001e0
-				MX25_PAD_FEC_TDATA0__FEC_TDATA0		0x80000000
-				MX25_PAD_FEC_TDATA1__FEC_TDATA1		0x80000000
-				MX25_PAD_FEC_TX_EN__FEC_TX_EN		0x80000000
-				MX25_PAD_FEC_RDATA0__FEC_RDATA0		0x80000000
-				MX25_PAD_FEC_RDATA1__FEC_RDATA1		0x80000000
-				MX25_PAD_FEC_RX_DV__FEC_RX_DV		0x80000000
-				MX25_PAD_FEC_TX_CLK__FEC_TX_CLK		0x1c0
-				MX25_PAD_UART2_CTS__FEC_RX_ERR		0x80000000
+				MX25_PAD_FEC_MDC__FEC_MDC		0x00000060
+				MX25_PAD_FEC_MDIO__FEC_MDIO		0x000001F0
+				MX25_PAD_FEC_TDATA0__FEC_TDATA0		0x00000060
+				MX25_PAD_FEC_TDATA1__FEC_TDATA1		0x00000060
+				MX25_PAD_FEC_TX_EN__FEC_TX_EN		0x00000060
+				MX25_PAD_FEC_RDATA0__FEC_RDATA0		0x000000C1
+				MX25_PAD_FEC_RDATA1__FEC_RDATA1		0x000000C0
+				MX25_PAD_FEC_RX_DV__FEC_RX_DV		0x000000C0
+				MX25_PAD_FEC_TX_CLK__FEC_TX_CLK		0x000000C0
+				MX25_PAD_UART2_CTS__FEC_RX_ERR		0x000000C0
 				MX25_PAD_GPIO_B__GPIO_1_1		0x80000000
 			>;
 		};

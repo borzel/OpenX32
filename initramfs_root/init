@@ -1,13 +1,27 @@
 #!/bin/sh
 
 # mount system-folders
+# =============================
 /bin/mount -t proc none /proc
 /bin/mount -t sysfs none /sys
 /bin/mount -t devtmpfs none /dev
 
+
+
 # some startup-things
+# =============================
+# set hostname
 hostname -F /etc/hostname
 
+# bring networkdevices up
+ip link set lo up
+ip link set eth0 up
+udhcpc -i eth0
+
+
+
+# start user-shells
+# =============================
 # start a shell for serial-port (MIDI-In/Out)
 echo "Starting shell for ttymxc4..."
 /sbin/getty -L 115200 ttymxc4 &
@@ -17,6 +31,10 @@ echo "Booting into busybox shell..."
 # try to make the current shell a controlling terminal
 /bin/setsid /bin/cttyhack /bin/sh
 
+
+
+# and some things, if something is going wrong
+# =============================
 # fallback, if switch_root is failing
 echo "Failed to switch root. Kernel panic imminent!"
 while true; do sleep 1; done # do endless loop to prevent kernel-panic

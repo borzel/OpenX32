@@ -11,22 +11,28 @@ As the linux is started from RAM directly, this project is a temporary replaceme
 
 ## Steps to compile and load the new operating system
 
-### Init Git-Submodules
-This repository uses other GitHub-repositories as submodules (u-Boot, Linux and pyATK). Please use the following command to checkout the main-repo together with submodules. To minimze the download-size and -time, we will clone the submodules separately:
+### Step 1: Init Git-Submodules and install dependencies
+This system uses the most recent versions of the tools I could find: the bootloader u-Boot is used in Version 2020.10 as this is the last U-Boot supporting the i.MX25. Up to now Linux has still support for the i.MX25 and I selected v6.12, the most recent LTS-kernel.
+
+So the repository uses other GitHub-repositories as submodules (u-Boot, Linux and pyATK). Please use the following command to checkout the main-repo together with submodules. To minimze the download-size and -time, we will clone the submodules separately:
+
 ```
 git clone --depth 1 https://github.com/xn--nding-jua/OpenX32.git
 cd openx32
 ./gitinitsubmodules.sh
 ```
 
-### Run the scripts
+Next to the sourcecode, your system needs to be setup correctly to compile the whole system: setup your debian-based system by calling the script ./setup.sh (tested with Debian 12)
 
-1. Setup your debian-based system by calling the script ./setup.sh (tested with Debian 12)
-2. Compile u-boot and Linux by calling the script ./compile.sh
-3. Upload the new operating system by calling the script ./run.sh
+setup.sh will install several dependencies to compile u-boot and the linux-kernel. After installing the packets, it will patch pyATK to run with recent versions of Python 3.11 and newer. It will also configure pyATK in a virtual python-environment.
 
-* setup.sh will install several dependencies to compile u-boot and the linux-kernel. After installing the packets, it will clone three repositories to ~/GitCheckout: pyATK, u-boot (v2020.10 as the last U-Boot supporting the i.MX25) and linux (v6.12, the most recent LTS-kernel). After downloading it will configure pyATK in a virtual python-environment and reconfigure the u-boot and linux-kernel with some patched files to support the X32.
-* compile.sh will compile a small program called "miniloader", the U-Boot-bootloader and the Linux kernel. The kernel-image "zImage" will be converted to a "uImage" and will be merged together with the miniloader and u-boot-image into a single binary-file.
+
+### Step 2: Run the scripts
+
+1. Compile u-boot, Linux and busbox by calling the script ./compile_all.sh
+2. Upload the new operating system into the RAM by calling the script ./run.sh
+
+* compile.sh will copy some patched files into the submodules, compile a small program called "miniloader", the U-Boot-bootloader and the Linux kernel. The kernel-image "zImage" will be converted to a "uImage" and will be merged together with the miniloader and u-boot-image into a single binary-file.
 * Finally, run.sh will use pyATK to initialize the most important hardware of the i.MX253 using the file "meminit.txt" and upload the generated binary-blob into the RAM of the processor. The Serial-Download-Program of the i.MX will then start the small assembler-program "miniloader" placed at address 0x80000000 - hence the begin of the RAM. The only task of Miniloader is to jumpstart the U-Boot-Bootloader at offset 0x3C0. U-Boot is placed at offset 0x0C0, but the first function-entry of the U-Boot will not start when using the Serial-Download-Program. So with this small hack, U-Boot takes control over the i.MX, reallocate itself to a higher memory-region and starts the linux-kernel together with the DeviceTreeBlob. The kernel is then decompressed and will start up.
 
 ## ToDos

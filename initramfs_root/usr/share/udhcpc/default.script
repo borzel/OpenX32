@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case "$1" in
+	deconfig)
+		ip address flush dev "$interface"
+		;;
+	renew|bound)
+		ip address add "$ip/$mask" broadcast "$broadcast" dev "$interface"
+		ip route add default via "$router" dev "$interface"
+		echo "nameserver $dns" > /etc/resolv.conf
+		;;
+esac

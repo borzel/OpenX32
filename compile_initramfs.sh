@@ -16,7 +16,7 @@ mkimage -A ARM -O linux -T ramdisk -C gzip -a 0 -e 0 -n "Ramdisk Image" -d /tmp/
 echo "Merging Miniloader, U-Boot, Linux kernel and DeviceTreeBlob..."
 cd ..
 # Miniloader at offset 0x000000: will be started by i.MX Serial Download Program
-echo "    0% Copying Miniloader..."
+echo "     0% Copying Miniloader..."
 dd if=miniloader/miniloader.bin of=/tmp/openx32.bin bs=1 conv=notrunc > /dev/null 2>&1
 # U-Boot at offset 0x0000C0: will be started by Miniloader
 echo "    20% Copying U-Boot..."
