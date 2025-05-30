@@ -18,7 +18,7 @@
 
 	wvga: display {
 		model = "Innolux-AT070TN";
-		bits-per-pixel = <32>;
+		bits-per-pixel = <16>;
 		fsl,pcr = <0xFC228080>;
 		bus-width = <18>;
 		display-timings {
@@ -26,13 +26,13 @@
 			wvga_timings: timing0 {
 				hactive = <800>;
 				vactive = <480>;
-				hback-porch = <45>; // HSYNC Back Porch (typ. 45)
-				hfront-porch = <201>; // Calculated: 1056 - 800 - 45 - 10 = 201
-				hsync-len = <10>; // HSYNC Pulse Width (typ. 10)
-				vback-porch = <22>; // VSYNC Back Porch (typ. 22)
-				vfront-porch = <132>; // Calculated: 635 - 480 - 22 - 1 = 132
-				vsync-len = <1>; // VSYNC Pulse Width (typ. 1)
-				clock-frequency = <40000000>; // DCLK = 40MHz (1/25ns)
+				hback-porch = <45>;
+				hfront-porch = <210>;
+				vback-porch = <22>;
+				vfront-porch = <132>;
+				hsync-len = <1>;
+				vsync-len = <1>;
+				clock-frequency = <40000000>;
 			};
 		};
 	};
@@ -45,11 +45,22 @@
 };
 
 &fec {
-	phy-mode = "rmii";
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_fec>;
-	phy-reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+	phy-mode = "rmii";
+	phy-handle = <&ethphy0>;
+//	local-mac-address = [02 00 00 00 00 01];
 	status = "okay";
+
+	mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		ethphy0: ethernet-phy@0 {
+			compatible = "smsc,lan8720a", "ethernet-phy-ieee802.3-c22";
+			reg = <0>;
+			reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+		};
+	};
 };
 
 &i2c1 {
@@ -65,9 +76,9 @@
 		clocks = <&clks 129>;
 	};
 
-	isl1208: rtc@68 {
+	isl1208: rtc@6f {
 		compatible = "isil,isl1208";
-		reg = <0x68>;
+		reg = <0x6f>;
 	};
 };
 
@@ -196,6 +207,7 @@
 	pinctrl-0 = <&pinctrl_uart5>;
 	status = "okay";
 };
+
 
 &usbhost1 {
 	power-gpios = <&gpio4 11 GPIO_ACTIVE_HIGH>;

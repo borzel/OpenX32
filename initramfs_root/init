@@ -5,17 +5,23 @@
 /bin/mount -t sysfs none /sys
 /bin/mount -t devtmpfs none /dev
 
+# some startup-things
+hostname -F /etc/hostname
+
+echo "Starting shell for ttymxc4..."
+/sbin/getty -L 115200 ttymxc4 &
+#/bin/sh < /dev/ttyS4 > /dev/ttyS4 2>&1 & # Eine sehr rohe Shell ohne Login
 
 echo "Starting a nice program..."
-/usr/bin/InfoNES /home/smb1.nes
+/home/InfoNES /home/smb1.nes
 
-# start a simple shell
+# start a simple shell for tty0
 echo "Booting into busybox shell..."
 # Try to make the current shell a controlling terminal
 /bin/setsid /bin/cttyhack /bin/sh
 # exec /bin/sh < /dev/ttymxc4 > /dev/ttymxc4 2>&1
 #exec /bin/sh # Startet die BusyBox-Shell
 
-# Fallback, falls switch_root fehlschlägt
+# fallback, if switch_root is failing
 echo "Failed to switch root. Kernel panic imminent!"
 while true; do sleep 1; done # Endlosschleife, um Kernel Panic zu verhindern

@@ -30,6 +30,8 @@ dd if=linux/arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb of=/tmp/openx32.bin bs=1 see
 # InitramFS at offset 0x810000 (~64kiB for DeviceTreeBlob)
 echo "    80% Copying initramfs..."
 dd if=/tmp/uramdisk.bin of=/tmp/openx32.bin bs=1 seek=$((0x810000)) conv=notrunc > /dev/null 2>&1
+echo "   100% Add some zeros at the end of the binary-file..."
+dd if=/dev/zero of=/tmp/openx32.bin bs=1 count=100 oflag=append conv=notrunc > /dev/null 2>&1
 
 echo "Done. System-Image with Miniloader, u-Boot, Linux Kernel, Ramdisk and DeviceTreeBlob is stored as /tmp/openx32.bin"
 
