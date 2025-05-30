@@ -18,21 +18,25 @@
 
 	wvga: display {
 		model = "Innolux-AT070TN";
-		bits-per-pixel = <16>;
-		fsl,pcr = <0xFC228080>;
+		bits-per-pixel = <32>;
 		bus-width = <18>;
+		fsl,pcr = <0xFC228080>;
 		display-timings {
 			native-mode = <&wvga_timings>;
 			wvga_timings: timing0 {
 				hactive = <800>;
-				vactive = <480>;
-				hback-porch = <45>;
 				hfront-porch = <210>;
-				vback-porch = <22>;
-				vfront-porch = <132>;
+				hback-porch = <45>;
 				hsync-len = <1>;
+				vactive = <480>;
+				vfront-porch = <22>;
+				vback-porch = <22>;
 				vsync-len = <1>;
 				clock-frequency = <40000000>;
+				hsync-active = <0>; // asserted when LOW
+				vsync-active = <0>; // asserted when LOW
+				de-active = <1>; // asserted when HIGH
+				pixelclk-active = <1>; // 1 = falling edge
 			};
 		};
 	};
@@ -57,8 +61,8 @@
 		#size-cells = <0>;
 		ethphy0: ethernet-phy@0 {
 			compatible = "smsc,lan8720a", "ethernet-phy-ieee802.3-c22";
-			reg = <0>;
 			reset-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+			reg = <0>;
 		};
 	};
 };
@@ -136,8 +140,8 @@
 				MX25_PAD_LD13__LD13		0xe0
 				MX25_PAD_LD14__LD14		0xe0
 				MX25_PAD_LD15__LD15		0xe0
-				MX25_PAD_GPIO_E__LD16		0xe0
-				MX25_PAD_GPIO_F__LD17		0xe0
+				MX25_PAD_D15__LD16		0xe0
+				MX25_PAD_D14__LD17		0xe0
 				MX25_PAD_HSYNC__HSYNC		0xe0
 				MX25_PAD_VSYNC__VSYNC		0xe0
 				MX25_PAD_LSCLK__LSCLK		0xe0
