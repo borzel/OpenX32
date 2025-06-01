@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "0/9 Copying configuration- and patched files for OpenX32 to U-Boot- and Linux-Sources..."
+echo "0/8 Copying configuration- and patched files for OpenX32 to U-Boot- and Linux-Sources..."
 # configuration-files
 cp files/config_uboot u-boot/.config
 cp files/config_linux linux/.config
@@ -14,48 +14,44 @@ cp files/imx25-pdk.dts linux/arch/arm/boot/dts/nxp/imx/imx25-pdk.dts
 
 # =================== Loader =======================
 
-echo "1/9 Compiling Miniloader..."
+echo "1/8 Compiling Miniloader..."
 cd miniloader
 make > /dev/null
-echo "2/9 Compiling u-boot..."
+echo "2/8 Compiling u-boot..."
 cd ../u-boot
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-none-eabi- make > /dev/null
 
 # =================== Linux =======================
 
-echo "3/9 Compiling linux..."
+echo "3/8 Compiling linux..."
 cd ../linux
-ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make > /dev/null
-echo "4/9 Creating zImage..."
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make zImage > /dev/null
-echo "5/9 Creating U-Boot-Image..."
+echo "4/8 Creating U-Boot-Image..."
 mkimage -A ARM -O linux -T kernel -C none -a 0x80060000 -e 0x80060000 -n "Linux kernel (OpenX32)" -d arch/arm/boot/zImage /tmp/uImage
 
 # =================== Programs =======================
 
-echo "6/9 Compiling busybox..."
+echo "5/8 Compiling busybox..."
 cd ../busybox
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make -j$(nproc) > /dev/null
 ARCH=arm make install > /dev/null
-echo "7/9 Creating initramfs..."
+echo "6/8 Creating initramfs..."
 cd ..
-sudo rm -r initramfs_root/bin
-sudo rm -r initramfs_root/sbin
-mv /tmp/busybox_install/bin initramfs_root/ > /dev/null
-mv /tmp/busybox_install/sbin initramfs_root/ > /dev/null
-mv /tmp/busybox_install/linuxrc initramfs_root/ > /dev/null
+cp -P /tmp/busybox_install/bin initramfs_root/
+cp -P /tmp/busybox_install/sbin initramfs_root/
+cp -P /tmp/busybox_install/linuxrc initramfs_root/
 cd initramfs_root
-mkdir -p dev proc sys etc
+mkdir -p dev proc sys etc mnt home usr
 rm /tmp/initramfs.cpio.gz
 rm /tmp/uramdisk.bin
 find . -print0 | cpio --null -ov --format=newc > /tmp/initramfs.cpio
 gzip -9 /tmp/initramfs.cpio
-echo "8/9 Creating U-Boot-Image..."
+echo "7/8 Creating U-Boot-Image..."
 mkimage -A ARM -O linux -T ramdisk -C gzip -a 0 -e 0 -n "Ramdisk Image" -d /tmp/initramfs.cpio.gz /tmp/uramdisk.bin
 
 # =================== Binary-Blob =======================
 
-echo "9/9 Merging Miniloader, U-Boot, Linux kernel and DeviceTreeBlob..."
+echo "8/8 Merging Miniloader, U-Boot, Linux kernel and DeviceTreeBlob..."
 cd ..
 rm /tmp/openx32.bin
 # Miniloader at offset 0x000000: will be started by i.MX Serial Download Program
