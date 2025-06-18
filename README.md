@@ -4,7 +4,13 @@ This repository contains software to load and start the Linux-Kernel on the Behr
 
 ![alt_text](Documentation/openx32_1.jpg)
 
+Currently the Linux Kernel is running in Version 6.12 (LTS) together with busybox and:
+
 ![alt_text](Documentation/openx32_2.jpg)
+
+More information on my related Youtube-Video:
+
+[![alt text](https://img.youtube.com/vi/6CfLC5xVy90/0.jpg)](https://www.youtube.com/watch?v=6CfLC5xVy90)
 
 ## General idea
 The Behringer X32 has an USB-Type-B-Connector and two hidden switches at its back. The USB-connector is connected to an NXP i.MX253 microcontroller while the two switches are connected to its reset and boot-mode-switch. This allows us to boot the system in a firmware-update-mode.
@@ -65,6 +71,9 @@ This project is in an early stage and lot of things have to be done:
 * [ ] implement a nice user-interface to control things
 * [ ] test this system using an SD-card
 * [ ] more funny stuff
+
+LVGL v9.3.0 is running on the X32 with a good performance (30 fps). So this could be a basis for an open-source Operating System:
+![alt_text](Documentation/openx32_3.jpg)
 
 ## What's the reason for developing such a thing?
 I want to learn things about embedded systems and how they work. The X32 is a very powerful playground with lots of different controllers, nice faders and displays. So that's the only reason why I'm doing this :-)
