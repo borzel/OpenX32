@@ -23,6 +23,7 @@ echo "    SKIPPED"
 echo "3/8 Compiling linux..."
 cd linux
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make zImage > /dev/null
+ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make dtbs
 echo "4/8 Creating U-Boot-Image..."
 mkimage -A ARM -O linux -T kernel -C none -a 0x80060000 -e 0x80060000 -n "Linux kernel (OpenX32)" -d arch/arm/boot/zImage /tmp/uImage
 

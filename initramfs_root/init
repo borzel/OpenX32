@@ -6,6 +6,9 @@
 /bin/mount -t sysfs none /sys
 /bin/mount -t devtmpfs none /dev
 
+# prepare support for virtual filesystem for OpenSSH
+mkdir -p /dev/pts
+/bin/mount -t devpts devpts /dev/pts
 
 
 # some startup-things
