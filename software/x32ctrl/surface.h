@@ -1,7 +1,7 @@
 #ifndef SURFACE_H_
 #define SURFACE_H_
 
-#include "x32ui.h"
+#include "x32ctrl.h"
 
 void calculateChecksum(unsigned char *data, uint16_t length);
 void setFader(uint8_t boardId, uint8_t index, uint16_t position);

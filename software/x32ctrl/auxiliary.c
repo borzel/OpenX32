@@ -1,5 +1,12 @@
 #include "auxiliary.h"
 
+// variables
+timer_t timerid;
+struct sigevent sev;
+struct itimerspec trigger;
+sigset_t mask;
+
+// initialize timer
 int initTimer() {
   // Set up the signal handler
   struct sigaction sa;

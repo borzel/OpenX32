@@ -9,14 +9,17 @@
   - Value 0xFE must not appear inside class, index or data-part of the message. Encode 0xFE as 0xFE, 0xFF instead
 */
 
-#include "x32ui.h"
+#include "x32ctrl.h"
+
+// global variables
+uint8_t timerCounter;
 
 // called every 50ms
 void timerCallback(int signum) {
   timerCounter--;
   if (timerCounter == 0) {
     timerCounter = 4;
-    
+
     // called every 250ms
   }
 }
@@ -99,7 +102,7 @@ void surfaceCallback(uint8_t boardId, uint8_t class, uint8_t index, uint8_t valu
       printf("Fader   : boardId = 0x%02X | class = 0x%02X | index = 0x%02X | data = 0x%04X = %f\n", boardId, class, index, value, pct);
   }else if (class == 'b') {
       printf("Button  : boardId = 0x%02X | class = 0x%02X | index = 0x%02X | data = 0x%02X\n", boardId, class, index, value);
-      
+
       // register buttons
       switch (boardId) {
           case 0: // monitor-section
@@ -156,6 +159,5 @@ int main() {
       usleep(1000);
     }
 
-    close(fd);
     return 0;
 }

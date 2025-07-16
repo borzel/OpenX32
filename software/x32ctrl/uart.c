@@ -1,5 +1,13 @@
 #include "uart.h"
 
+// uart
+int fd;
+struct termios tty;
+char buffer_uart[256]; // Puffer für UART-Lesevorgänge
+ssize_t bytes_read;
+int bytes_available;
+uint8_t receivedBoardId;
+
 int uartTxData(const unsigned char *data_buffer, int num_bytes) {
     if (fd < 0) {
         fprintf(stderr, "Error: Problem on opening serial port\n");

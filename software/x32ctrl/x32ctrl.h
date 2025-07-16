@@ -1,7 +1,6 @@
 #ifndef X32CTRL_H_
 #define X32CTRL_H_
 
-// ============== includes ==============
 // standard includes
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,16 +26,7 @@
 #include "surface.h"
 #include "auxiliary.h"
 
-// ============== variables ==============
-
-// timer
-timer_t timerid;
-struct sigevent sev;
-struct itimerspec trigger;
-sigset_t mask;
-uint8_t timerCounter;
-
-// ============== function prototypes ==============
+// function prototypes
 void timerCallback(int signum);
 void surfaceCallback(uint8_t boardId, uint8_t class, uint8_t index, uint8_t value);
 
