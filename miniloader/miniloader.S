@@ -59,32 +59,30 @@ FIQAddr:       .word FIQHandler
    .global ResetHandler
 
 ResetHandler:
-        /* turn on MCU_BUSY at GPIO4-24 */
-/*
-        ldr r0, =0x43FAC178
-        mov r1, #0x00000065
-        str r1, [r0]
+	/*
+	/* turn on MCU_BUSY_LED at GPIO4-24 */
+	ldr r0, =0x43FAC178
+	ldr r1, =0x00000065
+	str r1, [r0]
 
-        ldr r0, =0x43FAC370
-        mov r1, #0x00000000
-        str r1, [r0]
+	ldr r0, =0x43FAC370
+	ldr r1, =0x00000000
+	str r1, [r0]
 
-        ldr r0, =0x53F9C004
-        mov r1, #0x01000000
-        str r1, [r0]
+	ldr r0, =0x53F9C004
+	ldr r1, =0x01000000
+	str r1, [r0]
 
-        ldr r0, =0x53F9C000
-        mov r1, #0x01000000
-        str r1, [r0]
-*/
+	ldr r0, =0x53F9C000
+	ldr r1, =0x01000000
+	str r1, [r0]
+	*/
 
-        /* jump to u-Boot */
+	/* jump program-counter to u-Boot */
+	LDR PC, =0x800000C0
+
 	/* we do jump over the reallocation-part directly into the reset-vector at address 0x300 of u-Boot */
-        LDR PC, =0x800000C0
-
-	/* jump to Linux kernel directly */
-	/*LDR PC, =0x80060000*/
-
+	/*LDR PC, =0x800003C0*/
 
 /****************************************************************************/
 /*                     Default interrupt handler                            */
