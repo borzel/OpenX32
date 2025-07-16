@@ -15,4 +15,4 @@ initramfs_root/sbin
 initramfs_root/sys
 
 # compiled software
-software/x32ui/build
+software/x32ctrl/build

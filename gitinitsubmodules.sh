@@ -15,9 +15,22 @@ git fetch --depth 1 origin tag v6.12
 git checkout v6.12
 cd ..
 
+echo "Preparing checkout of LVGL..."
+cd software/x32ctrl/lv_port_linux
+git init
+git remote add origin https://github.com/lvgl/lv_port_linux.git
+git fetch --depth 1 origin master
+git checkout master
+cd lvgl
+git init
+git remote add origin https://github.com/lvgl/lvgl.git
+git fetch --depth 1 origin master
+git checkout master
+cd ../../../..
+
 echo "pyATK and busybox will be cloned with full history..."
 
-echo "Checking out all submodules..."
+echo "Checking out all remaining submodules..."
 git submodule update --init --recursive
 
 echo "Done."
