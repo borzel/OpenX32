@@ -59,8 +59,8 @@ FIQAddr:       .word FIQHandler
    .global ResetHandler
 
 ResetHandler:
-	/*
 	/* turn on MCU_BUSY_LED at GPIO4-24 */
+	/*
 	ldr r0, =0x43FAC178
 	ldr r1, =0x00000065
 	str r1, [r0]

@@ -5,6 +5,7 @@
 /dts-v1/;
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
+#include <dt-bindings/sound/fsl-imx-audmux.h>
 #include "imx25.dtsi"
 
 / {
@@ -14,6 +15,37 @@
 	memory@80000000 {
 		device_type = "memory";
 		reg = <0x80000000 0x4000000>;
+	};
+
+	sound {
+		compatible = "simple-audio-card";
+		status = "okay";
+//		ssi-controller = <&ssi1>;
+		simple-audio-card,name = "imx25_soundcard";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,bitclock-master = <&sound_master>;
+		simple-audio-card,frame-master = <&sound_master>;
+		
+//		mux-int-port = <1>;
+//		mux-ext-port = <6>;
+
+		simple-audio-card,routing =
+			"LINE_IN", "Audio input",
+			"Audio output", "LINE_OUT";
+
+		sound_master: simple-audio-card,cpu {
+			sound-dai = <&ssi1>;
+		};
+
+		simple-audio-card,codec {
+			sound-dai = <&dummy_codec>;
+		};
+
+		dummy_codec: codec {
+		    compatible = "linux,snd-soc-dummy";
+		    #sound-dai-cells = <0>;
+		    status = "okay";
+		};
 	};
 
 	wvga: display {
@@ -26,7 +58,7 @@
 			wvga_timings: timing0 {
 				hactive = <800>;
 				hfront-porch = <210>;
-				hback-porch = <45>;
+				hback-porch = <52>;
 				hsync-len = <1>;
 				vactive = <480>;
 				vfront-porch = <22>;
@@ -40,12 +72,25 @@
 			};
 		};
 	};
+
+        leds {
+                compatible = "gpio-leds";
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_gpioled>;
+
+                led1 {
+                        label = "led1";
+                        gpios = <&gpio4 24 GPIO_ACTIVE_HIGH>;
+                        linux,default-trigger = "heartbeat";
+                };
+        };
 };
 
 &esdhc1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_esdhc1>;
-	status = "okay";
+	bus-width = <4>;
+	status = "disabled";
 };
 
 &fec {
@@ -79,13 +124,6 @@
 	pinctrl-0 = <&pinctrl_i2c1>;
 	status = "okay";
 
-	codec: sgtl5000@a {
-		compatible = "fsl,sgtl5000";
-		reg = <0x0a>;
-		#sound-dai-cells = <0>;
-		clocks = <&clks 129>;
-	};
-
 	isl1208: rtc@6f {
 		compatible = "isil,isl1208";
 		reg = <0x6f>;
@@ -96,12 +134,12 @@
 	imx25-pdk {
 		pinctrl_esdhc1: esdhc1grp {
 			fsl,pins = <
-				MX25_PAD_SD1_CMD__ESDHC1_CMD		0x80000000
-				MX25_PAD_SD1_CLK__ESDHC1_CLK		0x80000000
-				MX25_PAD_SD1_DATA0__ESDHC1_DAT0		0x80000000
-				MX25_PAD_SD1_DATA1__ESDHC1_DAT1		0x80000000
-				MX25_PAD_SD1_DATA2__ESDHC1_DAT2		0x80000000
-				MX25_PAD_SD1_DATA3__ESDHC1_DAT3		0x80000000
+				MX25_PAD_SD1_CMD__ESDHC1_CMD		0x400000C0
+				MX25_PAD_SD1_CLK__ESDHC1_CLK		0x400000C0
+				MX25_PAD_SD1_DATA0__ESDHC1_DAT0		0x400000C0
+				MX25_PAD_SD1_DATA1__ESDHC1_DAT1		0x400000C0
+				MX25_PAD_SD1_DATA2__ESDHC1_DAT2		0x400000C0
+				MX25_PAD_SD1_DATA3__ESDHC1_DAT3		0x400000C0
 			>;
 		};
 
@@ -153,6 +191,7 @@
 				MX25_PAD_LSCLK__LSCLK		0xe0
 				MX25_PAD_OE_ACD__OE_ACD		0xe0
 				MX25_PAD_CONTRAST__CONTRAST	0xe0
+				//MX25_PAD_CONTRAST__PWM4_PWMO
 			>;
 		};
 
@@ -193,10 +232,47 @@
 
 		pinctrl_usbh1_pwr: usbh1_pwr_pins {
 			fsl,pins = <
-				MX25_PAD_D9__GPIO_4_11 0x80000000
-				MX25_PAD_D8__GPIO_4_12 0xc0
+				MX25_PAD_D9__GPIO_4_11		0x80000000
+				MX25_PAD_D8__GPIO_4_12		0xc0
 			>;
 		};
+
+		pinctrl_audmux: audmuxgrp {
+		        fsl,pins = <
+				MX25_PAD_CSI_VSYNC__AUD6_RXD	0xc0		// I2S RxD
+				MX25_PAD_CSI_MCLK__AUD6_TXD	0x80000000	// I2S TxD
+				MX25_PAD_CSI_HSYNC__AUD6_TXC	0x80000000	// I2S BitClock
+				MX25_PAD_CSI_PIXCLK__AUD6_TXFS	0x80000000	// I2S FrameSync
+		        >;
+		};
+
+		pinctrl_spi1: spi1grp {
+		        fsl,pins = <
+				MX25_PAD_CSPI1_MOSI__CSPI1_MOSI	0x80000000      // DSP SPI MOSI
+				MX25_PAD_CSPI1_SCLK__CSPI1_SCLK	0x80000000      // DSP SPI SCLK
+				MX25_PAD_CSPI1_MISO__CSPI1_MISO	0xc0		// DSP SPI MISO
+				MX25_PAD_CSPI1_SS0__GPIO_1_16	0x80000000      // DSP SPI nCS DSP1
+				MX25_PAD_CSPI1_SS1__GPIO_1_17	0x80000000      // DSP SPI nCS DSP2
+				MX25_PAD_CSPI1_RDY__GPIO_2_22	0x80000000      // DSP nRESET
+			>;
+		};
+
+		pinctrl_spi3: spi3grp {
+		        fsl,pins = <
+				MX25_PAD_CSI_D2__CSPI3_MOSI	0x80000000	// FPGA SPI MOSI
+				MX25_PAD_CSI_D4__CSPI3_SCLK	0x80000000	// FPGA SPI SCLK
+				MX25_PAD_CSI_D3__CSPI3_MISO	0xc0		// FPGA SPI MISO
+				MX25_PAD_CSI_D5__GPIO_1_30	0x80000000	// FPGA nPROG
+				MX25_PAD_CSI_D6__GPIO_1_31	0x80000000	// FPGA nCS0
+				MX25_PAD_CSI_D7__GPIO_1_6	0x80000000	// FPGA nCS1
+				MX25_PAD_GPIO_C__GPIO_1_2	0xc0		// FPGA DONE
+				//MX25_PAD_KPP_ROW0__GPIO_2_29	0xc0		// FPGA nINIT_B
+		        >;
+		};
+
+                pinctrl_gpioled: gpioledgrp {
+                        fsl,pins = <MX25_PAD_UART1_RTS__GPIO_4_24 0x80000000>;
+                };
 	};
 };
 
@@ -216,7 +292,35 @@
 };
 
 &ssi1 {
+	fsl,mode = "i2s-master";
 	status = "okay";
+};
+
+#define AUD_PORT_1 0
+#define AUD_PORT_6 5
+&audmux {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_audmux>;
+	status = "okay";
+
+	ssi1 {
+		fsl,audmux-port = <AUD_PORT_1>;
+		fsl,port-config = <
+			0x00000000
+			IMX_AUDMUX_V2_PDCR_RXDSEL(AUD_PORT_6)
+		>;
+	};
+
+        port6 {
+		fsl,audmux-port = <AUD_PORT_6>;
+		fsl,port-config = <
+			(IMX_AUDMUX_V2_PTCR_TFSDIR |
+			IMX_AUDMUX_V2_PTCR_TFSEL(AUD_PORT_1) |
+			IMX_AUDMUX_V2_PTCR_TCLKDIR |
+			IMX_AUDMUX_V2_PTCR_TCSEL(AUD_PORT_1))
+			IMX_AUDMUX_V2_PDCR_RXDSEL(AUD_PORT_1)
+		>;
+        };
 };
 
 &tsc {
@@ -257,6 +361,45 @@
 	status = "okay";
 };
 
+&spi1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_spi1>;
+	status = "okay";
+	cs-gpios = <&gpio1 16 GPIO_ACTIVE_LOW>, <&gpio1 17 GPIO_ACTIVE_LOW>;
+	num-cs = <2>;
+
+	spidev@0 {
+		compatible = "rohm,dh2228fv"; // actually spidev
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+	};
+
+	spidev@1 {
+		compatible = "rohm,dh2228fv"; // actually spidev
+		reg = <1>;
+		spi-max-frequency = <50000000>;
+	};
+};
+
+&spi3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_spi3>;
+	status = "okay";
+	cs-gpios = <&gpio1 31 GPIO_ACTIVE_LOW>, <&gpio1 6 GPIO_ACTIVE_LOW>;
+	num-cs = <2>;
+
+        spidev@0 {
+                compatible = "rohm,dh2228fv"; // actually spidev
+                reg = <0>;
+                spi-max-frequency = <50000000>;
+        };
+
+        spidev@1 {
+                compatible = "rohm,dh2228fv"; // actually spidev
+                reg = <1>;
+                spi-max-frequency = <50000000>;
+        };
+};
 
 &usbhost1 {
 	power-gpios = <&gpio4 11 GPIO_ACTIVE_HIGH>;
