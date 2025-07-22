@@ -22,6 +22,8 @@
 #define PROG_B_GPIO_OFFSET 30
 #define GPIO_CHIP_FOR_DONE "gpiochip0"
 #define DONE_GPIO_OFFSET 2
+//#define GPIO_CHIP_FOR_INIT_B "gpiochip1" <- is output from FPGA and is on UART3 (GPIO 2_29)
+//#define INIT_B_GPIO_OFFSET 29 <- is output from FPGA and is on UART3 (GPIO 2_29)
 
 // ----------------------------------------------
 
@@ -41,6 +43,8 @@ int configure_spartan3a_spi(const char *bitstream_path) {
     struct gpiod_line *prog_b_line = NULL;
     struct gpiod_chip *done_chip = NULL;
     struct gpiod_line *done_line = NULL;
+    //struct gpiod_chip *init_b_chip = NULL;
+    //struct gpiod_line *init_b_line = NULL;
 
     fprintf(stdout, "Configuring Xilinx Spartan-3A...\n");
 
@@ -72,6 +76,24 @@ int configure_spartan3a_spi(const char *bitstream_path) {
         return -1;
     }
 
+/*
+    init_b_chip = gpiod_chip_open_by_name(GPIO_CHIP_FOR_INIT_B);
+    if (!init_b_chip) {
+        perror("Error: Could not open DONE GPIO-chip");
+        gpiod_line_release(prog_b_line);
+        gpiod_chip_close(prog_b_chip);
+        return -1;
+    }
+    init_b_line = gpiod_chip_get_line(init_b_chip, INIT_B_GPIO_OFFSET);
+    if (!init_b_line) {
+        perror("Error: Could not open DONE GPIO-line");
+        gpiod_line_release(prog_b_line);
+        gpiod_chip_close(prog_b_chip);
+        gpiod_chip_close(done_chip);
+        return -1;
+    }
+*/
+
     if (gpiod_line_request_output(prog_b_line, "spartan3a_prog_b", 1) < 0) {
         perror("Error: Cannot configure PROG_B as output");
         ret = -1; goto cleanup_gpio;
@@ -80,14 +102,12 @@ int configure_spartan3a_spi(const char *bitstream_path) {
         perror("Error: Cannot configure DONE as input");
         ret = -1; goto cleanup_gpio;
     }
-
-    fprintf(stdout, "Set PROG_B to LOW...\n");
-    gpiod_line_set_value(prog_b_line, 0);
-    usleep(1000); // wait at least 100ns as said in Xilinx UG
-
-    fprintf(stdout, "Set PROG_B to HIGH...\n");
-    gpiod_line_set_value(prog_b_line, 1);
-    usleep(1000); // wait at least 200ns as said in Xilinx UG
+/*
+    if (gpiod_line_request_input(init_b_line, "spartan3a_init_b") < 0) {
+        perror("Error: Cannot configure INIT_B as input");
+        ret = -1; goto cleanup_gpio;
+    }
+*/
 
     spi_fd = open(SPI_DEVICE, O_RDWR);
     if (spi_fd < 0) {
@@ -119,6 +139,16 @@ int configure_spartan3a_spi(const char *bitstream_path) {
     tr.bits_per_word = bits_per_word;
     tr.speed_hz = speed;
 
+    fprintf(stdout, "Set PROG_B to HIGH and wait 5s...\n");
+    gpiod_line_set_value(prog_b_line, 1);
+    usleep(5 * 1000 * 1000); // wait 5 seconds
+
+    fprintf(stdout, "Setting PROG_B HIGH -> LOW -> HIGH and start upload...\n");
+    gpiod_line_set_value(prog_b_line, 0);
+    usleep(5); // wait at least 100ns (here 5us) as said in Xilinx UG
+    gpiod_line_set_value(prog_b_line, 1);
+    usleep(15); // wait at least 200ns (here 5us) as said in Xilinx UG
+
     while ((bytes_read = fread(tx_buffer, 1, sizeof(tx_buffer), bitstream_file)) > 0) {
         tr.len = bytes_read;
         ret = ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr);
@@ -128,12 +158,31 @@ int configure_spartan3a_spi(const char *bitstream_path) {
         }
     }
 
+/*
+    // check INIT_B-pin
+    usleep(100000); // 100ms warten
+
+    int init_b_value = gpiod_line_get_value(init_b_line);
+    if (init_b_value < 0) {
+        perror("Error: Could not read INIT_B-Pin");
+        ret = -1; goto cleanup;
+    }
+
+    if (init_b_value == 1) {
+        fprintf(stdout, "Success! FPGA configured successfully! INIT_B-Pin is HIGH.\n");
+        ret = 0;
+    } else {
+        fprintf(stderr, "Error: FPGA configuration failed! INIT_B-Pin is still LOW.\n");
+        ret = -1;
+    }
+*/
+
     fprintf(stdout, "Bitstream transmitted. Now writing additional dummy-data to finalize configuration...\n");
 
-    // write additional dummy-data to finalize configuration
-    tr.len = 100;
+    // write additional dummy-data (ones = 0xFF = 0b11111111) to finalize configuration
+    tr.len = 8; // eight additional bytes
     for (uint16_t i=0; i<100; i++) {
-        tx_buffer[i] = 0;
+        tx_buffer[i] = 0xFF;
         rx_buffer[i] = 0;
     }
     ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr);
@@ -141,7 +190,7 @@ int configure_spartan3a_spi(const char *bitstream_path) {
     fprintf(stdout, "Waiting for DONE-Signal...\n");
 
     // check DONE-pin
-    usleep(100000); // 100ms warten
+    usleep(100 * 1000); // 100ms warten
 
     int done_value = gpiod_line_get_value(done_line);
     if (done_value < 0) {
