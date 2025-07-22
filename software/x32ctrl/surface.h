@@ -2,13 +2,11 @@
 #define SURFACE_H_
 
 #include "x32ctrl.h"
-
-#define SURFACE_MAX_PACKET_LENGTH 32
-
-extern char uartBufferSurface[256];
+#include "constants.h"
 
 void setFader(uint8_t boardId, uint8_t index, uint16_t position);
 void setLed(uint8_t boardId, uint8_t ledId, uint8_t state);
+void setLedByNr(uint16_t ledNr, uint8_t state);
 void setLedByNr(uint16_t ledNr, uint8_t state);
 void setMeterLed(uint8_t boardId, uint8_t index, uint8_t leds);
 void setEncoderRing(uint8_t boardId, uint8_t index, uint8_t ledMode, uint8_t pct, bool backlight);
@@ -20,9 +18,5 @@ uint16_t calcEncoderRingLedIncrement(uint8_t pct);
 uint16_t calcEncoderRingLedPosition(uint8_t pct);
 uint16_t calcEncoderRingLedBalance(uint8_t pct);
 uint16_t calcEncoderRingLedWidth(uint8_t pct);
-
-void surfaceInit(void);
-void surfaceReset(void);
-void surfaceProcessUartData(int bytesToProcess);
 
 #endif
