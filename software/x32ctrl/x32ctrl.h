@@ -52,6 +52,8 @@
 #include "uart.h"
 #include "surface.h"
 #include "auxiliary.h"
+#include "constants.h"
+#include "osc.h"
 
 // function prototypes
 //void timer50Callback(int signum);
