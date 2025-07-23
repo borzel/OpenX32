@@ -107,7 +107,7 @@ int uartRead() {
 
 int main() {                                                                                                                                                           srand(time(NULL));
     printf("UART Tester\n");
-    printf("v0.0.1, 22.07.2025\n");
+    printf("v0.0.1, 23.07.2025\n");
     printf("https://github.com/xn--nding-jua/OpenX32\n");
 
     printf("Connecting to UART4...\n");

@@ -19,6 +19,7 @@ software/x32ctrl/build
 software/x32cli/build
 software/fpgaconfig/build
 software/uarttest/build
+software/gpiotest/build
 
 # Xilinx ISE 14.7
 fpga/_ngo/

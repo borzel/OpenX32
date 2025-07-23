@@ -76,13 +76,37 @@
         leds {
                 compatible = "gpio-leds";
                 pinctrl-names = "default";
-                pinctrl-0 = <&pinctrl_gpioled>;
+                pinctrl-0 = <&pinctrl_gpioleds>;
 
-                led1 {
-                        label = "led1";
+                mculed {
+                        label = "mculed";
                         gpios = <&gpio4 24 GPIO_ACTIVE_HIGH>;
                         linux,default-trigger = "heartbeat";
                 };
+
+                lamp {
+                        label = "lamp";
+                        gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+                };
+
+		reset_fpga {
+			label = "reset_fpga";
+			gpios = <&gpio1 30 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+
+		reset_dsp {
+			label = "reset_dsp";
+			gpios = <&gpio2 22 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+
+		reset_surface {
+			label = "reset_surface";
+			gpios = <&gpio4 28 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
         };
 };
 
@@ -253,7 +277,6 @@
 				MX25_PAD_CSPI1_MISO__CSPI1_MISO	0xc0		// DSP SPI MISO
 				MX25_PAD_CSPI1_SS0__GPIO_1_16	0x80000000      // DSP SPI nCS DSP1
 				MX25_PAD_CSPI1_SS1__GPIO_1_17	0x80000000      // DSP SPI nCS DSP2
-				MX25_PAD_CSPI1_RDY__GPIO_2_22	0x80000000      // DSP nRESET
 			>;
 		};
 
@@ -262,16 +285,45 @@
 				MX25_PAD_CSI_D2__CSPI3_MOSI	0x80000000	// FPGA SPI MOSI
 				MX25_PAD_CSI_D4__CSPI3_SCLK	0x80000000	// FPGA SPI SCLK
 				MX25_PAD_CSI_D3__CSPI3_MISO	0xc0		// FPGA SPI MISO
-				MX25_PAD_CSI_D5__GPIO_1_30	0x80000000	// FPGA nPROG
 				MX25_PAD_CSI_D6__GPIO_1_31	0x80000000	// FPGA nCS0
 				MX25_PAD_CSI_D7__GPIO_1_6	0x80000000	// FPGA nCS1
-				MX25_PAD_GPIO_C__GPIO_1_2	0xc0		// FPGA DONE
-				//MX25_PAD_KPP_ROW0__GPIO_2_29	0xc0		// FPGA nINIT_B
 		        >;
 		};
 
-                pinctrl_gpioled: gpioledgrp {
-                        fsl,pins = <MX25_PAD_UART1_RTS__GPIO_4_24 0x80000000>;
+                pinctrl_gpioleds: gpioledgrp {
+                        fsl,pins = <
+				MX25_PAD_UART1_RTS__GPIO_4_24	0x80000000	// MCU_LED
+				MX25_PAD_PWM__GPIO_1_26		0x80000000	// Desk-LAMP
+				MX25_PAD_CSI_D5__GPIO_1_30	0x80000000	// FPGA nPROG
+				MX25_PAD_CSPI1_RDY__GPIO_2_22	0x80000000      // DSP nRESET
+				MX25_PAD_UART2_RTS__GPIO_4_28	0x80000000	// Surface nRESET
+			>;
+                };
+
+                pinctrl_gpio1: gpio1grp {
+                        fsl,pins = <
+				//MX25_PAD_CSI_D5__GPIO_1_30	0x80000000	// FPGA nPROG
+				MX25_PAD_GPIO_C__GPIO_1_2	0xc0		// FPGA DONE
+			>;
+                };
+
+                pinctrl_gpio2: gpio2grp {
+//                        fsl,pins = <
+//				MX25_PAD_CSPI1_RDY__GPIO_2_22	0x80000000      // DSP nRESET
+//				MX25_PAD_KPP_ROW0__GPIO_2_29	0xc0		// FPGA nINIT_B
+//			>;
+                };
+
+                pinctrl_gpio3: gpio3grp {
+//			fsl,pins = <
+//			>;
+                };
+
+                pinctrl_gpio4: gpio4grp {
+//			fsl,pins = <
+//				MX25_PAD_UART1_RTS__GPIO_4_24	0x80000000	// MCU_LED
+//				MX25_PAD_UART2_RTS__GPIO_4_28	0x80000000	// Surface nRESET
+//			>;
                 };
 	};
 };
@@ -358,6 +410,30 @@
 &uart5 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_uart5>;
+	status = "okay";
+};
+
+&gpio1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio1>;
+	status = "okay";
+};
+
+&gpio2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio2>;
+	status = "okay";
+};
+
+&gpio3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio3>;
+	status = "okay";
+};
+
+&gpio4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio4>;
 	status = "okay";
 };
 
