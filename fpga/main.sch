@@ -6,8 +6,6 @@
         <trait edittrait="all:0" />
     </attr>
     <netlist>
-        <signal name="XLXN_24" />
-        <signal name="XLXN_25" />
         <signal name="clk_16MHz" />
         <signal name="clk_main" />
         <signal name="XLXN_50" />
@@ -123,7 +121,7 @@
             <blockpin signalname="XLXN_52(7:0)" name="TX_data(7:0)" />
         </block>
         <block symbolname="constant" name="XLXI_24">
-            <attr value="48" name="CValue">
+            <attr value="58" name="CValue">
                 <trait delete="all:1 sym:0" />
                 <trait editname="all:1 sch:0" />
                 <trait valuetype="BitVector 32 Hexadecimal" />
@@ -131,7 +129,7 @@
             <blockpin signalname="XLXN_55(7:0)" name="O" />
         </block>
         <block symbolname="constant" name="XLXI_25">
-            <attr value="45" name="CValue">
+            <attr value="33" name="CValue">
                 <trait delete="all:1 sym:0" />
                 <trait editname="all:1 sch:0" />
                 <trait valuetype="BitVector 32 Hexadecimal" />
@@ -139,7 +137,7 @@
             <blockpin signalname="XLXN_56(7:0)" name="O" />
         </block>
         <block symbolname="constant" name="XLXI_26">
-            <attr value="4C" name="CValue">
+            <attr value="32" name="CValue">
                 <trait delete="all:1 sym:0" />
                 <trait editname="all:1 sch:0" />
                 <trait valuetype="BitVector 32 Hexadecimal" />
@@ -261,5 +259,9 @@
             <wire x2="3600" y1="1248" y2="1296" x1="3600" />
         </branch>
         <iomarker fontsize="28" x="2400" y="832" name="imx25_uart4_txd" orien="R180" />
+        <text x="1308" y="292">clk_main is 124MHz at the moment</text>
+        <text x="256" y="900">Character 'X'</text>
+        <text x="364" y="988">Character '3'</text>
+        <text x="236" y="1088">Character '2'</text>
     </sheet>
 </drawing>
