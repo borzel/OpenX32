@@ -1,4 +1,5 @@
-// simple uart-tester, that outputs data from uart4 with 115200 baud to the screen
+// simple uart-tester, that outputs data from UART4 with 115200 baud to the screen
+// v0.0.1, 23.07.2025
 
 #define MAX_BUFFER_SIZE 32 // Etwas größer als die maximale Paketlänge, um Überläufe zu handhaben
 #define MAX_MESSAGE_SIZE 64
@@ -32,9 +33,9 @@ ssize_t bytes_read;
 int bytes_available;
 
 int uartOpen() {
-    fd = open("/dev/ttymxc4", O_RDWR | O_NOCTTY | O_NDELAY);
+    fd = open("/dev/ttymxc3", O_RDWR | O_NOCTTY | O_NDELAY);
     if (fd < 0) {
-        perror("Error opening /dev/ttymxc4 !");
+        perror("Error opening /dev/ttymxc3 !");
         return 1;
     }
 
@@ -112,7 +113,7 @@ int main() {                                                                    
     printf("Connecting to UART4...\n");
     uartOpen();
 
-    printf("Wait for incoming data on /dev/ttymxc4...\n");
+    printf("Wait for incoming data on /dev/ttymxc3...\n");
     printf("Press Ctrl+C to terminate program.\n");
     while (1) {
       uartRead();
