@@ -82,3 +82,6 @@ webtalk_impact.xml
 *_usage.xml
 *_xst.xrpt
 .vscode/settings.json
+*.debug
+planAhead*
+*.schlog

@@ -2,8 +2,44 @@
 
 
 
-# PlanAhead Generated physical constraints 
 
-NET "clk_16MHz" LOC = T8;
+NET "FPGACLK" LOC = T8;
 NET "imx25_uart4_rxd" LOC = R11;
 NET "imx25_uart4_txd" LOC = T11;
+
+
+NET "AUX_nRST" LOC = A9;
+NET "AUX_nCS" LOC = B8;
+NET "AUX_CDATA" LOC = C8;
+NET "AUX_CCLK" LOC = A8;
+
+
+NET "PLL_CCLK" LOC = T10;
+NET "PLL_CDATA" LOC = P10;
+NET "PLL_nCS" LOC = P9;
+
+NET "AUX_AD" LOC = C10;
+NET "AUX_DA" LOC = A11;
+
+
+NET "PLL_OUT" LOC = R9;
+
+
+NET "PLL_IN" LOC = P8;
+
+
+NET "AUX_MCLK" LOC = B10;
+NET "AUX_SCLK" LOC = A10;
+NET "AUX_FSYNC" LOC = C9;
+
+# PlanAhead Generated physical constraints 
+
+NET "DA_BCLK" LOC = K1;
+NET "DA_DATA0" LOC = M3;
+NET "DA_FSYNC" LOC = L3;
+NET "DA_MCLK" LOC = K3;
+NET "DA_RX" LOC = L1;
+NET "DA_TX" LOC = L2;
+NET "nDA_RESET" LOC = N3;
+NET "imx25_uart3_txd" LOC = P11;
+NET "imx25_uart3_rxd" LOC = T12;
