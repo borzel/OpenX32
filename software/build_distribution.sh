@@ -1,6 +1,9 @@
 #!/bin/bash
 echo "Creating OpenX32 Distribution..."
 
+# create build-directory
+mkdir bin
+
 echo "Compiling x32ctrl..."
 cd x32ctrl
 make

@@ -1,2 +1,2 @@
 #!/bin/bash
-/usr/bin/arm-linux-gnueabi-gcc -I . *.c -lm -o build/x32cli
+/usr/bin/arm-linux-gnueabi-gcc -I . *.c -lm -o ../bin/x32cli

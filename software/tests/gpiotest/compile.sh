@@ -1,2 +1,2 @@
 #!/bin/bash
-/usr/bin/arm-linux-gnueabi-gcc gpiotest.c -lgpiod -static -o build/gpiotest
+/usr/bin/arm-linux-gnueabi-gcc gpiotest.c -lgpiod -static -o ../../gpiotest
