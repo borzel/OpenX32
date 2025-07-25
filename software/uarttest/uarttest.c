@@ -32,10 +32,10 @@ char buffer_uart[256]; // Puffer für UART-Lesevorgänge
 ssize_t bytes_read;
 int bytes_available;
 
-int uartOpen() {
-    fd = open("/dev/ttymxc3", O_RDWR | O_NOCTTY | O_NDELAY);
+int uartOpen(const char* uartport) {
+    fd = open(uartport, O_RDWR | O_NOCTTY | O_NDELAY);
     if (fd < 0) {
-        perror("Error opening /dev/ttymxc3 !");
+        perror("Error opening uart port !");
         return 1;
     }
 
@@ -105,22 +105,27 @@ int uartRead() {
         return 0;
 }
 
-int main() {                                                                                                                                                           srand(time(NULL));
+int main(int argc, char *argv[]) {                                                                                                                                                           srand(time(NULL));
     printf("UART Tester\n");
     printf("v0.0.1, 23.07.2025\n");
     printf("https://github.com/xn--nding-jua/OpenX32\n");
 
-    printf("Connecting to UART4...\n");
-    uartOpen();
+    if (argc != 2) {
+        printf("Error: Wrong parameter!\n");
+        printf("Start this software like this: ./uarttest /dev/ttymxc3\n");
+    }else{
+        char* uartport = argv[1];
+        printf("Connecting to UART on port %s...\n", uartport);
+        uartOpen(uartport);
 
-    printf("Wait for incoming data on /dev/ttymxc3...\n");
-    printf("Press Ctrl+C to terminate program.\n");
-    while (1) {
-      uartRead();
+        printf("Wait for incoming data on %s...\n", uartport);
+        printf("Press Ctrl+C to terminate program.\n");
+        while (1) {
+            uartRead();
 
-      // sleep for 1ms to lower CPU-load
-      usleep(1000);
+            // sleep for 1ms to lower CPU-load
+            usleep(1000);
+        }
     }
-
     return 0;
 }

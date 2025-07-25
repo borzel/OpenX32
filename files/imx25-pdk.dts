@@ -74,45 +74,45 @@
 	};
 
         leds {
-			compatible = "gpio-leds";
-			pinctrl-names = "default";
-			pinctrl-0 = <&pinctrl_gpioleds>;
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpioleds>;
 
-			mculed {
-				label = "mculed";
-				gpios = <&gpio4 24 GPIO_ACTIVE_HIGH>;
-				linux,default-trigger = "heartbeat";
-			};
+		mculed {
+			label = "mculed";
+			gpios = <&gpio4 24 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "heartbeat";
+		};
 
-			lamp {
-				label = "lamp";
-				gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
-				default-state = "on";
-			};
+		lamp {
+			label = "lamp";
+			gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
 
-			reset_fpga {
-				label = "reset_fpga";
-				gpios = <&gpio1 30 GPIO_ACTIVE_LOW>;
-				default-state = "off";
-			};
+		reset_fpga {
+			label = "reset_fpga";
+			gpios = <&gpio1 30 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
 
-			reset_dsp {
-				label = "reset_dsp";
-				gpios = <&gpio2 22 GPIO_ACTIVE_LOW>;
-				default-state = "off";
-			};
+		reset_dsp {
+			label = "reset_dsp";
+			gpios = <&gpio2 22 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
 
-			reset_surface {
-				label = "reset_surface";
-				gpios = <&gpio4 28 GPIO_ACTIVE_LOW>;
-				default-state = "off";
-			};
+		reset_surface {
+			label = "reset_surface";
+			gpios = <&gpio4 28 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
 
-			audio_mute {
-				label = "audio_mute";
-				gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
-				default-state = "off";
-			};
+		audio_mute {
+			label = "audio_mute";
+			gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
         };
 };
 
@@ -233,24 +233,24 @@
 		};
 
 		pinctrl_uart2: uart2grp {
-				fsl,pins = <
-						MX25_PAD_UART2_TXD__UART2_TXD   0x80000000
-						MX25_PAD_UART2_RXD__UART2_RXD   0xc0
-				>;
+			fsl,pins = <
+				MX25_PAD_UART2_TXD__UART2_TXD   0x80000000
+				MX25_PAD_UART2_RXD__UART2_RXD   0xc0
+			>;
 		};
 		
 		pinctrl_uart3: uart3grp {
-				fsl,pins = <
-						MX25_PAD_KPP_ROW1__UART3_TXD    0x80000000
-						MX25_PAD_KPP_ROW0__UART3_RXD    0xc0
-				>;
+			fsl,pins = <
+				MX25_PAD_KPP_ROW1__UART3_TXD    0x80000000
+				MX25_PAD_KPP_ROW0__UART3_RXD    0xc0
+			>;
 		};
 		
 		pinctrl_uart4: uart4grp {
-				fsl,pins = <
-						MX25_PAD_KPP_COL1__UART4_TXD    0x80000000
-						MX25_PAD_KPP_COL0__UART4_RXD    0xc0
-				>;
+			fsl,pins = <
+				MX25_PAD_KPP_COL1__UART4_TXD    0x80000000
+				MX25_PAD_KPP_COL0__UART4_RXD    0xc0
+			>;
 		};
 		
 		pinctrl_uart5: uart5grp {
