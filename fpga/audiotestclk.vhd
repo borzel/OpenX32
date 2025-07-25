@@ -19,8 +19,8 @@ end entity;
 architecture behavioral of audiotestclk is
 	signal count_sclk		: natural range 0 to 10 := 1;
 	signal count_fs		: natural range 0 to 256 := 1;
-	signal sclk				: std_logic;
-	signal fs				: std_logic;
+	signal sclk				: std_logic := '0';
+	signal fs				: std_logic := '0';
 begin
 	process (clk)
 	begin
@@ -30,7 +30,7 @@ begin
 				count_sclk <= 1;
 
 				-- derive fs from sclk
-				if (count_fs = (12288000/(2*48000))) then -- divide sclk by 256 (12.288 MHz -> 48 kHz)
+				if (count_fs = (12288000/48000)) then -- divide sclk by 256 (12.288 MHz -> 48 kHz)
 					fs <= not fs;
 					count_fs <= 1;
 				else

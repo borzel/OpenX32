@@ -18,7 +18,7 @@ end entity;
 
 architecture behavioral of audioclk is
 	signal count_fs		: natural range 0 to 256 := 1;
-	signal fs				: std_logic;
+	signal fs				: std_logic := '0';
 begin
 	process (i_sclk)
 	begin

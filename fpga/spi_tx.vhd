@@ -27,10 +27,11 @@ architecture behavioral of spi_tx is
 	type t_SM is (s_Idle, s_Tx, s_Cleanup);
 	signal s_SM			: t_SM := s_Idle;
 	
+	signal startup		: std_logic := '1';
 	signal count_clk	: natural range 0 to 2 := 0;
-	signal nCS			: std_logic;
-	signal cclk			: std_logic;
-	signal cdata		: std_logic;
+	signal nCS			: std_logic := '0';
+	signal cclk			: std_logic := '0';
+	signal cdata		: std_logic := '0';
 	signal tx_data		: std_logic_vector(23 downto 0);
 	signal tx_counter	: natural range 0 to 24 := 0;
 begin
@@ -42,6 +43,7 @@ begin
 					-- activate chip
 					nCS <= '0';
 					o_busy <= '1';
+					startup <= '1';
 					
 					-- copy data to output-buffer
 					tx_data(23 downto 16) <= i_address;
@@ -55,13 +57,12 @@ begin
 					nCS <= '1';
 					cclk <= '0';
 					cdata <= '0';
-					o_busy <= '1';
 				end if;
 				
 			elsif (s_SM = s_Tx) then
 				-- transmit at around 5MHz (CS42438 is able to handle SPI at max. 6 MHz)
-				if (count_clk = 2) then -- divide clk by 3 (16 MHz / 3 = 5.33 MHz)
-					if (cclk = '0') then
+				if (count_clk = 2 or startup = '1') then -- divide clk by 3 (16 MHz / 3 = 5.33 MHz)
+					if (cclk = '0' and startup = '0') then
 						-- we have rising edge
 						cclk <= '1';
 
@@ -69,6 +70,7 @@ begin
 					else
 						-- we have falling edge
 						cclk <= '0';
+						startup <= '0';
 						
 						-- check if we have reached end of message
 						if (tx_counter = 24) then
