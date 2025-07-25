@@ -27,7 +27,7 @@ architecture behavioral of spi_tx is
 	type t_SM is (s_Idle, s_Tx, s_Cleanup);
 	signal s_SM			: t_SM := s_Idle;
 	
-	signal count_clk	: natural range 0 to 3 := 0;
+	signal count_clk	: natural range 0 to 2 := 0;
 	signal nCS			: std_logic;
 	signal cclk			: std_logic;
 	signal cdata		: std_logic;

@@ -9,7 +9,7 @@ entity reset is
 end reset;
 
 architecture Behavioral of reset is
-	signal count_clk	: natural range 0 to 10000 := 0;
+	signal count_clk	: natural range 0 to 100000 := 0;
 begin
 	process (clk)
 	begin

@@ -1,4 +1,4 @@
--- VHDL File to configure Cirrus Logic CS42438 IC
+-- VHDL File to configure Cirrus Logic CS42438 AD/DA IC
 -- v0.0.1, 24.07.2025
 -- OpenX32 Project
 -- https://github.com/xn--nding-jua/OpenX32
@@ -34,9 +34,9 @@ entity cs42438_config is
 end entity;
 
 architecture behavioral of cs42438_config is
-	type t_SM is (s_Idle, s_Reset, s_Start, s_Config1, s_Wait1, s_Config2, s_Wait2, s_Config3, s_Wait3, s_Config4, s_Wait4, s_Config5, s_Wait5, s_Done);
-	signal s_SM				: t_SM := s_Idle;
-	signal count_state	: natural range 0 to 2500000 := 0; -- allow a maximum of 156ms
+	type t_SM is (s_Startup, s_Reset, s_Start, s_Config1, s_Wait1, s_Config2, s_Wait2, s_Config3, s_Wait3, s_Config4, s_Wait4, s_Config5, s_Wait5, s_Done);
+	signal s_SM				: t_SM := s_Startup;
+	signal count_state	: natural range 0 to 1000000 := 0; -- allow up to 62ms
 	
 	signal mapaddress		: std_logic_vector(7 downto 0);
 	signal data				: std_logic_vector(7 downto 0);
@@ -60,14 +60,14 @@ begin
 				s_SM <= s_Reset;
 				
 			else
-				if (s_SM = s_Idle) then
+				if (s_SM = s_Startup) then
 					-- wait for begin
 					
 				elsif (s_SM = s_Reset) then
 					o_nRST <= '0';
 
-					-- keep this state and leave it after 1.25ms
-					if (count_state = (16000000/8)) then
+					-- keep this state and leave it after 1.5ms
+					if (count_state = (16000000/650)) then
 						s_SM <= s_Start;
 						count_state <= 0;
 					end if;
@@ -77,8 +77,8 @@ begin
 					-- release reset
 					o_nRST <= '1';
 
-					-- keep this state and leave it after 1.25ms
-					if (count_state = (16000000/8)) then
+					-- keep this state and leave it after 1.5ms
+					if (count_state = (16000000/650)) then
 						s_SM <= s_Config1;
 						count_state <= 0;
 					end if;
@@ -149,7 +149,7 @@ begin
 					
 					-- wait until spi message has been sent
 					if (i_txbusy = '0') then
-						-- keep this state and leave it after 50ms
+						-- keep this state and leave it after at least 2000 LR-cycles (2000 * 1/48kHz ~ 50ms)
 						if (count_state = (16000000/20)) then
 							s_SM <= s_Config5;
 							count_state <= 0;

@@ -1,4 +1,4 @@
--- VHDL File to control Cirrus Logic CS42438 IC
+-- VHDL File to control Cirrus Logic CS2000CP PLL IC
 -- v0.0.1, 24.07.2025
 -- OpenX32 Project
 -- https://github.com/xn--nding-jua/OpenX32
@@ -13,7 +13,6 @@
 -- 6. Wait around 2000 LRCK (=50ms)
 -- 7. Config5: Unmute DACs
 -- 
-
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -33,8 +32,8 @@ entity cs2000cp_config is
 end entity;
 
 architecture behavioral of cs2000cp_config is
-	type t_SM is (s_Idle, s_Reset, s_Start, s_Config, s_Wait, s_Done);
-	signal s_SM				: t_SM := s_Idle;
+	type t_SM is (s_Startup, s_Reset, s_Start, s_Config, s_Wait, s_Done);
+	signal s_SM				: t_SM := s_Startup;
 	signal count_state	: natural range 0 to 2500000 := 0; -- allow a maximum of 156ms
 	
 	signal mapaddress		: std_logic_vector(7 downto 0);
@@ -73,7 +72,7 @@ begin
 				s_SM <= s_Config;
 				
 			else
-				if (s_SM = s_Idle) then
+				if (s_SM = s_Startup) then
 					-- wait for begin
 					
 				elsif (s_SM = s_Config) then
