@@ -17,16 +17,17 @@ entity audioclk is
 end entity;
 
 architecture behavioral of audioclk is
-	signal count_fs		: natural range 0 to 255 := 0;
+	signal count_fs		: natural range 0 to 256 := 1;
 	signal fs				: std_logic;
 begin
 	process (i_sclk)
 	begin
 		if rising_edge(i_sclk) then
-			count_fs <= count_fs + 1;
-			if (count_fs = 255) then -- divide sclk by 256 (12.288 MHz -> 48 kHz)
+			if (count_fs = (12288000/(2*48000))) then -- divide sclk by 256 (12.288 MHz -> 48 kHz)
 				fs <= not fs;
-				count_fs <= 0;
+				count_fs <= 1;
+			else
+				count_fs <= count_fs + 1;
 			end if;
 		end if;
 	end process;

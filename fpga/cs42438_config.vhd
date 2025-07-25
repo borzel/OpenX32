@@ -52,7 +52,7 @@ begin
 		if rising_edge(clk) then
 			if (i_start = '1') then
 				-- start the configuration process
-				o_nRST <= '0';
+				o_nRST <= '1';
 				count_state <= 0;
 				mapaddress <= x"00";
 				data <= x"00";
@@ -70,8 +70,9 @@ begin
 					if (count_state = (16000000/650)) then
 						s_SM <= s_Start;
 						count_state <= 0;
+					else
+						count_state <= count_state + 1;
 					end if;
-					count_state <= count_state + 1;
 
 				elsif (s_SM = s_Start) then
 					-- release reset
@@ -81,8 +82,9 @@ begin
 					if (count_state = (16000000/650)) then
 						s_SM <= s_Config1;
 						count_state <= 0;
+					else
+						count_state <= count_state + 1;
 					end if;
-					count_state <= count_state + 1;
 
 				elsif (s_SM = s_Config1) then
 
@@ -153,8 +155,9 @@ begin
 						if (count_state = (16000000/20)) then
 							s_SM <= s_Config5;
 							count_state <= 0;
+						else
+							count_state <= count_state + 1;
 						end if;
-						count_state <= count_state + 1;
 					end if;
 					
 				elsif (s_SM = s_Config5) then

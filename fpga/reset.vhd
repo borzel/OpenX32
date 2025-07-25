@@ -31,6 +31,7 @@ begin
 			else
 				-- still waiting for PLL to lock
 				count_clk <= 0;
+				o_reset <= '0';
 			end if;
 		end if;
 	end process;

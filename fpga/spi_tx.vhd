@@ -51,6 +51,11 @@ begin
 
 					-- go into transmission-state
 					s_SM <= s_Tx;
+				else
+					nCS <= '1';
+					cclk <= '0';
+					cdata <= '0';
+					o_busy <= '1';
 				end if;
 				
 			elsif (s_SM = s_Tx) then
@@ -71,7 +76,7 @@ begin
 							s_SM <= s_Cleanup;
 						else
 							-- output bits until we reached end of message
-							cdata <= tx_data(tx_counter);
+							cdata <= tx_data(23 - tx_counter); -- send MSB first
 							tx_counter <= tx_counter + 1;
 						end if;
 					end if;
