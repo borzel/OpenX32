@@ -103,3 +103,4 @@ I want to learn things about embedded systems and how they work. The X32 is a ve
 * Busybox (https://git.busybox.net/busybox)
 * pyATK in Version 0.1.0 (https://github.com/hbock/pyatk)
 * LVGL in Version 9.3.0 (https://github.com/lvgl/lv_port_linux)
+* OpenSSH Portable 8.3 (https://github.com/openssh/openssh-portable)
