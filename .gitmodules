@@ -21,3 +21,4 @@
 [submodule "software/openssh-portable"]
 	path = software/openssh-portable
 	url = https://github.com/openssh/openssh-portable.git
+	ignore = dirty
