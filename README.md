@@ -61,6 +61,22 @@ Within the software-folder several user-applications are placed. At this early d
 
 To run the softwares, take an USB-Thumbdrive, copy all files to it and run them from this drive directly after mounting it in OpenX32 using command "mount /dev/sda1 /mnt/usb"
 
+### Step 4: Compiling logic for the FPGA
+
+The X32 devices before 2020 are using a Xilinx Spartan-3A X3CS1400 FPGA to route the audio between the individual ADCs, DACs, expansion card and digital connectors like AES50 and UltraNet. For the Spartan-3A we can use the free version of Xilinx ISE 14.7 as the most recent toolchain to synthesize logic for this FPGA:
+
+Download ISE 14.7 from the Xilinx (AMD) website: https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/archive-ise.html. There are two options: a preinstalled linux virtual machine or the direct version. The virtual machine is working fine. If you want to use the direct version under Windows, here is a short manual as this needs some adjustments:
+
+1. Download the DVD image: https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_ISE_DS_14.7_1015_1.tar
+2. Start the setup and install the software. At about 95% the installation will hang. Go into the taskmanager and kill the software "Webtalk32" several times until the setup finishes (successfully!)
+3. Set the Windows-Environmental-Variable "XILINX_VC_CHECK_NOOP" to "1". Otherwise the software will complain about a non-installed VisualStudio Runtime 2008 even if it is installed correctly
+4. On modern Windows 10/11 ISE 14.7 will not start beyond the Splash-Screen due to the use of "SmartHeap" within the file "libPortability.dll". Download the patch from https://github.com/cbureriu/xilinx-14.7-patch-for-Win10-32-64 that simply will replace the file "libPortability.dll" by "libPortabilityNOSH.dll" (NOSH = NoSmartHeap) that comes with the original installation.
+5. Start ISE 14.7, open the OpenX32 project and compile the logic of the main-schematic.
+
+### Step 5: Compiling code for the SHARC DSPs
+
+At the moment it seems that the DSPs can only be programmed using a closed-source toolchain with a paid license. Currently I'm searching for a working solution for this problem...
+
 ## What is working at the moment and what is planned so far
 * [x] Linux-Kernel in Version 6.12 (LTS) starts to shell using display framebuffer
 * [x] init-script for setting up the operating system
@@ -71,10 +87,11 @@ To run the softwares, take an USB-Thumbdrive, copy all files to it and run them 
 * [x] Support of USB-Host interface (HID-Keyboard, HID-Mouse, Mass-Storage-Devices, Joystick, Soundcard, etc.)
 * [x] Control of X32 surface (faders, buttons, LEDs, encoders) through x32ctrl-software
 * [x] Configuration of main-FPGA (Xilinx Spartan 3A, X3CS1400) via internal SPI-interface (use software fpgaconfig)
+* [x] Basic Audio-Processing using the 8-Channel AUX-AD/DA-Converter (CS42438) is working
 
 Some things are on the ToDo-list:
-* [ ] Planned: ALSA Soundcard with I2S to main-FPGA (DeviceTree option "simple-audio-card" via SSI1 and AUDMUX is not initilializing)
 * [ ] Planned: SD-Card support (DeviceTree option "esdhc1" is not starting up)
+* [ ] Planned: ALSA Soundcard with I2S to main-FPGA (DeviceTree option "simple-audio-card" via SSI1 and AUDMUX is not initializing)
 * [ ] Planned: GPIO support via libgpiod (at the moment libgpiod is not working and has no control over /dev/gpiochipX)
 * [ ] Planned: Support of both AnalogDevices DSPs via SPI
 * [ ] Planned: Support of Analog In- and Outputs of X32 with basic mixing options

@@ -55,11 +55,22 @@
         <signal name="nDA_RESET" />
         <signal name="XLXN_320" />
         <signal name="FPGACLK" />
-        <signal name="PLL_IN" />
         <signal name="XLXN_330" />
         <signal name="XLXN_342(7:0)" />
-        <signal name="XLXN_343(23:0)" />
         <signal name="XLXN_346" />
+        <signal name="PLL_IN" />
+        <signal name="XLXN_355(23:0)" />
+        <signal name="XLXN_356(23:0)" />
+        <signal name="XLXN_357(23:0)" />
+        <signal name="XLXN_358(23:0)" />
+        <signal name="XLXN_359(23:0)" />
+        <signal name="XLXN_360(23:0)" />
+        <signal name="XLXN_363(23:0)" />
+        <signal name="XLXN_364(23:0)" />
+        <signal name="XLXN_365(23:0)" />
+        <signal name="XLXN_366(23:0)" />
+        <signal name="XLXN_367(23:0)" />
+        <signal name="XLXN_368(23:0)" />
         <port polarity="Output" name="AUX_nRST" />
         <port polarity="Output" name="AUX_nCS" />
         <port polarity="Output" name="AUX_CCLK" />
@@ -159,7 +170,7 @@
             <line x2="448" y1="-32" y2="-32" x1="384" />
         </blockdef>
         <blockdef name="cs42438_config">
-            <timestamp>2025-7-25T8:30:27</timestamp>
+            <timestamp>2025-7-26T19:49:47</timestamp>
             <rect width="256" x="64" y="-320" height="320" />
             <line x2="0" y1="-288" y2="-288" x1="64" />
             <line x2="0" y1="-160" y2="-160" x1="64" />
@@ -230,14 +241,14 @@
             <line x2="384" y1="-672" y2="-672" x1="320" />
         </blockdef>
         <blockdef name="audioclk">
-            <timestamp>2025-7-25T19:47:35</timestamp>
+            <timestamp>2025-7-26T19:46:47</timestamp>
             <line x2="384" y1="-96" y2="-96" x1="320" />
             <line x2="384" y1="-32" y2="-32" x1="320" />
             <rect width="256" x="64" y="-128" height="192" />
             <line x2="0" y1="-96" y2="-96" x1="64" />
         </blockdef>
         <blockdef name="cs2000cp_config">
-            <timestamp>2025-7-25T8:28:11</timestamp>
+            <timestamp>2025-7-26T20:38:59</timestamp>
             <rect width="256" x="64" y="-256" height="256" />
             <line x2="0" y1="-224" y2="-224" x1="64" />
             <line x2="0" y1="-128" y2="-128" x1="64" />
@@ -251,7 +262,7 @@
             <line x2="384" y1="-32" y2="-32" x1="320" />
         </blockdef>
         <blockdef name="spi_tx">
-            <timestamp>2025-7-25T8:32:56</timestamp>
+            <timestamp>2025-7-26T19:48:16</timestamp>
             <rect width="256" x="64" y="-320" height="320" />
             <line x2="0" y1="-288" y2="-288" x1="64" />
             <line x2="0" y1="-224" y2="-224" x1="64" />
@@ -292,7 +303,7 @@
             <line x2="416" y1="-96" y2="-96" x1="352" />
         </blockdef>
         <blockdef name="audiotestclk">
-            <timestamp>2025-7-25T19:48:47</timestamp>
+            <timestamp>2025-7-26T19:50:15</timestamp>
             <rect width="256" x="64" y="-128" height="128" />
             <line x2="0" y1="-96" y2="-96" x1="64" />
             <line x2="384" y1="-96" y2="-96" x1="320" />
@@ -303,7 +314,7 @@
             <blockpin signalname="FPGACLK" name="CLKIN_IN" />
             <blockpin name="LOCKED_OUT" />
             <blockpin signalname="clk_main" name="CLKFX_OUT" />
-            <blockpin signalname="PLL_IN" name="CLKIN_IBUFG_OUT" />
+            <blockpin name="CLKIN_IBUFG_OUT" />
             <blockpin signalname="XLXN_330" name="CLK0_OUT" />
         </block>
         <block symbolname="reset" name="XLXI_38">
@@ -345,16 +356,6 @@
             </attr>
             <blockpin signalname="XLXN_57(7:0)" name="O" />
         </block>
-        <block symbolname="cs42438_config" name="XLXI_30">
-            <blockpin signalname="clk_16MHz" name="clk" />
-            <blockpin signalname="rst" name="i_start" />
-            <blockpin signalname="XLXN_70" name="i_txbusy" />
-            <blockpin signalname="AUX_nRST" name="o_nRST" />
-            <blockpin signalname="XLXN_346" name="o_start" />
-            <blockpin signalname="XLXN_67(7:0)" name="o_address(7:0)" />
-            <blockpin signalname="XLXN_68(7:0)" name="o_map(7:0)" />
-            <blockpin signalname="XLXN_69(7:0)" name="o_data(7:0)" />
-        </block>
         <block symbolname="audioclk" name="XLXI_53">
             <blockpin signalname="PLL_OUT" name="i_sclk" />
             <blockpin name="o_sclk" />
@@ -385,37 +386,6 @@
             <blockpin name="value5(31:0)" />
             <blockpin name="value6(47:0)" />
         </block>
-        <block symbolname="spi_tx" name="XLXI_58">
-            <blockpin signalname="clk_16MHz" name="clk" />
-            <blockpin signalname="XLXN_346" name="i_start" />
-            <blockpin signalname="XLXN_67(7:0)" name="i_address(7:0)" />
-            <blockpin signalname="XLXN_68(7:0)" name="i_map(7:0)" />
-            <blockpin signalname="XLXN_69(7:0)" name="i_data(7:0)" />
-            <blockpin signalname="AUX_nCS" name="o_nCS" />
-            <blockpin signalname="AUX_CCLK" name="o_cclk" />
-            <blockpin signalname="AUX_CDATA" name="o_cdata" />
-            <blockpin signalname="XLXN_70" name="o_busy" />
-        </block>
-        <block symbolname="cs2000cp_config" name="XLXI_57">
-            <blockpin signalname="clk_16MHz" name="clk" />
-            <blockpin signalname="rst" name="i_start" />
-            <blockpin signalname="XLXN_226" name="i_txbusy" />
-            <blockpin signalname="XLXN_222" name="o_start" />
-            <blockpin signalname="XLXN_223(7:0)" name="o_address(7:0)" />
-            <blockpin signalname="XLXN_224(7:0)" name="o_map(7:0)" />
-            <blockpin signalname="XLXN_225(7:0)" name="o_data(7:0)" />
-        </block>
-        <block symbolname="spi_tx" name="XLXI_67">
-            <blockpin signalname="clk_16MHz" name="clk" />
-            <blockpin signalname="XLXN_222" name="i_start" />
-            <blockpin signalname="XLXN_223(7:0)" name="i_address(7:0)" />
-            <blockpin signalname="XLXN_224(7:0)" name="i_map(7:0)" />
-            <blockpin signalname="XLXN_225(7:0)" name="i_data(7:0)" />
-            <blockpin signalname="PLL_nCS" name="o_nCS" />
-            <blockpin signalname="PLL_CCLK" name="o_cclk" />
-            <blockpin signalname="PLL_CDATA" name="o_cdata" />
-            <blockpin signalname="XLXN_226" name="o_busy" />
-        </block>
         <block symbolname="tdm_8ch_rx" name="XLXI_49">
             <blockpin signalname="clk_main" name="clk" />
             <blockpin signalname="tdm_sclk" name="bclk" />
@@ -423,26 +393,26 @@
             <blockpin signalname="AUX_AD" name="sdata" />
             <blockpin name="sync_out" />
             <blockpin name="ch1_out(23:0)" />
-            <blockpin name="ch2_out(23:0)" />
-            <blockpin name="ch3_out(23:0)" />
-            <blockpin name="ch4_out(23:0)" />
-            <blockpin name="ch5_out(23:0)" />
-            <blockpin name="ch6_out(23:0)" />
-            <blockpin name="ch7_out(23:0)" />
-            <blockpin name="ch8_out(23:0)" />
+            <blockpin signalname="XLXN_355(23:0)" name="ch2_out(23:0)" />
+            <blockpin signalname="XLXN_356(23:0)" name="ch3_out(23:0)" />
+            <blockpin signalname="XLXN_357(23:0)" name="ch4_out(23:0)" />
+            <blockpin signalname="XLXN_358(23:0)" name="ch5_out(23:0)" />
+            <blockpin signalname="XLXN_359(23:0)" name="ch6_out(23:0)" />
+            <blockpin signalname="XLXN_360(23:0)" name="ch7_out(23:0)" />
+            <blockpin signalname="XLXN_367(23:0)" name="ch8_out(23:0)" />
         </block>
         <block symbolname="tdm_8ch_tx" name="XLXI_50">
             <blockpin signalname="clk_main" name="clk" />
             <blockpin signalname="tdm_sclk" name="bclk" />
             <blockpin signalname="tdm_fs" name="fsync" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch1_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch2_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch3_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch4_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch5_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch6_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch7_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch8_in(23:0)" />
+            <blockpin signalname="XLXN_368(23:0)" name="ch1_in(23:0)" />
+            <blockpin signalname="XLXN_355(23:0)" name="ch2_in(23:0)" />
+            <blockpin signalname="XLXN_356(23:0)" name="ch3_in(23:0)" />
+            <blockpin signalname="XLXN_357(23:0)" name="ch4_in(23:0)" />
+            <blockpin signalname="XLXN_358(23:0)" name="ch5_in(23:0)" />
+            <blockpin signalname="XLXN_359(23:0)" name="ch6_in(23:0)" />
+            <blockpin signalname="XLXN_360(23:0)" name="ch7_in(23:0)" />
+            <blockpin signalname="XLXN_367(23:0)" name="ch8_in(23:0)" />
             <blockpin signalname="AUX_DA" name="sdata" />
         </block>
         <block symbolname="buf" name="XLXI_87">
@@ -461,14 +431,14 @@
             <blockpin signalname="clk_main" name="clk" />
             <blockpin signalname="tdm_sclk" name="bclk" />
             <blockpin signalname="tdm_fs" name="fsync" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch1_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch2_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch3_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch4_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch5_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch6_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch7_in(23:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="ch8_in(23:0)" />
+            <blockpin signalname="XLXN_368(23:0)" name="ch1_in(23:0)" />
+            <blockpin signalname="XLXN_355(23:0)" name="ch2_in(23:0)" />
+            <blockpin signalname="XLXN_356(23:0)" name="ch3_in(23:0)" />
+            <blockpin signalname="XLXN_357(23:0)" name="ch4_in(23:0)" />
+            <blockpin signalname="XLXN_358(23:0)" name="ch5_in(23:0)" />
+            <blockpin signalname="XLXN_359(23:0)" name="ch6_in(23:0)" />
+            <blockpin signalname="XLXN_360(23:0)" name="ch7_in(23:0)" />
+            <blockpin signalname="XLXN_367(23:0)" name="ch8_in(23:0)" />
             <blockpin signalname="DA_DATA0" name="sdata" />
         </block>
         <block symbolname="buf" name="XLXI_96">
@@ -514,7 +484,7 @@
         <block symbolname="ddfs_drom" name="XLXI_118">
             <blockpin signalname="clk_16MHz" name="CLK" />
             <blockpin signalname="XLXN_342(7:0)" name="Freq_Data(7:0)" />
-            <blockpin signalname="XLXN_343(23:0)" name="Dout(23:0)" />
+            <blockpin signalname="XLXN_368(23:0)" name="Dout(23:0)" />
         </block>
         <block symbolname="constant" name="XLXI_119">
             <attr value="FC" name="CValue">
@@ -524,7 +494,52 @@
             </attr>
             <blockpin signalname="XLXN_342(7:0)" name="O" />
         </block>
-        <block symbolname="audiotestclk" name="XLXI_121">
+        <block symbolname="spi_tx" name="XLXI_122">
+            <blockpin signalname="clk_16MHz" name="clk" />
+            <blockpin signalname="XLXN_346" name="i_start" />
+            <blockpin signalname="XLXN_67(7:0)" name="i_address(7:0)" />
+            <blockpin signalname="XLXN_68(7:0)" name="i_map(7:0)" />
+            <blockpin signalname="XLXN_69(7:0)" name="i_data(7:0)" />
+            <blockpin signalname="AUX_nCS" name="o_nCS" />
+            <blockpin signalname="AUX_CCLK" name="o_cclk" />
+            <blockpin signalname="AUX_CDATA" name="o_cdata" />
+            <blockpin signalname="XLXN_70" name="o_busy" />
+        </block>
+        <block symbolname="spi_tx" name="XLXI_123">
+            <blockpin signalname="clk_16MHz" name="clk" />
+            <blockpin signalname="XLXN_222" name="i_start" />
+            <blockpin signalname="XLXN_223(7:0)" name="i_address(7:0)" />
+            <blockpin signalname="XLXN_224(7:0)" name="i_map(7:0)" />
+            <blockpin signalname="XLXN_225(7:0)" name="i_data(7:0)" />
+            <blockpin signalname="PLL_nCS" name="o_nCS" />
+            <blockpin signalname="PLL_CCLK" name="o_cclk" />
+            <blockpin signalname="PLL_CDATA" name="o_cdata" />
+            <blockpin signalname="XLXN_226" name="o_busy" />
+        </block>
+        <block symbolname="cs42438_config" name="XLXI_124">
+            <blockpin signalname="clk_16MHz" name="clk" />
+            <blockpin signalname="rst" name="i_start" />
+            <blockpin signalname="XLXN_70" name="i_txbusy" />
+            <blockpin signalname="AUX_nRST" name="o_nRST" />
+            <blockpin signalname="XLXN_346" name="o_start" />
+            <blockpin signalname="XLXN_67(7:0)" name="o_address(7:0)" />
+            <blockpin signalname="XLXN_68(7:0)" name="o_map(7:0)" />
+            <blockpin signalname="XLXN_69(7:0)" name="o_data(7:0)" />
+        </block>
+        <block symbolname="cs2000cp_config" name="XLXI_126">
+            <blockpin signalname="clk_16MHz" name="clk" />
+            <blockpin signalname="rst" name="i_start" />
+            <blockpin signalname="XLXN_226" name="i_txbusy" />
+            <blockpin signalname="XLXN_222" name="o_start" />
+            <blockpin signalname="XLXN_223(7:0)" name="o_address(7:0)" />
+            <blockpin signalname="XLXN_224(7:0)" name="o_map(7:0)" />
+            <blockpin signalname="XLXN_225(7:0)" name="o_data(7:0)" />
+        </block>
+        <block symbolname="bufg" name="XLXI_127">
+            <blockpin signalname="clk_16MHz" name="I" />
+            <blockpin signalname="PLL_IN" name="O" />
+        </block>
+        <block symbolname="audiotestclk" name="XLXI_128">
             <blockpin signalname="clk_main" name="clk" />
             <blockpin signalname="tdm_sclk" name="o_sclk" />
             <blockpin signalname="tdm_fs" name="o_fs" />
@@ -602,8 +617,6 @@
         <text x="540" y="1088">Character '2'</text>
         <rect style="linewidth:W;linecolor:rgb(0,0,255)" width="3404" x="348" y="616" height="724" />
         <text style="fontsize:36;fontname:Arial;textcolor:rgb(255,0,0)" x="388" y="664">UART to i.MX25</text>
-        <instance x="688" y="1872" name="XLXI_30" orien="R0">
-        </instance>
         <branch name="XLXN_67(7:0)">
             <wire x2="1568" y1="1712" y2="1712" x1="1072" />
         </branch>
@@ -688,8 +701,6 @@
             <wire x2="3056" y1="816" y2="816" x1="3008" />
         </branch>
         <iomarker fontsize="28" x="2448" y="1136" name="imx25_uart4_txd" orien="R180" />
-        <instance x="1568" y="1872" name="XLXI_58" orien="R0">
-        </instance>
         <rect style="linewidth:W;linecolor:rgb(0,0,255)" width="1704" x="2368" y="1448" height="588" />
         <text style="fontsize:36;fontname:Arial" x="1332" y="296">clk_main is 124MHz at the moment</text>
         <branch name="PLL_OUT">
@@ -706,8 +717,6 @@
             <wire x2="2544" y1="1744" y2="1744" x1="2416" />
             <wire x2="2688" y1="1744" y2="1744" x1="2544" />
         </branch>
-        <instance x="2688" y="1872" name="XLXI_57" orien="R0">
-        </instance>
         <branch name="clk_16MHz">
             <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="2544" y="1648" type="branch" />
             <wire x2="2544" y1="1648" y2="1648" x1="2416" />
@@ -742,8 +751,6 @@
         <branch name="PLL_CDATA">
             <wire x2="3760" y1="1744" y2="1744" x1="3728" />
         </branch>
-        <instance x="3344" y="1872" name="XLXI_67" orien="R0">
-        </instance>
         <branch name="clk_16MHz">
             <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3264" y="1584" type="branch" />
             <wire x2="3264" y1="1584" y2="1584" x1="3152" />
@@ -909,14 +916,9 @@
         <instance x="1712" y="208" name="XLXI_112" orien="R0">
         </instance>
         <branch name="FPGACLK">
-            <wire x2="624" y1="432" y2="432" x1="608" />
-            <wire x2="640" y1="432" y2="432" x1="624" />
+            <wire x2="640" y1="432" y2="432" x1="608" />
         </branch>
         <iomarker fontsize="28" x="608" y="432" name="FPGACLK" orien="R180" />
-        <branch name="PLL_IN">
-            <wire x2="1120" y1="368" y2="368" x1="1104" />
-            <wire x2="1184" y1="368" y2="368" x1="1120" />
-        </branch>
         <branch name="XLXN_330">
             <wire x2="1136" y1="432" y2="432" x1="1104" />
         </branch>
@@ -926,22 +928,6 @@
             <wire x2="1440" y1="432" y2="432" x1="1360" />
             <wire x2="1536" y1="432" y2="432" x1="1440" />
         </branch>
-        <iomarker fontsize="28" x="1184" y="368" name="PLL_IN" orien="R0" />
-        <branch name="tdm_sclk">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3792" y="272" type="branch" />
-            <wire x2="3792" y1="272" y2="272" x1="3728" />
-            <wire x2="3904" y1="272" y2="272" x1="3792" />
-        </branch>
-        <branch name="tdm_fs">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3776" y="336" type="branch" />
-            <wire x2="3776" y1="336" y2="336" x1="3728" />
-            <wire x2="3904" y1="336" y2="336" x1="3776" />
-        </branch>
-        <branch name="clk_main">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3264" y="272" type="branch" />
-            <wire x2="3264" y1="272" y2="272" x1="3184" />
-            <wire x2="3344" y1="272" y2="272" x1="3264" />
-        </branch>
         <instance x="512" y="3152" name="XLXI_118" orien="R0">
         </instance>
         <instance x="176" y="3088" name="XLXI_119" orien="R0">
@@ -949,52 +935,98 @@
         <branch name="XLXN_342(7:0)">
             <wire x2="512" y1="3120" y2="3120" x1="320" />
         </branch>
-        <branch name="XLXN_343(23:0)">
-            <wire x2="1088" y1="3056" y2="3056" x1="928" />
-            <wire x2="1280" y1="3056" y2="3056" x1="1088" />
-            <wire x2="1088" y1="3056" y2="3600" x1="1088" />
-            <wire x2="1088" y1="3600" y2="3664" x1="1088" />
-            <wire x2="1088" y1="3664" y2="3728" x1="1088" />
-            <wire x2="1088" y1="3728" y2="3792" x1="1088" />
-            <wire x2="1088" y1="3792" y2="3856" x1="1088" />
-            <wire x2="1088" y1="3856" y2="3904" x1="1088" />
-            <wire x2="1088" y1="3904" y2="3920" x1="1088" />
-            <wire x2="1088" y1="3920" y2="3984" x1="1088" />
-            <wire x2="1088" y1="3984" y2="4048" x1="1088" />
-            <wire x2="1488" y1="4048" y2="4048" x1="1088" />
-            <wire x2="1488" y1="3984" y2="3984" x1="1088" />
-            <wire x2="1488" y1="3920" y2="3920" x1="1088" />
-            <wire x2="1488" y1="3856" y2="3856" x1="1088" />
-            <wire x2="1488" y1="3792" y2="3792" x1="1088" />
-            <wire x2="1488" y1="3728" y2="3728" x1="1088" />
-            <wire x2="1488" y1="3664" y2="3664" x1="1088" />
-            <wire x2="1488" y1="3600" y2="3600" x1="1088" />
-            <wire x2="1488" y1="2512" y2="2512" x1="1280" />
-            <wire x2="1280" y1="2512" y2="2576" x1="1280" />
-            <wire x2="1488" y1="2576" y2="2576" x1="1280" />
-            <wire x2="1280" y1="2576" y2="2640" x1="1280" />
-            <wire x2="1488" y1="2640" y2="2640" x1="1280" />
-            <wire x2="1280" y1="2640" y2="2704" x1="1280" />
-            <wire x2="1488" y1="2704" y2="2704" x1="1280" />
-            <wire x2="1280" y1="2704" y2="2768" x1="1280" />
-            <wire x2="1488" y1="2768" y2="2768" x1="1280" />
-            <wire x2="1280" y1="2768" y2="2832" x1="1280" />
-            <wire x2="1488" y1="2832" y2="2832" x1="1280" />
-            <wire x2="1280" y1="2832" y2="2896" x1="1280" />
-            <wire x2="1488" y1="2896" y2="2896" x1="1280" />
-            <wire x2="1280" y1="2896" y2="2960" x1="1280" />
-            <wire x2="1280" y1="2960" y2="3056" x1="1280" />
-            <wire x2="1488" y1="2960" y2="2960" x1="1280" />
-        </branch>
         <branch name="clk_16MHz">
             <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="416" y="3056" type="branch" />
             <wire x2="416" y1="3056" y2="3056" x1="256" />
             <wire x2="512" y1="3056" y2="3056" x1="416" />
         </branch>
-        <instance x="3344" y="368" name="XLXI_121" orien="R0">
-        </instance>
         <branch name="XLXN_346">
             <wire x2="1568" y1="1648" y2="1648" x1="1072" />
+        </branch>
+        <instance x="1568" y="1872" name="XLXI_122" orien="R0">
+        </instance>
+        <instance x="3344" y="1872" name="XLXI_123" orien="R0">
+        </instance>
+        <instance x="688" y="1872" name="XLXI_124" orien="R0">
+        </instance>
+        <instance x="2688" y="1872" name="XLXI_126" orien="R0">
+        </instance>
+        <instance x="1872" y="464" name="XLXI_127" orien="R0" />
+        <branch name="PLL_IN">
+            <wire x2="2128" y1="432" y2="432" x1="2096" />
+        </branch>
+        <iomarker fontsize="28" x="2128" y="432" name="PLL_IN" orien="R0" />
+        <branch name="clk_16MHz">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1776" y="432" type="branch" />
+            <wire x2="1776" y1="432" y2="432" x1="1696" />
+            <wire x2="1872" y1="432" y2="432" x1="1776" />
+        </branch>
+        <instance x="3408" y="368" name="XLXI_128" orien="R0">
+        </instance>
+        <branch name="clk_main">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3264" y="272" type="branch" />
+            <wire x2="3264" y1="272" y2="272" x1="3200" />
+            <wire x2="3408" y1="272" y2="272" x1="3264" />
+        </branch>
+        <branch name="tdm_sclk">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3840" y="272" type="branch" />
+            <wire x2="3840" y1="272" y2="272" x1="3792" />
+            <wire x2="4000" y1="272" y2="272" x1="3840" />
+        </branch>
+        <branch name="tdm_fs">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3824" y="336" type="branch" />
+            <wire x2="3824" y1="336" y2="336" x1="3792" />
+            <wire x2="4000" y1="336" y2="336" x1="3824" />
+        </branch>
+        <branch name="XLXN_355(23:0)">
+            <wire x2="1408" y1="2576" y2="2576" x1="1072" />
+            <wire x2="1488" y1="2576" y2="2576" x1="1408" />
+            <wire x2="1408" y1="2576" y2="3664" x1="1408" />
+            <wire x2="1488" y1="3664" y2="3664" x1="1408" />
+        </branch>
+        <branch name="XLXN_356(23:0)">
+            <wire x2="1392" y1="2640" y2="2640" x1="1072" />
+            <wire x2="1488" y1="2640" y2="2640" x1="1392" />
+            <wire x2="1392" y1="2640" y2="3728" x1="1392" />
+            <wire x2="1488" y1="3728" y2="3728" x1="1392" />
+        </branch>
+        <branch name="XLXN_357(23:0)">
+            <wire x2="1376" y1="2704" y2="2704" x1="1072" />
+            <wire x2="1488" y1="2704" y2="2704" x1="1376" />
+            <wire x2="1376" y1="2704" y2="3792" x1="1376" />
+            <wire x2="1488" y1="3792" y2="3792" x1="1376" />
+        </branch>
+        <branch name="XLXN_358(23:0)">
+            <wire x2="1344" y1="2768" y2="2768" x1="1072" />
+            <wire x2="1488" y1="2768" y2="2768" x1="1344" />
+            <wire x2="1344" y1="2768" y2="3856" x1="1344" />
+            <wire x2="1488" y1="3856" y2="3856" x1="1344" />
+        </branch>
+        <branch name="XLXN_359(23:0)">
+            <wire x2="1328" y1="2832" y2="2832" x1="1072" />
+            <wire x2="1488" y1="2832" y2="2832" x1="1328" />
+            <wire x2="1328" y1="2832" y2="3920" x1="1328" />
+            <wire x2="1488" y1="3920" y2="3920" x1="1328" />
+        </branch>
+        <branch name="XLXN_360(23:0)">
+            <wire x2="1312" y1="2896" y2="2896" x1="1072" />
+            <wire x2="1488" y1="2896" y2="2896" x1="1312" />
+            <wire x2="1312" y1="2896" y2="3984" x1="1312" />
+            <wire x2="1488" y1="3984" y2="3984" x1="1312" />
+        </branch>
+        <branch name="XLXN_367(23:0)">
+            <wire x2="1296" y1="2960" y2="2960" x1="1072" />
+            <wire x2="1296" y1="2960" y2="4048" x1="1296" />
+            <wire x2="1488" y1="4048" y2="4048" x1="1296" />
+            <wire x2="1488" y1="2960" y2="2960" x1="1296" />
+        </branch>
+        <branch name="XLXN_368(23:0)">
+            <wire x2="1152" y1="3056" y2="3056" x1="928" />
+            <wire x2="1248" y1="3056" y2="3056" x1="1152" />
+            <wire x2="1152" y1="3056" y2="3600" x1="1152" />
+            <wire x2="1488" y1="3600" y2="3600" x1="1152" />
+            <wire x2="1248" y1="2512" y2="3056" x1="1248" />
+            <wire x2="1488" y1="2512" y2="2512" x1="1248" />
         </branch>
     </sheet>
 </drawing>

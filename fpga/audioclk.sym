@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="audioclk">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2025-7-25T19:47:35</timestamp>
+    <timestamp>2025-7-26T19:46:47</timestamp>
     <pin polarity="Input" x="0" y="-96" name="i_sclk" />
     <pin polarity="Output" x="384" y="-96" name="o_sclk" />
     <pin polarity="Output" x="384" y="-32" name="o_fs" />

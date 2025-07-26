@@ -32,9 +32,8 @@ entity cs2000cp_config is
 end entity;
 
 architecture behavioral of cs2000cp_config is
-	type t_SM is (s_Startup, s_Reset, s_Start, s_Config, s_Wait, s_Done);
+	type t_SM is (s_Startup, s_Config, s_Wait, s_Done);
 	signal s_SM				: t_SM := s_Startup;
-	signal count_state	: natural range 0 to 2500000 := 0; -- allow a maximum of 156ms
 	
 	signal mapaddress		: std_logic_vector(7 downto 0);
 	signal data				: std_logic_vector(7 downto 0);
@@ -64,7 +63,6 @@ begin
 		if rising_edge(clk) then
 			if (i_start = '1') then
 				-- start the configuration process
-				count_state <= 0;
 				mapaddress <= x"00";
 				data <= x"00";
 				start <= '0';
@@ -78,7 +76,7 @@ begin
 				elsif (s_SM = s_Config) then
 
 					-- transmit bits over SPI-interface
-					mapaddress <= cs2000_cfg_lut(count_cfg, 0); -- set address
+					mapaddress <= cs2000_cfg_lut(count_cfg, 0); -- set map address
 					data <= cs2000_cfg_lut(count_cfg, 1); -- set the data
 					start <= '1';
 					
