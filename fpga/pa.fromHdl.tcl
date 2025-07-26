@@ -41,6 +41,9 @@ set_property library work $hdlfile
 set hdlfile [add_files [list {cs2000cp_config.vhd}]]
 set_property file_type VHDL $hdlfile
 set_property library work $hdlfile
+set hdlfile [add_files [list {audiotestclk.vhd}]]
+set_property file_type VHDL $hdlfile
+set_property library work $hdlfile
 set hdlfile [add_files [list {audioclk.vhd}]]
 set_property file_type VHDL $hdlfile
 set_property library work $hdlfile

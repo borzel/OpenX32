@@ -37,7 +37,6 @@
         <signal name="XLXN_225(7:0)" />
         <signal name="XLXN_226" />
         <signal name="PLL_nCS" />
-        <signal name="PLL_CCLK" />
         <signal name="PLL_CDATA" />
         <signal name="AUX_DA" />
         <signal name="AUX_AD" />
@@ -71,6 +70,10 @@
         <signal name="XLXN_366(23:0)" />
         <signal name="XLXN_367(23:0)" />
         <signal name="XLXN_368(23:0)" />
+        <signal name="PLL_CCLK" />
+        <signal name="XLXN_384" />
+        <signal name="XLXN_385" />
+        <signal name="XLXN_386" />
         <port polarity="Output" name="AUX_nRST" />
         <port polarity="Output" name="AUX_nCS" />
         <port polarity="Output" name="AUX_CCLK" />
@@ -79,7 +82,6 @@
         <port polarity="Input" name="imx25_uart4_txd" />
         <port polarity="Input" name="PLL_OUT" />
         <port polarity="Output" name="PLL_nCS" />
-        <port polarity="Output" name="PLL_CCLK" />
         <port polarity="Output" name="PLL_CDATA" />
         <port polarity="Output" name="AUX_DA" />
         <port polarity="Input" name="AUX_AD" />
@@ -97,6 +99,7 @@
         <port polarity="Output" name="nDA_RESET" />
         <port polarity="Input" name="FPGACLK" />
         <port polarity="Output" name="PLL_IN" />
+        <port polarity="Output" name="PLL_CCLK" />
         <blockdef name="dcm1">
             <timestamp>2025-7-22T19:46:16</timestamp>
             <rect width="336" x="64" y="-256" height="256" />
@@ -170,7 +173,7 @@
             <line x2="448" y1="-32" y2="-32" x1="384" />
         </blockdef>
         <blockdef name="cs42438_config">
-            <timestamp>2025-7-26T19:49:47</timestamp>
+            <timestamp>2025-7-26T21:55:16</timestamp>
             <rect width="256" x="64" y="-320" height="320" />
             <line x2="0" y1="-288" y2="-288" x1="64" />
             <line x2="0" y1="-160" y2="-160" x1="64" />
@@ -248,7 +251,7 @@
             <line x2="0" y1="-96" y2="-96" x1="64" />
         </blockdef>
         <blockdef name="cs2000cp_config">
-            <timestamp>2025-7-26T20:38:59</timestamp>
+            <timestamp>2025-7-26T22:24:30</timestamp>
             <rect width="256" x="64" y="-256" height="256" />
             <line x2="0" y1="-224" y2="-224" x1="64" />
             <line x2="0" y1="-128" y2="-128" x1="64" />
@@ -314,7 +317,7 @@
             <blockpin signalname="FPGACLK" name="CLKIN_IN" />
             <blockpin name="LOCKED_OUT" />
             <blockpin signalname="clk_main" name="CLKFX_OUT" />
-            <blockpin name="CLKIN_IBUFG_OUT" />
+            <blockpin signalname="PLL_IN" name="CLKIN_IBUFG_OUT" />
             <blockpin signalname="XLXN_330" name="CLK0_OUT" />
         </block>
         <block symbolname="reset" name="XLXI_38">
@@ -535,10 +538,6 @@
             <blockpin signalname="XLXN_224(7:0)" name="o_map(7:0)" />
             <blockpin signalname="XLXN_225(7:0)" name="o_data(7:0)" />
         </block>
-        <block symbolname="bufg" name="XLXI_127">
-            <blockpin signalname="clk_16MHz" name="I" />
-            <blockpin signalname="PLL_IN" name="O" />
-        </block>
         <block symbolname="audiotestclk" name="XLXI_128">
             <blockpin signalname="clk_main" name="clk" />
             <blockpin signalname="tdm_sclk" name="o_sclk" />
@@ -712,11 +711,6 @@
             <wire x2="1488" y1="1584" y2="1584" x1="1360" />
             <wire x2="1568" y1="1584" y2="1584" x1="1488" />
         </branch>
-        <branch name="rst">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="2544" y="1744" type="branch" />
-            <wire x2="2544" y1="1744" y2="1744" x1="2416" />
-            <wire x2="2688" y1="1744" y2="1744" x1="2544" />
-        </branch>
         <branch name="clk_16MHz">
             <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="2544" y="1648" type="branch" />
             <wire x2="2544" y1="1648" y2="1648" x1="2416" />
@@ -745,9 +739,6 @@
         <branch name="PLL_nCS">
             <wire x2="3760" y1="1584" y2="1584" x1="3728" />
         </branch>
-        <branch name="PLL_CCLK">
-            <wire x2="3760" y1="1664" y2="1664" x1="3728" />
-        </branch>
         <branch name="PLL_CDATA">
             <wire x2="3760" y1="1744" y2="1744" x1="3728" />
         </branch>
@@ -757,7 +748,6 @@
             <wire x2="3344" y1="1584" y2="1584" x1="3264" />
         </branch>
         <iomarker fontsize="28" x="3760" y="1584" name="PLL_nCS" orien="R0" />
-        <iomarker fontsize="28" x="3760" y="1664" name="PLL_CCLK" orien="R0" />
         <iomarker fontsize="28" x="3760" y="1744" name="PLL_CDATA" orien="R0" />
         <instance x="688" y="2992" name="XLXI_49" orien="R0">
         </instance>
@@ -951,33 +941,6 @@
         </instance>
         <instance x="2688" y="1872" name="XLXI_126" orien="R0">
         </instance>
-        <instance x="1872" y="464" name="XLXI_127" orien="R0" />
-        <branch name="PLL_IN">
-            <wire x2="2128" y1="432" y2="432" x1="2096" />
-        </branch>
-        <iomarker fontsize="28" x="2128" y="432" name="PLL_IN" orien="R0" />
-        <branch name="clk_16MHz">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1776" y="432" type="branch" />
-            <wire x2="1776" y1="432" y2="432" x1="1696" />
-            <wire x2="1872" y1="432" y2="432" x1="1776" />
-        </branch>
-        <instance x="3408" y="368" name="XLXI_128" orien="R0">
-        </instance>
-        <branch name="clk_main">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3264" y="272" type="branch" />
-            <wire x2="3264" y1="272" y2="272" x1="3200" />
-            <wire x2="3408" y1="272" y2="272" x1="3264" />
-        </branch>
-        <branch name="tdm_sclk">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3840" y="272" type="branch" />
-            <wire x2="3840" y1="272" y2="272" x1="3792" />
-            <wire x2="4000" y1="272" y2="272" x1="3840" />
-        </branch>
-        <branch name="tdm_fs">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3824" y="336" type="branch" />
-            <wire x2="3824" y1="336" y2="336" x1="3792" />
-            <wire x2="4000" y1="336" y2="336" x1="3824" />
-        </branch>
         <branch name="XLXN_355(23:0)">
             <wire x2="1408" y1="2576" y2="2576" x1="1072" />
             <wire x2="1488" y1="2576" y2="2576" x1="1408" />
@@ -1027,6 +990,38 @@
             <wire x2="1488" y1="3600" y2="3600" x1="1152" />
             <wire x2="1248" y1="2512" y2="3056" x1="1248" />
             <wire x2="1488" y1="2512" y2="2512" x1="1248" />
+        </branch>
+        <instance x="3536" y="368" name="XLXI_128" orien="R0">
+        </instance>
+        <branch name="clk_main">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3392" y="272" type="branch" />
+            <wire x2="3392" y1="272" y2="272" x1="3328" />
+            <wire x2="3536" y1="272" y2="272" x1="3392" />
+        </branch>
+        <text style="fontsize:36;fontname:Arial" x="3348" y="400">clk_main is 124MHz, so audiotestclk results 12.4 MHz instead of 12.288 MHz!</text>
+        <iomarker fontsize="28" x="1200" y="368" name="PLL_IN" orien="R0" />
+        <branch name="PLL_IN">
+            <wire x2="1200" y1="368" y2="368" x1="1104" />
+        </branch>
+        <branch name="rst">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="2544" y="1744" type="branch" />
+            <wire x2="2544" y1="1744" y2="1744" x1="2416" />
+            <wire x2="2688" y1="1744" y2="1744" x1="2544" />
+        </branch>
+        <branch name="PLL_CCLK">
+            <wire x2="3744" y1="1664" y2="1664" x1="3728" />
+            <wire x2="3760" y1="1664" y2="1664" x1="3744" />
+        </branch>
+        <iomarker fontsize="28" x="3760" y="1664" name="PLL_CCLK" orien="R0" />
+        <branch name="tdm_fs">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3952" y="336" type="branch" />
+            <wire x2="3952" y1="336" y2="336" x1="3920" />
+            <wire x2="4128" y1="336" y2="336" x1="3952" />
+        </branch>
+        <branch name="tdm_sclk">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3968" y="272" type="branch" />
+            <wire x2="3968" y1="272" y2="272" x1="3920" />
+            <wire x2="4128" y1="272" y2="272" x1="3968" />
         </branch>
     </sheet>
 </drawing>

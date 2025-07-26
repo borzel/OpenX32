@@ -68,8 +68,8 @@ begin
 
 					-- keep this state and leave it after 1.5ms
 					if (count_state = (16000000/650)) then
-						s_SM <= s_Start;
 						count_state <= 0;
+						s_SM <= s_Start;
 					else
 						count_state <= count_state + 1;
 					end if;
@@ -81,7 +81,6 @@ begin
 					-- keep this state and leave it after 1.5ms
 					if (count_state = (16000000/650)) then
 						s_SM <= s_Config1;
-						count_state <= 0;
 					else
 						count_state <= count_state + 1;
 					end if;
@@ -92,6 +91,7 @@ begin
 					mapaddress <= map_power;
 					data <= "00000001"; -- power down device
 					start <= '1';
+					count_state <= 0;
 					
 					s_SM <= s_Wait1;
 
@@ -100,7 +100,12 @@ begin
 					
 					-- wait until spi message has been sent
 					if (i_txbusy = '0') then
-						s_SM <= s_Config2;
+						-- keep this state and leave it after 1.5us
+						if (count_state = (16000000/650000)) then
+							s_SM <= s_Config2;
+						else
+							count_state <= count_state + 1;
+						end if;
 					end if;
 					
 				elsif (s_SM = s_Config2) then
@@ -109,6 +114,7 @@ begin
 					mapaddress <= map_misc;
 					data <= "01110110"; -- config misc register: FREEZE | AUX_DIF | 5..0 = RESERVED. AUX_DIF=0=LeftJustified, AUX_DIF=1=I2S
 					start <= '1';
+					count_state <= 0;
 					
 					s_SM <= s_Wait2;
 
@@ -117,7 +123,12 @@ begin
 					
 					-- wait until spi message has been sent
 					if (i_txbusy = '0') then
-						s_SM <= s_Config3;
+						-- keep this state and leave it after 1.5us
+						if (count_state = (16000000/650000)) then
+							s_SM <= s_Config3;
+						else
+							count_state <= count_state + 1;
+						end if;
 					end if;
 					
 				elsif (s_SM = s_Config3) then
@@ -126,6 +137,7 @@ begin
 					mapaddress <= map_mute;
 					data <= "11111111"; -- config mute register: mute all DACs
 					start <= '1';
+					count_state <= 0;
 					
 					s_SM <= s_Wait3;
 
@@ -134,7 +146,12 @@ begin
 					
 					-- wait until spi message has been sent
 					if (i_txbusy = '0') then
-						s_SM <= s_Config4;
+						-- keep this state and leave it after 1.5us
+						if (count_state = (16000000/650000)) then
+							s_SM <= s_Config4;
+						else
+							count_state <= count_state + 1;
+						end if;
 					end if;
 					
 				elsif (s_SM = s_Config4) then
@@ -143,6 +160,7 @@ begin
 					mapaddress <= map_power;
 					data <= "00000000"; -- power up device
 					start <= '1';
+					count_state <= 0;
 					
 					s_SM <= s_Wait4;
 
@@ -154,7 +172,6 @@ begin
 						-- keep this state and leave it after at least 2000 LR-cycles (2000 * 1/48kHz ~ 50ms)
 						if (count_state = (16000000/20)) then
 							s_SM <= s_Config5;
-							count_state <= 0;
 						else
 							count_state <= count_state + 1;
 						end if;

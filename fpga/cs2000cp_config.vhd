@@ -34,6 +34,7 @@ end entity;
 architecture behavioral of cs2000cp_config is
 	type t_SM is (s_Startup, s_Config, s_Wait, s_Done);
 	signal s_SM				: t_SM := s_Startup;
+	signal count_state	: natural range 0 to 50 := 0; -- allow up to 3us
 	
 	signal mapaddress		: std_logic_vector(7 downto 0);
 	signal data				: std_logic_vector(7 downto 0);
@@ -72,13 +73,14 @@ begin
 			else
 				if (s_SM = s_Startup) then
 					-- wait for begin
-					
+
 				elsif (s_SM = s_Config) then
 
 					-- transmit bits over SPI-interface
 					mapaddress <= cs2000_cfg_lut(count_cfg, 0); -- set map address
 					data <= cs2000_cfg_lut(count_cfg, 1); -- set the data
 					start <= '1';
+					count_state <= 0;
 					
 					s_SM <= s_Wait;
 
@@ -93,8 +95,14 @@ begin
 							s_SM <= s_Done;
 						else
 							-- still data to transmit
-							count_cfg <= count_cfg + 1;
-							s_SM <= s_Config;
+							
+							-- keep this state and leave it after 1.5us
+							if (count_state = (16000000/650000)) then
+								count_cfg <= count_cfg + 1;
+								s_SM <= s_Config;
+							else
+								count_state <= count_state + 1;
+							end if;
 						end if;
 					end if;
 										
