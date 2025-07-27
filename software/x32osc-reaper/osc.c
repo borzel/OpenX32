@@ -80,11 +80,14 @@ void oscSend(char* address, char* datatype, float data)
 
     int len = tosc_writeMessage(buffer, sizeof(buffer), address, datatype, data);
 
-    if (sendto(fd, buffer, len+1, 0, // +1 to include terminator
-               &sout, sizeof(sout)) < 0){
+    //                        +1 to include terminator
+    if (sendto(fd, buffer, len+1, 0, &sout, sizeof(sout)) < 0){
         perror("cannot send message");
         close(fd);
         return false;
     }
+
+    printf("oscSend: %s %s %f\n\n", buffer, datatype, data);
+
     close(fd);
 }

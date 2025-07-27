@@ -275,7 +275,7 @@ int uartRead() {
 				}
 			}
 			fflush(stdout);
-		}
+		} 
 	}
 
 	return 0;

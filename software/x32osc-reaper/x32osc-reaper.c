@@ -1,11 +1,8 @@
 /*
   Control software for Behringer X32 using OpenX32
   https://github.com/xn--nding-jua/OpenX32
-  v0.0.2, 22.07.2025
-
-  This software uses LVGL and the LVGL Linux Port to display a nice user-interface
-  To compile the software just call "make" and a 32-bit ARM-binary should be created
-  in the build/bin-folder
+  
+  x32osc-reaper: This software connects the X32 to Reaper via OSC.
 
   Parts of this software with kind permission of Music Tribe. Thank you!
 */
@@ -20,36 +17,50 @@ int main(int argc, char *argv[]) {
     printf("v0.0.1, 27.07.2025\n");
     printf("https://github.com/xn--nding-jua/OpenX32\n");
 
-    printf("Connecting to UART1...\n");
-    uartOpen();
-
-    printf("Initializing OSC...\n");
-    oscInit(argv[1]);
-
-    printf("Initializing X32 Surface...\n");
-    surfaceReset(); // resets all microcontrollers on the board
-    surfaceInit(); // sets default values for faders, leds and lcds
-
-
-    // printf("Start Timer...\n");
-    // initTimer();
-
-    printf("Wait for incoming data on /dev/ttymxc1...\n");
-    printf("Press Ctrl+C to terminate program.\n");
-    fflush(stdout);
-
-
-    while (1) {
-      uartRead();
-
-      // OSC
-      oscRun();
-
-      // sleep for 1ms to lower CPU-load
-      usleep(1000);
+    if (argc != 2) {
+        printf("Error: Wrong parameter!\n");
+        printf("Usage: %s <IP-Address of Reaper>\n", argv[0]);
     }
+    else
+    {
+      printf("Connecting to UART1...");
+      fflush(stdout);
+      uartOpen();
+      printf(" done\n");
+      fflush(stdout);
 
-  
+      printf("Initializing OSC...");
+      fflush(stdout);
+      oscInit(argv[1]);
+      printf(" done\n");
+      fflush(stdout);
+
+      printf("Initializing X32 Surface...");
+      fflush(stdout);
+      surfaceReset(); // resets all microcontrollers on the board
+      surfaceInit(); // sets default values for faders, leds and lcds
+      printf(" done\n");
+      fflush(stdout);
+
+      // DAW Remote Button on
+      setLedByNr(X32_BTN_DAW_REMOTE, 1);
+
+      printf("Press Ctrl+C to terminate program.\n");
+      fflush(stdout);
+
+      // Trigger Reaper to send all current values
+      oscSend("/action/41743", "f", 1);
+
+      while (1) {
+        uartRead();
+
+        // OSC
+        oscRun();
+
+        // sleep for 1ms to lower CPU-load
+        usleep(1000);
+      }
+    }
 
     return 0;
 }
@@ -58,53 +69,30 @@ int main(int argc, char *argv[]) {
 void setBrightnessAll(int value) {
     setBrightness(X32_BOARD_MAIN, value);
     setBrightness(X32_BOARD_L, value);
-    //setBrightness(X32_BOARD_M, value);
+#ifdef X32_MODELL_FULL
+    setBrightness(X32_BOARD_M, value);
+#endif
     setBrightness(X32_BOARD_R, value);
 }
 
 void surfaceInit() {
-	// set brightness and contrast
-    printf("  Setting brightness and contrast for all displays...\n");
-    setBrightness(0, 140); // brightness of LEDs
-    setBrightness(1, 200);
-    setBrightness(4, 255);
-    //setBrightness(5, 255);
-    setBrightness(8, 255);
+	  
+    setBrightness(0, X32_BRIGHTNESS_4); // brightness of LEDs
+    setBrightness(1, X32_BRIGHTNESS_4);
+    setBrightness(X32_BOARD_L, X32_BRIGHTNESS_4);
+#ifdef X32_MODELL_FULL
+    setBrightness(X32_BOARD_MAIN, X32_BRIGHTNESS_4);
+#endif
+    setBrightness(X32_BOARD_R, X32_BRIGHTNESS_4);
+
     setContrast(0, 0x24); // contrast of LCDs
-    setContrast(4, 0x24);
-    //setContrast(5, 0x24);
-    setContrast(8, 0x24);
+    setContrast(X32_BOARD_L, 0x24);
+#ifdef X32_MODELL_FULL
+    setContrast(X32_BOARD_MAIN, 0x24);
+#endif
+    setContrast(X32_BOARD_R, 0x24);
 
-//     printf("  Setting Button-LEDs for boards 0 and 1...\n");
-//     //setLed(0, 0x00, 1); // boardId 0 = user-section
-//     //setLed(1, 0x01, 1); // boardId 1 = EQ-section and monitor
-//     //setLed(1, 0x22, 1); // boardId 1 = EQ-section and monitor
-
-//     printf("  Setting Button-LEDs for boards 4, 5 and 8...\n");
-//     for (uint8_t i=0; i<=8; i++) {
-//       // select-LEDs
-//       setLed(4, 0x20+i, 1); // boardId 4 = faderL
-//       //setLed(5, 0x20+i, 1); // boardId 5 = faderM
-//       setLed(8, 0x20+i, 1); // boardId 8 = faderR
-
-//       // cue leds
-//       setLed(4, 0x30+i, 1); // boardId 4 = faderL
-//       //setLed(5, 0x30+i, 1); // boardId 5 = faderM
-//       setLed(8, 0x30+i, 1); // boardId 8 = faderR
-
-//       // mute leds
-//       setLed(4, 0x40+i, 1); // boardId 4 = faderL
-//       //setLed(5, 0x40+i, 1); // boardId 5 = faderM
-//       setLed(8, 0x40+i, 1); // boardId 8 = faderR
-
-//       // random leds
-// //      setLed(4, 0x00+i, 1); // boardId 4 = faderL
-// //      setLed(5, 0x00+i, 1); // boardId 5 = faderM
-// //      setLed(8, 0x00+i, 1); // boardId 8 = faderR
-//     }
-
-    // reset fader ranges from 0...8
-    printf("  Setting Faders for boards 4, 5 and 8...\n");
+    // move all faders to 0
     for (uint8_t i=0; i<=7; i++) {
       setFader(X32_BOARD_L, i, 0x000);
 #ifdef X32_MODEL_FULL
@@ -112,52 +100,7 @@ void surfaceInit() {
 #endif
       setFader(X32_BOARD_R, i, 0x000);
     }
-    setFader(X32_BOARD_R, 8, 0x000);
-
-
-//     // meterLED ranges from 1...9
-//     printf("  Setting VU-Meters for boards 1, 4, 5 and 8...\n");
-
-//     // Meters
-//     for (uint8_t i=0; i<=7; i++) {
-//         setMeterLed(X32_BOARD_L, i, 0b01010101);
-//         setMeterLed(X32_BOARD_R, i, 0b10101010);
-//     }
-//     setMeterLed(X32_BOARD_R, 8, 0b10000000);
-
-//     //setMeterLed(1, 0, 0b00000011);
-//     //setMeterLed(1, 1, 0b11000011);
-//     //for (uint8_t i=0; i<=7; i++) {
-//     //  setMeterLed(4, i, 0b00000011);
-//     //  //setMeterLed(5, i, 0b00001111);
-//     //  setMeterLed(8, i, 0b01111111);
-//     //}
-
-//     // set some encoders with different options
-//     for (uint8_t i=0; i<=100; i++) {
-//       setEncoderRing(1, 0, 0, i, true); // boardId, index, ledMode, ledPct, backlight
-//       setEncoderRing(1, 1, 0, i, true); // boardId, index, ledMode, ledPct, backlight
-//       setEncoderRing(1, 2, 0, i, true); // boardId, index, ledMode, ledPct, backlight
-//       setEncoderRing(1, 3, 0, i, true); // boardId, index, ledMode, ledPct, backlight
-//       setEncoderRing(1, 4, 0, i, true); // boardId, index, ledMode, ledPct, backlight
-//       //setEncoderRing(0, 1, 1, i, true); // boardId, index, ledMode, ledPct, backlight
-//       //setEncoderRing(0, 2, 2, i, true); // boardId, index, ledMode, ledPct, backlight
-//       //setEncoderRing(0, 3, 3, i, true); // boardId, index, ledMode, ledPct, backlight
-//       usleep(5000);
-//     }
-
-//     // // set display
-//     // printf("  Setting Displays for board 0...\n");
-//     // for (uint8_t i=0; i<4; i++) {
-//     //   setLcd(0, i, 7, 70, 8, 0xE2, 0x20, 0, 0, "Board 0", 0x00, 0, 48, "OpenX32"); // setLcd(boardId, index, color, xicon, yicon, icon, sizeA, xA, yA, const char* strA, sizeB, xB, yB, const char* strB)
-//     // }
-
-//     printf("  Setting Displays for boards 4, 5 and 8...\n");
-//     for (uint8_t i=0; i<=8; i++) {
-//       setLcd(4, i, 1, 70, 8, 0xE2, 0x20, 0, 0, "Board 4", 0x00, 0, 48, "huhu"); // setLcd(boardId, index, color, xicon, yicon, icon, sizeA, xA, yA, const char* strA, sizeB, xB, yB, const char* strB)
-//       //setLcd(5, i, 2, 70, 8, 0xE2, 0x20, 0, 0, "Board 2", 0x00, 0, 48, "OpenX32"); // setLcd(boardId, index, color, xicon, yicon, icon, sizeA, xA, yA, const char* strA, sizeB, xB, yB, const char* strB)
-//       setLcd(8, i, 4, 70, 8, 0xE2, 0x20, 0, 0, "Board 8", 0x00, 0, 48, "OpenX32"); // setLcd(boardId, index, color, xicon, yicon, icon, sizeA, xA, yA, const char* strA, sizeB, xB, yB, const char* strB)
-//     }
+    setFader(X32_BOARD_R, 8, 0x000); // Master
 }
 
 void surfaceLedReset()
@@ -208,14 +151,34 @@ int led_index = 0;
 void surfaceCallback(uint8_t boardId, uint8_t class, uint8_t index, uint16_t value) {
 if (class == 'f') {
       float pct = value / 40.95; // convert to percent
-      printf("Fader   : boardId = 0x%02X | class = 0x%02X | index = 0x%02X | data = 0x%04X = %f\n", boardId, class, index, value, pct);
-	  
+      float reaperFaderPos = (pct * 1)/100;
 
-    float brightness_f = (pct * 255)/100;
-    int brightness = (int)brightness_f;
+      uint8_t trackIndex = index + 1;
 
-    printf("Brightness: %02X", brightness);
-    setBrightness(X32_BOARD_L, brightness);
+#ifdef X32_MODEL_FULL
+      if (boardId == X32_BOARD_M)
+      {
+        trackIndex += 8;
+      } 
+      else if (boardId == X32_BOARD_L)
+      {
+        trackIndex += 16;
+      }
+#endif
+#ifdef X32_MODEL_COMPACT
+      if (boardId == X32_BOARD_R)
+      {
+        trackIndex += 8;
+      }
+#endif
+
+
+      printf("Fader   : boardId = 0x%02X | idx = %d | data = 0x%04X = %f, ReaperFaderPos = %f\n", boardId, trackIndex, value, pct, reaperFaderPos);
+  
+      char* string;
+      asprintf(&string, "/track/%d/volume", trackIndex);
+
+      oscSend(string, "f", reaperFaderPos);
 
   }else if (class == 'b') {
       	    
@@ -230,49 +193,8 @@ if (class == 'f') {
         printf("Button boardId=0x%02X class=0x%02X index=0x%02X data=0x%02X pressed=%d index=0x%02X number=0x%02X\n", boardId, class, index, value, pressed, buttonIndex, buttonNr);
 
         switch (buttonNr) {
-          case X32_BTN_UP:
-            setLed(X32_BOARD_R, led_index, 1);
-            printf("LED: Index = 0x%02X, %d\n", led_index, led_index);
-            led_index++;
-            break;
-          case X32_BTN_DOWN:
-            led_index = 0;
-            for (int i=0; i<=0x48; i++) {
-              setLed(X32_BOARD_R, i, 0); // boardId 1 = EQ-section and monitor
-            }
-            printf("LED: All Reset\n");
-            break;
           case X32_BTN_CLEAR_SOLO:
-            surfaceLedReset();
-            break;
-          case X32_BTN_MAIN_SELECT:
-            surfaceInit();
-            break;
-          case X32_BTN_MUTE_GROUP_1:
-            setBrightnessAll(X32_BRIGHTNESS_1);
-            break;
-          case X32_BTN_MUTE_GROUP_2:
-            setBrightnessAll(X32_BRIGHTNESS_2);
-            break;
-          case X32_BTN_MUTE_GROUP_3:
-            setBrightnessAll(X32_BRIGHTNESS_3);
-            break;
-          case X32_BTN_MUTE_GROUP_4:
-            setBrightnessAll(X32_BRIGHTNESS_4);
-            break;
-          case X32_BTN_MUTE_GROUP_5:
-            setLedByNr(X32_LED_BACKLIGHT_BUS_MIXES_PAN, 1); 
-            //setLedByNr(X32_BTN_CH_4_MUTE, 1); 
-            break;
-          case X32_BTN_MUTE_GROUP_6:
-            setLedByNr(X32_LED_BACKLIGHT_BUS_MIXES_PAN, 0); 
-            //setLedByNr(X32_BTN_CH_4_MUTE, 0); 
-            break;
-          case X32_BTN_HOME:
-            setLedByNr(X32_BTN_UTILITY, 0);  
-            break;
-          case X32_BTN_DAW_REMOTE:
-            oscSend("/play", "f", 1);
+            oscSend("/anysolo", "f", 1);
             break;
           default:
               if (boardId == X32_BOARD_L || boardId == X32_BOARD_R ){
@@ -294,11 +216,31 @@ if (class == 'f') {
                   action  = "mute";
                   trackIndex = buttonIndex - 0x40;
                 }
+                else 
+                {
+                  break;
+                }
+
+#ifdef X32_MODEL_FULL
+                if (boardId == X32_BOARD_M)
+                {
+                  trackIndex += 8;
+                } 
+                else if (boardId == X32_BOARD_L)
+                {
+                  trackIndex += 16;
+                }
+#endif
+#ifdef X32_MODEL_COMPACT
+                if (boardId == X32_BOARD_R)
+                {
+                  trackIndex += 8;
+                }
+#endif
+
 
                 char* string;
                 asprintf(&string, "/track/%d/%s/toggle", trackIndex + 1, action);
-
-                printf("DEBUG: Send osc string: %s\n", string);
 
                 oscSend(string, "f", 1);
               }
@@ -329,14 +271,29 @@ void processMessage(tosc_message *osc) {
     // "/track/1/solo"
     //  0123456789012
 
+    // "/track/12/solo"
+    //  01234567890123
+
     if (StartsWith(oscString, "/track/")) {
-      int tracknumber = oscString[7] - '0' -1;
-      int trackIndex = tracknumber;
+      
+      char numberstr[3] = "";
+      for (int i=0; i<2; i++)
+      {
+        if (oscString[7 + i] == '/')
+        {
+          break;
+        }
+
+        numberstr[i] = oscString[7+i];
+      }
+      int tracknumber = atoi(numberstr);
+      int trackIndex = tracknumber - 1;
+      int oscStringNumberOffset = 8 + strlen(numberstr);
 
       uint8_t board = X32_BOARD_L;
       if (tracknumber >= 9 && tracknumber <=16)
       {
-        trackIndex = tracknumber - 8;
+        trackIndex = tracknumber - 8 -1;
 
 #ifdef X32_MODEL_FULL
         board = X32_BOARD_M;
@@ -356,27 +313,29 @@ void processMessage(tosc_message *osc) {
 #endif 
      }
 
-      if (strcmp(oscString + 9, "mute") == 0) 
+    printf("board: 0x%02X, tracknumber: %d, trackindex: %d, numberstr: %s\n",board, tracknumber, trackIndex, numberstr);
+
+      if (strcmp(oscString + oscStringNumberOffset, "mute") == 0) 
       {
         setLedByNr((uint16_t)(board << 8) + 0x40 + trackIndex, tosc_getNextFloat(osc));
       } 
-      else if (strcmp(oscString + 9, "solo") == 0) 
+      else if (strcmp(oscString + oscStringNumberOffset, "solo") == 0) 
       {
         setLedByNr(((uint16_t)board << 8) + 0x30 + trackIndex, tosc_getNextFloat(osc));
       }
-      else if (strcmp(oscString + 9, "select") == 0) 
+      else if (strcmp(oscString + oscStringNumberOffset, "select") == 0) 
       {
         setLedByNr((uint16_t)(board << 8) + 0x20 + trackIndex, tosc_getNextFloat(osc));
       } 
-      else if (strcmp(oscString + 9, "name") == 0) 
+      else if (strcmp(oscString + oscStringNumberOffset, "name") == 0) 
       {
         setLcd(board, trackIndex, 7, 70, 8, 0xE2, 0x20, 0, 0, tosc_getNextString(osc), 0x00, 0, 48, "Track");
       } 
-      else if (strcmp(oscString + 9, "volume") == 0) 
+      else if (strcmp(oscString + oscStringNumberOffset, "volume") == 0) 
       {
         setFader(board, trackIndex, (uint16_t)(tosc_getNextFloat(osc) * 0xFFF));
       }
-      else if (strcmp(oscString + 9, "vu") == 0) 
+      else if (strcmp(oscString + oscStringNumberOffset, "vu") == 0) 
       {
         float vu = tosc_getNextFloat(osc);
         int8_t bits = 0;
@@ -423,9 +382,9 @@ void processMessage(tosc_message *osc) {
         setMeterLed(board, trackIndex,  bits);
       }
     } 
-    else if (strcmp(oscString, "/play") == 0) 
+    else if (strcmp(oscString, "/anysolo") == 0) 
     {
-        setLedByNr(X32_BTN_DAW_REMOTE, tosc_getNextFloat(osc));
+        setLedByNr(X32_BTN_CLEAR_SOLO, tosc_getNextFloat(osc));
     }
 
     fflush(stdout);

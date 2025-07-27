@@ -55,7 +55,7 @@ void setLedByNr(uint16_t ledNr, uint8_t state) {
   uint8_t boardId = (uint8_t)((ledNr & 0xFF00) >> 8);
   uint8_t ledId = (uint8_t)(ledNr & 0x7F);
 
-  //printf("LedNr: 0x%04X -> BoardId: 0x%02X, LED: 0x%02X\n", ledNr, boardId, ledId);
+  printf("LedNr: 0x%04X -> BoardId: 0x%02X, LED: 0x%02X, State: %d\n", ledNr, boardId, ledId, state);
 
   messageBuilderInit(&message);
 
