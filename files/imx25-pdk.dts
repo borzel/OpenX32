@@ -120,7 +120,9 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_esdhc1>;
 	bus-width = <4>;
-	status = "disabled";
+        max-frequency = <10000000>;
+        non-removable;
+	status = "okay";
 };
 
 &fec {
@@ -164,12 +166,12 @@
 	imx25-pdk {
 		pinctrl_esdhc1: esdhc1grp {
 			fsl,pins = <
-				MX25_PAD_SD1_CMD__ESDHC1_CMD		0x400000C0
-				MX25_PAD_SD1_CLK__ESDHC1_CLK		0x400000C0
-				MX25_PAD_SD1_DATA0__ESDHC1_DAT0		0x400000C0
-				MX25_PAD_SD1_DATA1__ESDHC1_DAT1		0x400000C0
-				MX25_PAD_SD1_DATA2__ESDHC1_DAT2		0x400000C0
-				MX25_PAD_SD1_DATA3__ESDHC1_DAT3		0x400000C0
+				MX25_PAD_SD1_CMD__ESDHC1_CMD		0x00010000
+				MX25_PAD_SD1_CLK__ESDHC1_CLK		0x00010000
+				MX25_PAD_SD1_DATA0__ESDHC1_DAT0		0x00010000
+				MX25_PAD_SD1_DATA1__ESDHC1_DAT1		0x00010000
+				MX25_PAD_SD1_DATA2__ESDHC1_DAT2		0x00010000
+				MX25_PAD_SD1_DATA3__ESDHC1_DAT3		0x00010000
 			>;
 		};
 
