@@ -276,7 +276,8 @@ int main() {
     oscInit();
 
     printf("Initializing X32 Surface...\n");
-    surfaceInit();
+    //surfaceReset(); // resets all microcontrollers on the board
+    surfaceInit(); // sets default values for faders, leds and lcds
 
 /*
     printf("Start Timer...\n");

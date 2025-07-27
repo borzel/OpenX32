@@ -4,11 +4,11 @@ This repository contains software to load and start the Linux-Kernel on the Behr
 
 ![alt_text](Documentation/openx32_1.jpg)
 
-Currently the Linux Kernel is running in Version 6.12 (LTS) together with busybox and:
+Currently the Linux Kernel is running in Version 6.12 (LTS) with busybox:
 
 ![alt_text](Documentation/openx32_2.jpg)
 
-More information on my related Youtube-Video:
+More information in my related Youtube-Video:
 
 [![alt text](https://img.youtube.com/vi/6CfLC5xVy90/0.jpg)](https://www.youtube.com/watch?v=6CfLC5xVy90)
 
@@ -32,27 +32,74 @@ cd openx32
 ./gitinitsubmodules.sh
 ```
 
-Next to the sourcecode, your system needs to be setup correctly to compile the whole system: setup your debian-based system by calling the script ./setup.sh (tested with Debian 12)
+Next to the sourcecode, your system needs to be setup correctly to compile the whole system: setup your debian-based system by calling:
+```
+./setup.sh
+```
 
-setup.sh will install several dependencies to compile u-boot and the linux-kernel. After installing the packets, it will patch pyATK to run with recent versions of Python 3.11 and newer. It will also configure pyATK in a virtual python-environment.
+This script will install several dependencies to compile u-boot and the linux-kernel. After installing the packets, it will patch pyATK to run with recent versions of Python 3.11 and newer. It will also configure pyATK in a virtual python-environment.
 
 
 ### Step 2: Run the scripts
 
-1. Compile u-boot, Linux and busbox by calling the script ./compile_all.sh
-2. Upload the new operating system into the RAM by calling the script ./run.sh
+Compile u-boot, Linux and busbox by calling the script ./compile_all.sh and upload the new operating system into the RAM by calling the script ./run.sh
 
-* compile.sh will copy some patched files into the submodules, compile a small program called "miniloader", the U-Boot-bootloader and the Linux kernel. The kernel-image "zImage" will be converted to a "uImage" and will be merged together with the miniloader and u-boot-image into a single binary-file.
+```
+./compile_all.sh
+./run.sh
+```
+
+* compile_all.sh will copy some patched files into the submodules, compile a small program called "miniloader", the U-Boot-bootloader and the Linux kernel. The kernel-image "zImage" will be converted to a "uImage" and will be merged together with the miniloader and u-boot-image into a single binary-file.
 * Finally, run.sh will use pyATK to initialize the most important hardware of the i.MX253 using the file "meminit.txt" and upload the generated binary-blob into the RAM of the processor. The Serial-Download-Program of the i.MX will then start the small assembler-program "miniloader" placed at address 0x80000000 - hence the begin of the RAM. The only task of Miniloader is to jumpstart the U-Boot-Bootloader at offset 0x3C0. U-Boot is placed at offset 0x0C0, but the first function-entry of the U-Boot will not start when using the Serial-Download-Program. So with this small hack, U-Boot takes control over the i.MX, reallocate itself to a higher memory-region and starts the linux-kernel together with the DeviceTreeBlob. The kernel is then decompressed and will start up.
 
-## What is working at the moment
-* [x] Linux-Kernel starts to shell (Display and MIDI In/Out)
-* [x] Support of 800x480 framebuffer for applications
-* [x] Full 10/100MBit network-support with DHCP
-* [x] USB-Host support (HID-Keyboard, Mass-Storage-Devices, etc.)
-* [x] Realtime-Clock
-* [x] Control of I2C- and SPI-Bus
+### Step 3: Compile user-softwares
+
+Within the software-folder several user-applications are placed. At this early development-state you must compile each software individually:
+* x32ctrl: call "make". The binary is copied to the folder "build/bin"
+* fpgaconfig: run the script ./compile.sh. The binary is copied to the folder "build"
+* uarttest: run the script ./compile.sh. The binary is copied to the folder "build"
+
+To run the softwares, take an USB-Thumbdrive, copy all files to it and run them from this drive directly after mounting it in OpenX32 using command "mount /dev/sda1 /mnt/usb"
+
+### Step 4: Compiling logic for the FPGA
+
+The X32 devices before 2020 are using a Xilinx Spartan-3A X3CS1400 FPGA to route the audio between the individual ADCs, DACs, expansion card and digital connectors like AES50 and UltraNet. For the Spartan-3A we can use the free version of Xilinx ISE 14.7 as the most recent toolchain to synthesize logic for this FPGA:
+
+Download ISE 14.7 from the Xilinx (AMD) website: https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/archive-ise.html. There are two options: a preinstalled linux virtual machine or the direct version. The virtual machine is working fine. If you want to use the direct version under Windows, here is a short manual as this needs some adjustments:
+
+1. Download the DVD image: https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_ISE_DS_14.7_1015_1.tar
+2. Start the setup and install the software. At about 95% the installation will hang. Go into the taskmanager and kill the software "Webtalk32" several times until the setup finishes (successfully!)
+3. Set the Windows-Environmental-Variable "XILINX_VC_CHECK_NOOP" to "1". Otherwise the software will complain about a non-installed VisualStudio Runtime 2008 even if it is installed correctly
+4. On modern Windows 10/11 ISE 14.7 will not start beyond the Splash-Screen due to the use of "SmartHeap" within the file "libPortability.dll". Download the patch from https://github.com/cbureriu/xilinx-14.7-patch-for-Win10-32-64 that simply will replace the file "libPortability.dll" by "libPortabilityNOSH.dll" (NOSH = NoSmartHeap) that comes with the original installation.
+5. Start ISE 14.7, open the OpenX32 project and compile the logic of the main-schematic.
+
+### Step 5: Compiling code for the SHARC DSPs
+
+At the moment it seems that the DSPs can only be programmed using a closed-source toolchain with a paid license. Currently I'm searching for a working solution for this problem...
+
+## What is working at the moment and what is planned so far
+* [x] Linux-Kernel in Version 6.12 (LTS) starts to shell using display framebuffer
 * [x] init-script for setting up the operating system
+* [x] MIDI-Input and -output is used as an additional serial-port-terminal (see pinout down below)
+* [x] Support of 800x480 32-bit framebuffer for applications (/dev/fb0)
+* [x] Support of 100MBit ethernet network-support with DHCP
+* [x] Support of internal Realtime-Clock
+* [x] Support of USB-Host interface (HID-Keyboard, HID-Mouse, Mass-Storage-Devices, Joystick, Soundcard, etc.)
+* [x] Control of X32 surface (faders, buttons, LEDs, encoders) through x32ctrl-software
+* [x] Configuration of main-FPGA (Xilinx Spartan 3A, X3CS1400) via internal SPI-interface (use software fpgaconfig)
+* [x] Basic Audio-Processing using the 8-Channel AUX-AD/DA-Converter (CS42438) is working
+
+Some things are on the ToDo-list:
+* [ ] Planned: SD-Card support (DeviceTree option "esdhc1" is not starting up)
+* [ ] Planned: ALSA Soundcard with I2S to main-FPGA (DeviceTree option "simple-audio-card" via SSI1 and AUDMUX is not initializing)
+* [ ] Planned: GPIO support via libgpiod (at the moment libgpiod is not working and has no control over /dev/gpiochipX)
+* [ ] Planned: Support of both AnalogDevices DSPs via SPI
+* [ ] Planned: Support of Analog In- and Outputs of X32 with basic mixing options
+* [ ] Planned: Support of UltraNet
+* [ ] Planned: Support of AES50
+
+LVGL v9.3.0 is running on the X32 with a good performance (30 fps). So this could be a basis for an open-source Operating System:
+![alt_text](Documentation/openx32_3.jpg)
 
 ## Connecting a serial terminal to MIDI In/Out
 The MIDI-Ports are connected to the UART5 of the i.MX25. With a simple resistor and a RS232/USB-converter the MIDI-ports can be used for a serial-terminal with 115200 baud:
@@ -64,17 +111,6 @@ The MIDI-Ports are connected to the UART5 of the i.MX25. With a simple resistor 
       Pin 5          |___|                                                 Pin 5
     MIDI OUT- o----<---|----->----o Pin 2 (RxD)   Pin 3 (TxD) o-----<----o MIDI In-
 
-## ToDos
-This project is in an early stage and lot of things have to be done:
-* [ ] implement a function to upload original FPGA-bitstream to the X32-FPGA from the original firmware to initialize the heart of the audio-processing
-* [ ] reverse-engineer the communication-protocol between the individual hardware-components (e.g. faderboards) and the i.MX253
-* [ ] implement a nice user-interface to control things
-* [ ] test this system using an SD-card
-* [ ] more funny stuff
-
-LVGL v9.3.0 is running on the X32 with a good performance (30 fps). So this could be a basis for an open-source Operating System:
-![alt_text](Documentation/openx32_3.jpg)
-
 ## What's the reason for developing such a thing?
 I want to learn things about embedded systems and how they work. The X32 is a very powerful playground with lots of different controllers, nice faders and displays. So that's the only reason why I'm doing this :-)
 
@@ -83,3 +119,5 @@ I want to learn things about embedded systems and how they work. The X32 is a ve
 * Linux in Version 6.12 (https://github.com/torvalds/linnux/tree/v6.12)
 * Busybox (https://git.busybox.net/busybox)
 * pyATK in Version 0.1.0 (https://github.com/hbock/pyatk)
+* LVGL in Version 9.3.0 (https://github.com/lvgl/lv_port_linux)
+* OpenSSH Portable 8.3 (https://github.com/openssh/openssh-portable)

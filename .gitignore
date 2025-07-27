@@ -16,8 +16,7 @@ initramfs_root/sys
 
 # compiled software
 software/x32ctrl/build
-software/x32cli/build
-software/fpgaconfig/build
+software/bin
 
 # Xilinx ISE 14.7
 fpga/_ngo/
@@ -80,3 +79,6 @@ webtalk_impact.xml
 *_usage.xml
 *_xst.xrpt
 .vscode/settings.json
+*.debug
+planAhead*
+*.schlog

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="uart_tx">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2025-7-22T20:4:39</timestamp>
+    <timestamp>2025-7-23T18:43:51</timestamp>
     <pin polarity="Input" x="0" y="-160" name="i_Clk" />
     <pin polarity="Input" x="0" y="-96" name="i_TX_DV" />
     <pin polarity="Input" x="0" y="-32" name="i_TX_Byte(7:0)" />

@@ -7,11 +7,11 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : xaw2vhdl
 --  /   /         Filename : dcm1.vhd
--- /___/   /\     Timestamp : 07/22/2025 21:46:09
+-- /___/   /\     Timestamp : 07/25/2025 21:34:39
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: xaw2vhdl-st C:\GitCheckout\GitHub\OpenX32\fpga\ipcore_dir\.\dcm1.xaw C:\GitCheckout\GitHub\OpenX32\fpga\ipcore_dir\.\dcm1
+--Command: xaw2vhdl-st C:/GitCheckout/GitHub/OpenX32/fpga/ipcore_dir/dcm1.xaw C:/GitCheckout/GitHub/OpenX32/fpga/ipcore_dir/dcm1
 --Design Name: dcm1
 --Device: xc3s1400a-4ft256
 --

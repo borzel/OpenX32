@@ -10,6 +10,7 @@ cd pyatk
 python3 -m venv pyatk_venv
 source pyatk_venv/bin/activate
 pip install pyserial pyusb==1.0.0
+pip install setuptools
 sudo pyatk_venv/bin/python3 setup.py install
 deactivate
 cd ..
