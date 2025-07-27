@@ -14,7 +14,7 @@
 int main(int argc, char *argv[]) {
     srand(time(NULL));
     printf("OpenX32 OSC Client for Reaper\n");
-    printf("v0.0.1, 27.07.2025\n");
+    printf("v0.0.2, 27.07.2025\n");
     printf("https://github.com/xn--nding-jua/OpenX32\n");
 
     if (argc != 2) {
