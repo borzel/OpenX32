@@ -18,4 +18,5 @@ cp /mnt/usb/usr/local/etc/ssh/openx32_key.pub /usr/local/etc/ssh/
 chmod -R 600 /usr/local/etc/ssh
 
 # start sshd
-LD_LIBRARY_PATH=/mnt/usb/lib /mnt/usb/sbin/sshd -f /usr/local/etc/sshd_config
+#LD_LIBRARY_PATH=/mnt/usb/lib /mnt/usb/sbin/sshd -f /usr/local/etc/sshd_config
+/mnt/usb/sbin/sshd -f /usr/local/etc/sshd_config

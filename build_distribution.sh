@@ -22,16 +22,18 @@ mkdir usb/bin
 mkdir usb/sbin
 mkdir usb/lib
 
-# copy important libraries
-cp /usr/lib/arm-linux-gnueabi/libc.so.6 usb/lib/
-cp /usr/lib/arm-linux-gnueabi/libstdc++.so.6 usb/lib/
-cp /usr/lib/arm-linux-gnueabi/libm.so usb/lib/
-cp /usr/lib/arm-linux-gnueabi/libz.so usb/lib/
-cp /usr/lib/arm-linux-gnueabi/ld-linux.so.3 usb/lib/
-cp /usr/lib/arm-linux-gnueabi/libasound.so usb/lib/
-cp /usr/lib/arm-linux-gnueabi/libgpiodcxx.so usb/lib/
-cp /usr/lib/arm-linux-gnueabi/libgpiod.so usb/lib/
-cp /usr/lib/arm-linux-gnueabi/libSDL2.so usb/lib/
+# copy important libraries (they are placed in initramfs at the moment)
+#cp /usr/lib/arm-linux-gnueabi/libc.so.6 usb/lib/
+#cp /usr/lib/arm-linux-gnueabi/libgcc_s.so.1 usb/lib/
+#cp /usr/lib/arm-linux-gnueabi/libstdc++.so.6 usb/lib/
+#cp /usr/lib/arm-linux-gnueabi/libm.so.6 usb/lib/
+#cp /usr/lib/arm-linux-gnueabi/ld-linux.so.3 usb/lib/
+#cp /usr/lib/arm-linux-gnueabi/libgpiod.so.2 usb/lib/
+#cp /usr/lib/arm-linux-gnueabi/libasound.so.2 usb/lib/
+#cp /usr/lib/arm-linux-gnueabi/libz.so.1 usb/lib/
+
+# for QEMU and SDL
+#cp /usr/lib/arm-linux-gnueabi/libSDL2.so usb/lib/
 
 #TODO: create symlinks to the correct versions during compilation
 
