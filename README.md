@@ -54,12 +54,17 @@ Compile u-boot, Linux and busbox by calling the script ./compile_all.sh and uplo
 
 ### Step 3: Compile user-softwares
 
-Within the software-folder several user-applications are placed. At this early development-state you must compile each software individually:
-* x32ctrl: call "make". The binary is copied to the folder "build/bin"
-* fpgaconfig: run the script ./compile.sh. The binary is copied to the folder "build"
-* uarttest: run the script ./compile.sh. The binary is copied to the folder "build"
+Within the software-folder several user-applications are placed. You can call the script "compile_software.sh" to compile all softwares at once or compile them individual:
+* x32ctrl: call "make". The binary is copied to the folder "../bin/"
+* x32sdconfig: run the script ./compile.sh. The binary is copied to the folder "../bin/"
+* fpgaconfig: run the script ./compile.sh. The binary is copied to the folder "../bin/"
+* uarttest: run the script ./compile.sh. The binary is copied to the folder "../bin/"
 
-To run the softwares, take an USB-Thumbdrive, copy all files to it and run them from this drive directly after mounting it in OpenX32 using command "mount /dev/sda1 /mnt/usb"
+As the X32 has limited RAM available, you might use the script "build_distribution.sh" to copy all important files into the folder "usb". Then take an USB-Thumbdrive, copy all files within this folder to the root of the USB-drive and mount the device on the X32 with the command "mount /dev/sda1 /mnt/usb".
+
+Now run the script "/mnt/usb/scripts/startall.sh". This will create important Symlinks to the main-system and start an SSH-Server.
+
+Important: at this early development stage, some packages, libraries or other things *will* be missing. Please create a ticket in GitHub so that I can fix this.
 
 ### Step 4: Compiling logic for the FPGA
 
@@ -85,20 +90,20 @@ At the moment it seems that the DSPs can only be programmed using a closed-sourc
 * [x] Support of 100MBit ethernet network-support with DHCP
 * [x] Support of internal Realtime-Clock
 * [x] Support of USB-Host interface (HID-Keyboard, HID-Mouse, Mass-Storage-Devices, Joystick, Soundcard, etc.)
+* [x] Support of internal SD-Card to read MAC-Address and the general configuration
 * [x] Control of X32 surface (faders, buttons, LEDs, encoders) through x32ctrl-software
 * [x] Configuration of main-FPGA (Xilinx Spartan 3A, X3CS1400) via internal SPI-interface (use software fpgaconfig)
 * [x] Basic Audio-Processing using the 8-Channel AUX-AD/DA-Converter (CS42438) is working
 
 Some things are on the ToDo-list:
-* [ ] Planned: SD-Card support (DeviceTree option "esdhc1" is not starting up)
+* [ ] Planned: Support of Analog In- and Outputs of X32 with basic mixing options (needs reverse engineering of the control-protocol of the 8-Channel-Boards to enable the outputs)
+* [ ] Planned: Support of UltraNet (create S/PDIF or AES/EBU transmitter with 384kHz)
+* [ ] Planned: Support of both AnalogDevices DSPs via SPI (find toolchain for Analog Devices SHARC DSPs)
 * [ ] Planned: ALSA Soundcard with I2S to main-FPGA (DeviceTree option "simple-audio-card" via SSI1 and AUDMUX is not initializing)
 * [ ] Planned: GPIO support via libgpiod (at the moment libgpiod is not working and has no control over /dev/gpiochipX)
-* [ ] Planned: Support of both AnalogDevices DSPs via SPI
-* [ ] Planned: Support of Analog In- and Outputs of X32 with basic mixing options
-* [ ] Planned: Support of UltraNet
 * [ ] Planned: Support of AES50
 
-LVGL v9.3.0 is running on the X32 with a good performance (30 fps). So this could be a basis for an open-source Operating System:
+LVGL v9.3.0 is running on the X32 with a good performance (30 fps). So this will be a basis for this open-source Operating System:
 ![alt_text](Documentation/openx32_3.jpg)
 
 ## Connecting a serial terminal to MIDI In/Out
