@@ -43,10 +43,10 @@ cp -rP /tmp/busybox_install/bin initramfs_root/
 cp -rP /tmp/busybox_install/sbin initramfs_root/
 cp -rP /tmp/busybox_install/linuxrc initramfs_root/
 
-cd software/setmac
+cd software/x32sdconfig
 ./compile.sh
 cd ../../
-cp software/bin/setmac initramfs_root/bin/
+cp software/bin/x32sdconfig initramfs_root/bin/
 
 cd initramfs_root
 mkdir -p dev proc sys etc mnt home usr

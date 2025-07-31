@@ -1,4 +1,6 @@
-// this software reads the MAC-address from the internal X32-SD-Card and configures the ethernet-interface
+// This software reads the MAC-address from the internal X32-SD-Card and configures the ethernet-interface
+// it also stores all configuration-options to the file /etc/x32.conf for further usage
+//
 // Header:
 // Address 0x1B8
 // Data 0xFEEDBEEF

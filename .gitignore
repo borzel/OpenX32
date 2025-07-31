@@ -18,6 +18,12 @@ initramfs_root/sys
 software/x32ctrl/build
 software/bin
 
+# USB-Distribution
+usb/usr/local/libexec
+usb/bin
+usb/sbin
+usb/lib
+
 # Xilinx ISE 14.7
 fpga/_ngo/
 fpga/_xmsgs/

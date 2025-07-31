@@ -13,11 +13,14 @@ mkdir -p /dev/pts
 
 # some startup-things
 # =============================
+# create additional folders
+mkdir /var/empty
+
 # set hostname
 hostname -F /etc/hostname
 
 # read mac-address from SD-card and set it
-setmac
+x32sdconfig
 
 # bring networkdevices up
 ip link set lo up
