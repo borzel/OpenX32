@@ -16,6 +16,9 @@ mkdir -p /dev/pts
 # set hostname
 hostname -F /etc/hostname
 
+# read mac-address from SD-card and set it
+setmac
+
 # bring networkdevices up
 ip link set lo up
 ip link set eth0 up

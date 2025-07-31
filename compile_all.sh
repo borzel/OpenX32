@@ -36,11 +36,18 @@ echo "5/8 Compiling busybox..."
 cd ../busybox
 ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- make -j$(nproc) > /dev/null
 ARCH=arm make install > /dev/null
-echo "6/8 Creating initramfs..."
 cd ..
+
+echo "6/8 Creating initramfs..."
 cp -rP /tmp/busybox_install/bin initramfs_root/
 cp -rP /tmp/busybox_install/sbin initramfs_root/
 cp -rP /tmp/busybox_install/linuxrc initramfs_root/
+
+cd software/setmac
+./compile.sh
+cd ../../
+cp software/bin/setmac initramfs_root/bin/
+
 cd initramfs_root
 mkdir -p dev proc sys etc mnt home usr
 rm /tmp/initramfs.cpio.gz
