@@ -15,6 +15,11 @@ cd fpgaconfig
 ./compile.sh
 cd ..
 
+echo "Compiling setmac..."
+cd setmac
+./compile.sh
+cd ..
+
 echo "Compiling uartterminal..."
 cd uartterminal
 ./compile.sh
