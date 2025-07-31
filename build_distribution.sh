@@ -22,6 +22,19 @@ mkdir usb/bin
 mkdir usb/sbin
 mkdir usb/lib
 
+# copy important libraries
+cp /usr/lib/arm-linux-gnueabi/libc.so.6 usb/lib/
+cp /usr/lib/arm-linux-gnueabi/libstdc++.so.6 usb/lib/
+cp /usr/lib/arm-linux-gnueabi/libm.so usb/lib/
+cp /usr/lib/arm-linux-gnueabi/libz.so usb/lib/
+cp /usr/lib/arm-linux-gnueabi/ld-linux.so.3 usb/lib/
+cp /usr/lib/arm-linux-gnueabi/libasound.so usb/lib/
+cp /usr/lib/arm-linux-gnueabi/libgpiodcxx.so usb/lib/
+cp /usr/lib/arm-linux-gnueabi/libgpiod.so usb/lib/
+cp /usr/lib/arm-linux-gnueabi/libSDL2.so usb/lib/
+
+#TODO: create symlinks to the correct versions during compilation
+
 # sshd
 cp software/bin/sshd usb/sbin/
 cp software/bin/ssh-keygen usb/bin/
