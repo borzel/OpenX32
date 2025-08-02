@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
@@ -31,6 +32,14 @@
 #define DONE_GPIO_OFFSET 2
 
 // ----------------------------------------------
+
+long get_file_size(const char *filename) {
+    struct stat st;
+    if (stat(filename, &st) == 0) {
+        return st.st_size;
+    }
+    return -1; // Fehler
+}
 
 // configures a Xilinx Spartan 3A via SPI
 // accepts path to bitstream-file
@@ -100,6 +109,7 @@ int configure_spartan3a_spi(const char *bitstream_path) {
 
     // read bitstream-file and search for RAW-data
     fprintf(stdout, "Checking input file...\n");
+    long file_size = get_file_size(bitstream_path);
     bitstream_file = fopen(bitstream_path, "rb");
     if (!bitstream_file) {
         perror("Error: Could not open bitstream-file");
@@ -167,6 +177,8 @@ int configure_spartan3a_spi(const char *bitstream_path) {
 */
 
     // send data
+    long total_bytes_sent = 0;
+    int progress_bar_width = 50;
     while ((bytes_read = fread(tx_buffer, 1, sizeof(tx_buffer), bitstream_file)) > 0) {
         tr.len = bytes_read;
         ret = ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr);
@@ -174,9 +186,23 @@ int configure_spartan3a_spi(const char *bitstream_path) {
             perror("Error: SPI-transmission failed");
             goto cleanup;
         }
+
+        // calculate progress-bar
+        total_bytes_sent += bytes_read;
+        int progress = (int)((double)total_bytes_sent / file_size * progress_bar_width);
+        printf("\r[");
+        for (int i = 0; i < progress_bar_width; ++i) {
+            if (i < progress) {
+                printf("#");
+            }else{
+                printf(" ");
+            }
+        }
+        printf("] %ld/%ld Bytes (%.2f%%)", total_bytes_sent, file_size, (double)total_bytes_sent / file_size * 100);
+        fflush(stdout);
     }
 
-    fprintf(stdout, "Bitstream transmitted.\n");
+    fprintf(stdout, "\n\nBitstream transmitted.\n");
 
 /*
     // write additional dummy-data (ones = 0xFF = 0b11111111) to finalize configuration
