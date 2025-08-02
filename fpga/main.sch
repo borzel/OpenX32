@@ -47,11 +47,6 @@
         <signal name="DA_BCLK" />
         <signal name="DA_FSYNC" />
         <signal name="DA_DATA0" />
-        <signal name="imx25_uart3_txd" />
-        <signal name="DA_RX" />
-        <signal name="DA_TX" />
-        <signal name="imx25_uart3_rxd" />
-        <signal name="nDA_RESET" />
         <signal name="XLXN_320" />
         <signal name="FPGACLK" />
         <signal name="XLXN_330" />
@@ -64,16 +59,45 @@
         <signal name="XLXN_358(23:0)" />
         <signal name="XLXN_359(23:0)" />
         <signal name="XLXN_360(23:0)" />
-        <signal name="XLXN_363(23:0)" />
-        <signal name="XLXN_364(23:0)" />
-        <signal name="XLXN_365(23:0)" />
-        <signal name="XLXN_366(23:0)" />
         <signal name="XLXN_367(23:0)" />
-        <signal name="XLXN_368(23:0)" />
         <signal name="PLL_CCLK" />
-        <signal name="XLXN_384" />
-        <signal name="XLXN_385" />
-        <signal name="XLXN_386" />
+        <signal name="XLXN_410" />
+        <signal name="XLXN_411" />
+        <signal name="AD1_DATA1" />
+        <signal name="DA_DATA1" />
+        <signal name="AD0_DATA1" />
+        <signal name="nAD_RESET" />
+        <signal name="nDA_RESET" />
+        <signal name="AD0_DATA0" />
+        <signal name="AD0_MCLK" />
+        <signal name="AD0_BCLK" />
+        <signal name="AD0_FSYNC" />
+        <signal name="AD1_DATA0" />
+        <signal name="AD1_MCLK" />
+        <signal name="AD1_BCLK" />
+        <signal name="AD1_FSYNC" />
+        <signal name="XLXN_502" />
+        <signal name="XLXN_503" />
+        <signal name="DA_RX" />
+        <signal name="imx25_uart3_rxd" />
+        <signal name="AD0_RX" />
+        <signal name="AD1_RX" />
+        <signal name="imx25_uart3_txd" />
+        <signal name="DA_TX" />
+        <signal name="AD0_TX" />
+        <signal name="AD1_TX" />
+        <signal name="XLXN_520(23:0)" />
+        <signal name="XLXN_521(23:0)" />
+        <signal name="XLXN_523(23:0)" />
+        <signal name="XLXN_524(23:0)" />
+        <signal name="XLXN_525(23:0)" />
+        <signal name="XLXN_526(23:0)" />
+        <signal name="XLXN_527(23:0)" />
+        <signal name="XLXN_528(23:0)" />
+        <signal name="XLXN_529(23:0)" />
+        <signal name="XLXN_530(23:0)" />
+        <signal name="XLXN_535(23:0)" />
+        <signal name="XLXN_536(23:0)" />
         <port polarity="Output" name="AUX_nRST" />
         <port polarity="Output" name="AUX_nCS" />
         <port polarity="Output" name="AUX_CCLK" />
@@ -92,14 +116,30 @@
         <port polarity="Output" name="DA_BCLK" />
         <port polarity="Output" name="DA_FSYNC" />
         <port polarity="Output" name="DA_DATA0" />
-        <port polarity="Input" name="imx25_uart3_txd" />
-        <port polarity="Input" name="DA_RX" />
-        <port polarity="Output" name="DA_TX" />
-        <port polarity="Output" name="imx25_uart3_rxd" />
-        <port polarity="Output" name="nDA_RESET" />
         <port polarity="Input" name="FPGACLK" />
         <port polarity="Output" name="PLL_IN" />
         <port polarity="Output" name="PLL_CCLK" />
+        <port polarity="Input" name="AD1_DATA1" />
+        <port polarity="Output" name="DA_DATA1" />
+        <port polarity="Input" name="AD0_DATA1" />
+        <port polarity="Output" name="nAD_RESET" />
+        <port polarity="Output" name="nDA_RESET" />
+        <port polarity="Input" name="AD0_DATA0" />
+        <port polarity="Output" name="AD0_MCLK" />
+        <port polarity="Output" name="AD0_BCLK" />
+        <port polarity="Output" name="AD0_FSYNC" />
+        <port polarity="Input" name="AD1_DATA0" />
+        <port polarity="Output" name="AD1_MCLK" />
+        <port polarity="Output" name="AD1_BCLK" />
+        <port polarity="Output" name="AD1_FSYNC" />
+        <port polarity="Input" name="DA_RX" />
+        <port polarity="Output" name="imx25_uart3_rxd" />
+        <port polarity="Input" name="AD0_RX" />
+        <port polarity="Input" name="AD1_RX" />
+        <port polarity="Input" name="imx25_uart3_txd" />
+        <port polarity="Output" name="DA_TX" />
+        <port polarity="Output" name="AD0_TX" />
+        <port polarity="Output" name="AD1_TX" />
         <blockdef name="dcm1">
             <timestamp>2025-7-22T19:46:16</timestamp>
             <rect width="336" x="64" y="-256" height="256" />
@@ -251,7 +291,7 @@
             <line x2="0" y1="-96" y2="-96" x1="64" />
         </blockdef>
         <blockdef name="cs2000cp_config">
-            <timestamp>2025-7-26T22:24:30</timestamp>
+            <timestamp>2025-7-26T23:3:18</timestamp>
             <rect width="256" x="64" y="-256" height="256" />
             <line x2="0" y1="-224" y2="-224" x1="64" />
             <line x2="0" y1="-128" y2="-128" x1="64" />
@@ -311,6 +351,17 @@
             <line x2="0" y1="-96" y2="-96" x1="64" />
             <line x2="384" y1="-96" y2="-96" x1="320" />
             <line x2="384" y1="-32" y2="-32" x1="320" />
+        </blockdef>
+        <blockdef name="and3">
+            <timestamp>2000-1-1T10:10:10</timestamp>
+            <line x2="64" y1="-64" y2="-64" x1="0" />
+            <line x2="64" y1="-128" y2="-128" x1="0" />
+            <line x2="64" y1="-192" y2="-192" x1="0" />
+            <line x2="192" y1="-128" y2="-128" x1="256" />
+            <line x2="144" y1="-176" y2="-176" x1="64" />
+            <line x2="64" y1="-80" y2="-80" x1="144" />
+            <arc ex="144" ey="-176" sx="144" sy="-80" r="48" cx="144" cy="-128" />
+            <line x2="64" y1="-64" y2="-192" x1="64" />
         </blockdef>
         <block symbolname="dcm1" name="XLXI_20">
             <blockpin name="RST_IN" />
@@ -408,7 +459,7 @@
             <blockpin signalname="clk_main" name="clk" />
             <blockpin signalname="tdm_sclk" name="bclk" />
             <blockpin signalname="tdm_fs" name="fsync" />
-            <blockpin signalname="XLXN_368(23:0)" name="ch1_in(23:0)" />
+            <blockpin signalname="XLXN_521(23:0)" name="ch1_in(23:0)" />
             <blockpin signalname="XLXN_355(23:0)" name="ch2_in(23:0)" />
             <blockpin signalname="XLXN_356(23:0)" name="ch3_in(23:0)" />
             <blockpin signalname="XLXN_357(23:0)" name="ch4_in(23:0)" />
@@ -434,7 +485,7 @@
             <blockpin signalname="clk_main" name="clk" />
             <blockpin signalname="tdm_sclk" name="bclk" />
             <blockpin signalname="tdm_fs" name="fsync" />
-            <blockpin signalname="XLXN_368(23:0)" name="ch1_in(23:0)" />
+            <blockpin signalname="XLXN_523(23:0)" name="ch1_in(23:0)" />
             <blockpin signalname="XLXN_355(23:0)" name="ch2_in(23:0)" />
             <blockpin signalname="XLXN_356(23:0)" name="ch3_in(23:0)" />
             <blockpin signalname="XLXN_357(23:0)" name="ch4_in(23:0)" />
@@ -456,22 +507,6 @@
             <blockpin signalname="tdm_fs" name="I" />
             <blockpin signalname="DA_FSYNC" name="O" />
         </block>
-        <block symbolname="buf" name="XLXI_109">
-            <blockpin signalname="imx25_uart3_txd" name="I" />
-            <blockpin signalname="DA_TX" name="O" />
-        </block>
-        <block symbolname="buf" name="XLXI_110">
-            <blockpin signalname="DA_RX" name="I" />
-            <blockpin signalname="imx25_uart3_rxd" name="O" />
-        </block>
-        <block symbolname="constant" name="XLXI_111">
-            <attr value="1" name="CValue">
-                <trait delete="all:1 sym:0" />
-                <trait editname="all:1 sch:0" />
-                <trait valuetype="BitVector 32 Hexadecimal" />
-            </attr>
-            <blockpin signalname="nDA_RESET" name="O" />
-        </block>
         <block symbolname="constant" name="XLXI_112">
             <attr value="1" name="CValue">
                 <trait delete="all:1 sym:0" />
@@ -487,7 +522,7 @@
         <block symbolname="ddfs_drom" name="XLXI_118">
             <blockpin signalname="clk_16MHz" name="CLK" />
             <blockpin signalname="XLXN_342(7:0)" name="Freq_Data(7:0)" />
-            <blockpin signalname="XLXN_368(23:0)" name="Dout(23:0)" />
+            <blockpin signalname="XLXN_521(23:0)" name="Dout(23:0)" />
         </block>
         <block symbolname="constant" name="XLXI_119">
             <attr value="FC" name="CValue">
@@ -542,6 +577,138 @@
             <blockpin signalname="clk_main" name="clk" />
             <blockpin signalname="tdm_sclk" name="o_sclk" />
             <blockpin signalname="tdm_fs" name="o_fs" />
+        </block>
+        <block symbolname="tdm_8ch_rx" name="XLXI_151">
+            <blockpin signalname="clk_main" name="clk" />
+            <blockpin signalname="tdm_sclk" name="bclk" />
+            <blockpin signalname="tdm_fs" name="fsync" />
+            <blockpin signalname="AD1_DATA1" name="sdata" />
+            <blockpin name="sync_out" />
+            <blockpin name="ch1_out(23:0)" />
+            <blockpin name="ch2_out(23:0)" />
+            <blockpin name="ch3_out(23:0)" />
+            <blockpin name="ch4_out(23:0)" />
+            <blockpin name="ch5_out(23:0)" />
+            <blockpin name="ch6_out(23:0)" />
+            <blockpin name="ch7_out(23:0)" />
+            <blockpin name="ch8_out(23:0)" />
+        </block>
+        <block symbolname="tdm_8ch_tx" name="XLXI_152">
+            <blockpin signalname="clk_main" name="clk" />
+            <blockpin signalname="tdm_sclk" name="bclk" />
+            <blockpin signalname="tdm_fs" name="fsync" />
+            <blockpin signalname="XLXN_524(23:0)" name="ch1_in(23:0)" />
+            <blockpin signalname="XLXN_525(23:0)" name="ch2_in(23:0)" />
+            <blockpin signalname="XLXN_527(23:0)" name="ch3_in(23:0)" />
+            <blockpin signalname="XLXN_528(23:0)" name="ch4_in(23:0)" />
+            <blockpin signalname="XLXN_529(23:0)" name="ch5_in(23:0)" />
+            <blockpin signalname="XLXN_530(23:0)" name="ch6_in(23:0)" />
+            <blockpin signalname="XLXN_535(23:0)" name="ch7_in(23:0)" />
+            <blockpin signalname="XLXN_536(23:0)" name="ch8_in(23:0)" />
+            <blockpin signalname="DA_DATA1" name="sdata" />
+        </block>
+        <block symbolname="tdm_8ch_rx" name="XLXI_147">
+            <blockpin signalname="clk_main" name="clk" />
+            <blockpin signalname="tdm_sclk" name="bclk" />
+            <blockpin signalname="tdm_fs" name="fsync" />
+            <blockpin signalname="AD0_DATA1" name="sdata" />
+            <blockpin name="sync_out" />
+            <blockpin signalname="XLXN_524(23:0)" name="ch1_out(23:0)" />
+            <blockpin signalname="XLXN_525(23:0)" name="ch2_out(23:0)" />
+            <blockpin signalname="XLXN_527(23:0)" name="ch3_out(23:0)" />
+            <blockpin signalname="XLXN_528(23:0)" name="ch4_out(23:0)" />
+            <blockpin signalname="XLXN_529(23:0)" name="ch5_out(23:0)" />
+            <blockpin signalname="XLXN_530(23:0)" name="ch6_out(23:0)" />
+            <blockpin signalname="XLXN_535(23:0)" name="ch7_out(23:0)" />
+            <blockpin signalname="XLXN_536(23:0)" name="ch8_out(23:0)" />
+        </block>
+        <block symbolname="constant" name="XLXI_153">
+            <attr value="1" name="CValue">
+                <trait delete="all:1 sym:0" />
+                <trait editname="all:1 sch:0" />
+                <trait valuetype="BitVector 32 Hexadecimal" />
+            </attr>
+            <blockpin signalname="nAD_RESET" name="O" />
+        </block>
+        <block symbolname="constant" name="XLXI_111">
+            <attr value="1" name="CValue">
+                <trait delete="all:1 sym:0" />
+                <trait editname="all:1 sch:0" />
+                <trait valuetype="BitVector 32 Hexadecimal" />
+            </attr>
+            <blockpin signalname="nDA_RESET" name="O" />
+        </block>
+        <block symbolname="tdm_8ch_rx" name="XLXI_146">
+            <blockpin signalname="clk_main" name="clk" />
+            <blockpin signalname="tdm_sclk" name="bclk" />
+            <blockpin signalname="tdm_fs" name="fsync" />
+            <blockpin signalname="AD0_DATA0" name="sdata" />
+            <blockpin name="sync_out" />
+            <blockpin signalname="XLXN_523(23:0)" name="ch1_out(23:0)" />
+            <blockpin name="ch2_out(23:0)" />
+            <blockpin name="ch3_out(23:0)" />
+            <blockpin name="ch4_out(23:0)" />
+            <blockpin name="ch5_out(23:0)" />
+            <blockpin name="ch6_out(23:0)" />
+            <blockpin name="ch7_out(23:0)" />
+            <blockpin name="ch8_out(23:0)" />
+        </block>
+        <block symbolname="buf" name="XLXI_163">
+            <blockpin signalname="tdm_sclk" name="I" />
+            <blockpin signalname="AD0_MCLK" name="O" />
+        </block>
+        <block symbolname="buf" name="XLXI_164">
+            <blockpin signalname="tdm_sclk" name="I" />
+            <blockpin signalname="AD0_BCLK" name="O" />
+        </block>
+        <block symbolname="buf" name="XLXI_165">
+            <blockpin signalname="tdm_fs" name="I" />
+            <blockpin signalname="AD0_FSYNC" name="O" />
+        </block>
+        <block symbolname="tdm_8ch_rx" name="XLXI_150">
+            <blockpin signalname="clk_main" name="clk" />
+            <blockpin signalname="tdm_sclk" name="bclk" />
+            <blockpin signalname="tdm_fs" name="fsync" />
+            <blockpin signalname="AD1_DATA0" name="sdata" />
+            <blockpin name="sync_out" />
+            <blockpin name="ch1_out(23:0)" />
+            <blockpin name="ch2_out(23:0)" />
+            <blockpin name="ch3_out(23:0)" />
+            <blockpin name="ch4_out(23:0)" />
+            <blockpin name="ch5_out(23:0)" />
+            <blockpin name="ch6_out(23:0)" />
+            <blockpin name="ch7_out(23:0)" />
+            <blockpin name="ch8_out(23:0)" />
+        </block>
+        <block symbolname="buf" name="XLXI_172">
+            <blockpin signalname="tdm_sclk" name="I" />
+            <blockpin signalname="AD1_MCLK" name="O" />
+        </block>
+        <block symbolname="buf" name="XLXI_173">
+            <blockpin signalname="tdm_sclk" name="I" />
+            <blockpin signalname="AD1_BCLK" name="O" />
+        </block>
+        <block symbolname="buf" name="XLXI_174">
+            <blockpin signalname="tdm_fs" name="I" />
+            <blockpin signalname="AD1_FSYNC" name="O" />
+        </block>
+        <block symbolname="and3" name="XLXI_175">
+            <blockpin signalname="AD1_RX" name="I0" />
+            <blockpin signalname="AD0_RX" name="I1" />
+            <blockpin signalname="DA_RX" name="I2" />
+            <blockpin signalname="imx25_uart3_rxd" name="O" />
+        </block>
+        <block symbolname="buf" name="XLXI_130">
+            <blockpin signalname="imx25_uart3_txd" name="I" />
+            <blockpin signalname="AD0_TX" name="O" />
+        </block>
+        <block symbolname="buf" name="XLXI_131">
+            <blockpin signalname="imx25_uart3_txd" name="I" />
+            <blockpin signalname="AD1_TX" name="O" />
+        </block>
+        <block symbolname="buf" name="XLXI_109">
+            <blockpin signalname="imx25_uart3_txd" name="I" />
+            <blockpin signalname="DA_TX" name="O" />
         </block>
     </netlist>
     <sheet sheetnum="1" width="7609" height="5382">
@@ -823,7 +990,7 @@
             <wire x2="2064" y1="2656" y2="2656" x1="1984" />
             <wire x2="2176" y1="2656" y2="2656" x1="2064" />
         </branch>
-        <text style="fontsize:36;fontname:Arial;textcolor:rgb(255,0,0)" x="444" y="3328">8CH OUTPUT</text>
+        <text style="fontsize:36;fontname:Arial;textcolor:rgb(255,0,0)" x="444" y="3328">8CH OUTPUT (Ch 1-8)</text>
         <rect style="linewidth:W;linecolor:rgb(0,0,255)" width="2368" x="360" y="3288" height="1012" />
         <instance x="1488" y="4080" name="XLXI_99" orien="R0">
         </instance>
@@ -861,30 +1028,6 @@
             <wire x2="1904" y1="3408" y2="3408" x1="1872" />
         </branch>
         <iomarker fontsize="28" x="1904" y="3408" name="DA_DATA0" orien="R0" />
-        <instance x="2176" y="3936" name="XLXI_109" orien="R0" />
-        <instance x="2176" y="4032" name="XLXI_110" orien="R0" />
-        <branch name="imx25_uart3_txd">
-            <wire x2="2176" y1="3904" y2="3904" x1="2144" />
-        </branch>
-        <iomarker fontsize="28" x="2144" y="3904" name="imx25_uart3_txd" orien="R180" />
-        <branch name="DA_RX">
-            <wire x2="2176" y1="4000" y2="4000" x1="2144" />
-        </branch>
-        <iomarker fontsize="28" x="2144" y="4000" name="DA_RX" orien="R180" />
-        <branch name="DA_TX">
-            <wire x2="2432" y1="3904" y2="3904" x1="2400" />
-        </branch>
-        <iomarker fontsize="28" x="2432" y="3904" name="DA_TX" orien="R0" />
-        <branch name="imx25_uart3_rxd">
-            <wire x2="2432" y1="4000" y2="4000" x1="2400" />
-        </branch>
-        <iomarker fontsize="28" x="2432" y="4000" name="imx25_uart3_rxd" orien="R0" />
-        <instance x="1696" y="4160" name="XLXI_111" orien="R0">
-        </instance>
-        <branch name="nDA_RESET">
-            <wire x2="1872" y1="4192" y2="4192" x1="1840" />
-        </branch>
-        <iomarker fontsize="28" x="1872" y="4192" name="nDA_RESET" orien="R0" />
         <branch name="clk_main">
             <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1360" y="3408" type="branch" />
             <wire x2="1360" y1="3408" y2="3408" x1="1248" />
@@ -983,14 +1126,6 @@
             <wire x2="1488" y1="4048" y2="4048" x1="1296" />
             <wire x2="1488" y1="2960" y2="2960" x1="1296" />
         </branch>
-        <branch name="XLXN_368(23:0)">
-            <wire x2="1152" y1="3056" y2="3056" x1="928" />
-            <wire x2="1248" y1="3056" y2="3056" x1="1152" />
-            <wire x2="1152" y1="3056" y2="3600" x1="1152" />
-            <wire x2="1488" y1="3600" y2="3600" x1="1152" />
-            <wire x2="1248" y1="2512" y2="3056" x1="1248" />
-            <wire x2="1488" y1="2512" y2="2512" x1="1248" />
-        </branch>
         <instance x="3536" y="368" name="XLXI_128" orien="R0">
         </instance>
         <branch name="clk_main">
@@ -1009,8 +1144,7 @@
             <wire x2="2688" y1="1744" y2="1744" x1="2544" />
         </branch>
         <branch name="PLL_CCLK">
-            <wire x2="3744" y1="1664" y2="1664" x1="3728" />
-            <wire x2="3760" y1="1664" y2="1664" x1="3744" />
+            <wire x2="3760" y1="1664" y2="1664" x1="3728" />
         </branch>
         <iomarker fontsize="28" x="3760" y="1664" name="PLL_CCLK" orien="R0" />
         <branch name="tdm_fs">
@@ -1022,6 +1156,291 @@
             <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3968" y="272" type="branch" />
             <wire x2="3968" y1="272" y2="272" x1="3920" />
             <wire x2="4128" y1="272" y2="272" x1="3968" />
+        </branch>
+        <text style="fontsize:36;fontname:Arial;textcolor:rgb(255,0,0)" x="2448" y="96">At the moment the PLL is not working as expected!</text>
+        <text style="fontsize:36;fontname:Arial;textcolor:rgb(255,0,0)" x="2448" y="144">so we are using an audio-clock based on the FPGA-main-clock</text>
+        <text style="fontsize:36;fontname:Arial;textcolor:rgb(255,0,0)" x="3828" y="664">UART to i.MX25</text>
+        <rect style="linewidth:W;linecolor:rgb(0,0,255)" width="1692" x="3788" y="616" height="724" />
+        <text style="fontsize:36;fontname:Arial;textcolor:rgb(255,0,0)" x="444" y="4384">8CH INPUT AD0 (Ch 1-8)</text>
+        <rect style="linewidth:W;linecolor:rgb(0,0,255)" width="1168" x="360" y="4344" height="1012" />
+        <rect style="linewidth:W;linecolor:rgb(0,0,255)" width="1152" x="1576" y="4344" height="1012" />
+        <text style="fontsize:36;fontname:Arial;textcolor:rgb(255,0,0)" x="1660" y="4384">8CH INPUT AD0 (Ch 9-16)</text>
+        <text style="fontsize:36;fontname:Arial;textcolor:rgb(255,0,0)" x="2860" y="4384">8CH INPUT AD1 (Ch 17-24)</text>
+        <rect style="linewidth:W;linecolor:rgb(0,0,255)" width="1168" x="2776" y="4344" height="1012" />
+        <rect style="linewidth:W;linecolor:rgb(0,0,255)" width="1152" x="3992" y="4344" height="1012" />
+        <text style="fontsize:36;fontname:Arial;textcolor:rgb(255,0,0)" x="4076" y="4384">8CH INPUT AD1 (Ch 25-32)</text>
+        <instance x="4304" y="5184" name="XLXI_151" orien="R0">
+        </instance>
+        <branch name="clk_main">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="4128" y="4640" type="branch" />
+            <wire x2="4128" y1="4640" y2="4640" x1="4064" />
+            <wire x2="4304" y1="4640" y2="4640" x1="4128" />
+        </branch>
+        <branch name="tdm_sclk">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="4160" y="4800" type="branch" />
+            <wire x2="4160" y1="4800" y2="4800" x1="4064" />
+            <wire x2="4304" y1="4800" y2="4800" x1="4160" />
+        </branch>
+        <branch name="tdm_fs">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="4160" y="4960" type="branch" />
+            <wire x2="4160" y1="4960" y2="4960" x1="4064" />
+            <wire x2="4304" y1="4960" y2="4960" x1="4160" />
+        </branch>
+        <branch name="AD1_DATA1">
+            <wire x2="4304" y1="5120" y2="5120" x1="4272" />
+        </branch>
+        <iomarker fontsize="28" x="4272" y="5120" name="AD1_DATA1" orien="R180" />
+        <instance x="3200" y="4128" name="XLXI_152" orien="R0">
+        </instance>
+        <branch name="clk_main">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3072" y="3456" type="branch" />
+            <wire x2="3072" y1="3456" y2="3456" x1="2960" />
+            <wire x2="3200" y1="3456" y2="3456" x1="3072" />
+        </branch>
+        <branch name="tdm_sclk">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3072" y="3520" type="branch" />
+            <wire x2="3072" y1="3520" y2="3520" x1="2960" />
+            <wire x2="3200" y1="3520" y2="3520" x1="3072" />
+        </branch>
+        <branch name="tdm_fs">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3072" y="3584" type="branch" />
+            <wire x2="3072" y1="3584" y2="3584" x1="2960" />
+            <wire x2="3200" y1="3584" y2="3584" x1="3072" />
+        </branch>
+        <branch name="DA_DATA1">
+            <wire x2="3616" y1="3456" y2="3456" x1="3584" />
+        </branch>
+        <iomarker fontsize="28" x="3616" y="3456" name="DA_DATA1" orien="R0" />
+        <text style="fontsize:36;fontname:Arial;textcolor:rgb(255,0,0)" x="2860" y="3328">8CH OUTPUT (Ch 9-16)</text>
+        <rect style="linewidth:W;linecolor:rgb(0,0,255)" width="1168" x="2776" y="3288" height="1012" />
+        <branch name="clk_main">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1808" y="4512" type="branch" />
+            <wire x2="1808" y1="4512" y2="4512" x1="1744" />
+            <wire x2="1984" y1="4512" y2="4512" x1="1808" />
+        </branch>
+        <branch name="tdm_sclk">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1840" y="4672" type="branch" />
+            <wire x2="1840" y1="4672" y2="4672" x1="1744" />
+            <wire x2="1984" y1="4672" y2="4672" x1="1840" />
+        </branch>
+        <branch name="tdm_fs">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1840" y="4832" type="branch" />
+            <wire x2="1840" y1="4832" y2="4832" x1="1744" />
+            <wire x2="1984" y1="4832" y2="4832" x1="1840" />
+        </branch>
+        <branch name="AD0_DATA1">
+            <wire x2="1984" y1="4992" y2="4992" x1="1952" />
+        </branch>
+        <instance x="1984" y="5056" name="XLXI_147" orien="R0">
+        </instance>
+        <iomarker fontsize="28" x="1952" y="4992" name="AD0_DATA1" orien="R180" />
+        <instance x="2928" y="2704" name="XLXI_153" orien="R0">
+        </instance>
+        <branch name="nAD_RESET">
+            <wire x2="3104" y1="2736" y2="2736" x1="3072" />
+        </branch>
+        <instance x="2928" y="2576" name="XLXI_111" orien="R0">
+        </instance>
+        <branch name="nDA_RESET">
+            <wire x2="3104" y1="2608" y2="2608" x1="3072" />
+        </branch>
+        <iomarker fontsize="28" x="3104" y="2736" name="nAD_RESET" orien="R0" />
+        <iomarker fontsize="28" x="3104" y="2608" name="nDA_RESET" orien="R0" />
+        <instance x="672" y="5072" name="XLXI_146" orien="R0">
+        </instance>
+        <branch name="clk_main">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="496" y="4528" type="branch" />
+            <wire x2="496" y1="4528" y2="4528" x1="432" />
+            <wire x2="672" y1="4528" y2="4528" x1="496" />
+        </branch>
+        <branch name="tdm_sclk">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="528" y="4688" type="branch" />
+            <wire x2="528" y1="4688" y2="4688" x1="432" />
+            <wire x2="672" y1="4688" y2="4688" x1="528" />
+        </branch>
+        <branch name="tdm_fs">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="528" y="4848" type="branch" />
+            <wire x2="528" y1="4848" y2="4848" x1="432" />
+            <wire x2="672" y1="4848" y2="4848" x1="528" />
+        </branch>
+        <branch name="AD0_DATA0">
+            <wire x2="672" y1="5008" y2="5008" x1="640" />
+        </branch>
+        <iomarker fontsize="28" x="640" y="5008" name="AD0_DATA0" orien="R180" />
+        <instance x="816" y="5168" name="XLXI_163" orien="R0" />
+        <instance x="816" y="5248" name="XLXI_164" orien="R0" />
+        <instance x="816" y="5328" name="XLXI_165" orien="R0" />
+        <branch name="tdm_sclk">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="720" y="5136" type="branch" />
+            <wire x2="720" y1="5136" y2="5136" x1="624" />
+            <wire x2="816" y1="5136" y2="5136" x1="720" />
+        </branch>
+        <branch name="tdm_sclk">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="720" y="5216" type="branch" />
+            <wire x2="720" y1="5216" y2="5216" x1="624" />
+            <wire x2="816" y1="5216" y2="5216" x1="720" />
+        </branch>
+        <branch name="tdm_fs">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="704" y="5296" type="branch" />
+            <wire x2="704" y1="5296" y2="5296" x1="624" />
+            <wire x2="816" y1="5296" y2="5296" x1="704" />
+        </branch>
+        <branch name="AD0_MCLK">
+            <wire x2="1072" y1="5136" y2="5136" x1="1040" />
+        </branch>
+        <branch name="AD0_BCLK">
+            <wire x2="1072" y1="5216" y2="5216" x1="1040" />
+        </branch>
+        <branch name="AD0_FSYNC">
+            <wire x2="1072" y1="5296" y2="5296" x1="1040" />
+        </branch>
+        <iomarker fontsize="28" x="1072" y="5136" name="AD0_MCLK" orien="R0" />
+        <iomarker fontsize="28" x="1072" y="5216" name="AD0_BCLK" orien="R0" />
+        <iomarker fontsize="28" x="1072" y="5296" name="AD0_FSYNC" orien="R0" />
+        <instance x="3088" y="5056" name="XLXI_150" orien="R0">
+        </instance>
+        <branch name="clk_main">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="2912" y="4512" type="branch" />
+            <wire x2="2912" y1="4512" y2="4512" x1="2848" />
+            <wire x2="3088" y1="4512" y2="4512" x1="2912" />
+        </branch>
+        <branch name="tdm_sclk">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="2944" y="4672" type="branch" />
+            <wire x2="2944" y1="4672" y2="4672" x1="2848" />
+            <wire x2="3088" y1="4672" y2="4672" x1="2944" />
+        </branch>
+        <branch name="tdm_fs">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="2944" y="4832" type="branch" />
+            <wire x2="2944" y1="4832" y2="4832" x1="2848" />
+            <wire x2="3088" y1="4832" y2="4832" x1="2944" />
+        </branch>
+        <branch name="AD1_DATA0">
+            <wire x2="3088" y1="4992" y2="4992" x1="3056" />
+        </branch>
+        <iomarker fontsize="28" x="3056" y="4992" name="AD1_DATA0" orien="R180" />
+        <instance x="3168" y="5168" name="XLXI_172" orien="R0" />
+        <instance x="3168" y="5248" name="XLXI_173" orien="R0" />
+        <instance x="3168" y="5328" name="XLXI_174" orien="R0" />
+        <branch name="tdm_sclk">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3072" y="5136" type="branch" />
+            <wire x2="3072" y1="5136" y2="5136" x1="2976" />
+            <wire x2="3168" y1="5136" y2="5136" x1="3072" />
+        </branch>
+        <branch name="tdm_sclk">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3072" y="5216" type="branch" />
+            <wire x2="3072" y1="5216" y2="5216" x1="2976" />
+            <wire x2="3168" y1="5216" y2="5216" x1="3072" />
+        </branch>
+        <branch name="tdm_fs">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="3056" y="5296" type="branch" />
+            <wire x2="3056" y1="5296" y2="5296" x1="2976" />
+            <wire x2="3168" y1="5296" y2="5296" x1="3056" />
+        </branch>
+        <branch name="AD1_MCLK">
+            <wire x2="3424" y1="5136" y2="5136" x1="3392" />
+        </branch>
+        <branch name="AD1_BCLK">
+            <wire x2="3424" y1="5216" y2="5216" x1="3392" />
+        </branch>
+        <branch name="AD1_FSYNC">
+            <wire x2="3424" y1="5296" y2="5296" x1="3392" />
+        </branch>
+        <iomarker fontsize="28" x="3424" y="5136" name="AD1_MCLK" orien="R0" />
+        <iomarker fontsize="28" x="3424" y="5216" name="AD1_BCLK" orien="R0" />
+        <iomarker fontsize="28" x="3424" y="5296" name="AD1_FSYNC" orien="R0" />
+        <instance x="4032" y="976" name="XLXI_175" orien="R0" />
+        <branch name="DA_RX">
+            <wire x2="4032" y1="784" y2="784" x1="3984" />
+        </branch>
+        <branch name="imx25_uart3_rxd">
+            <wire x2="4320" y1="848" y2="848" x1="4288" />
+        </branch>
+        <branch name="AD0_RX">
+            <wire x2="4032" y1="848" y2="848" x1="4000" />
+        </branch>
+        <branch name="AD1_RX">
+            <wire x2="4032" y1="912" y2="912" x1="4000" />
+        </branch>
+        <iomarker fontsize="28" x="4000" y="848" name="AD0_RX" orien="R180" />
+        <iomarker fontsize="28" x="4000" y="912" name="AD1_RX" orien="R180" />
+        <iomarker fontsize="28" x="3984" y="784" name="DA_RX" orien="R180" />
+        <iomarker fontsize="28" x="4320" y="848" name="imx25_uart3_rxd" orien="R0" />
+        <instance x="5008" y="880" name="XLXI_130" orien="R0" />
+        <instance x="5008" y="960" name="XLXI_131" orien="R0" />
+        <instance x="5008" y="800" name="XLXI_109" orien="R0" />
+        <branch name="imx25_uart3_txd">
+            <wire x2="4960" y1="848" y2="848" x1="4896" />
+            <wire x2="5008" y1="848" y2="848" x1="4960" />
+            <wire x2="4960" y1="848" y2="928" x1="4960" />
+            <wire x2="5008" y1="928" y2="928" x1="4960" />
+            <wire x2="4960" y1="768" y2="848" x1="4960" />
+            <wire x2="5008" y1="768" y2="768" x1="4960" />
+        </branch>
+        <branch name="DA_TX">
+            <wire x2="5264" y1="768" y2="768" x1="5232" />
+        </branch>
+        <branch name="AD0_TX">
+            <wire x2="5264" y1="848" y2="848" x1="5232" />
+        </branch>
+        <branch name="AD1_TX">
+            <wire x2="5264" y1="928" y2="928" x1="5232" />
+        </branch>
+        <iomarker fontsize="28" x="5264" y="768" name="DA_TX" orien="R0" />
+        <iomarker fontsize="28" x="5264" y="848" name="AD0_TX" orien="R0" />
+        <iomarker fontsize="28" x="5264" y="928" name="AD1_TX" orien="R0" />
+        <iomarker fontsize="28" x="4896" y="848" name="imx25_uart3_txd" orien="R180" />
+        <text style="fontsize:26;fontname:Arial" x="704" y="3604">Ch1 is somehow connected to Ch13</text>
+        <branch name="XLXN_521(23:0)">
+            <wire x2="1232" y1="3056" y2="3056" x1="928" />
+            <wire x2="1232" y1="2512" y2="3056" x1="1232" />
+            <wire x2="1488" y1="2512" y2="2512" x1="1232" />
+        </branch>
+        <branch name="XLXN_523(23:0)">
+            <wire x2="1152" y1="4592" y2="4592" x1="1056" />
+            <wire x2="1488" y1="3600" y2="3600" x1="1152" />
+            <wire x2="1152" y1="3600" y2="4592" x1="1152" />
+        </branch>
+        <branch name="XLXN_524(23:0)">
+            <wire x2="2656" y1="4576" y2="4576" x1="2368" />
+            <wire x2="3200" y1="3648" y2="3648" x1="2656" />
+            <wire x2="2656" y1="3648" y2="4576" x1="2656" />
+        </branch>
+        <branch name="XLXN_525(23:0)">
+            <wire x2="2672" y1="4640" y2="4640" x1="2368" />
+            <wire x2="3200" y1="3712" y2="3712" x1="2672" />
+            <wire x2="2672" y1="3712" y2="4640" x1="2672" />
+        </branch>
+        <branch name="XLXN_527(23:0)">
+            <wire x2="2688" y1="4704" y2="4704" x1="2368" />
+            <wire x2="2688" y1="3776" y2="4176" x1="2688" />
+            <wire x2="2688" y1="4176" y2="4704" x1="2688" />
+            <wire x2="3200" y1="3776" y2="3776" x1="2688" />
+        </branch>
+        <branch name="XLXN_528(23:0)">
+            <wire x2="2752" y1="4768" y2="4768" x1="2368" />
+            <wire x2="3200" y1="3840" y2="3840" x1="2752" />
+            <wire x2="2752" y1="3840" y2="4768" x1="2752" />
+        </branch>
+        <branch name="XLXN_529(23:0)">
+            <wire x2="2800" y1="4832" y2="4832" x1="2368" />
+            <wire x2="2800" y1="3904" y2="3920" x1="2800" />
+            <wire x2="2800" y1="3920" y2="4832" x1="2800" />
+            <wire x2="3200" y1="3904" y2="3904" x1="2800" />
+        </branch>
+        <branch name="XLXN_530(23:0)">
+            <wire x2="2816" y1="4896" y2="4896" x1="2368" />
+            <wire x2="3200" y1="3968" y2="3968" x1="2816" />
+            <wire x2="2816" y1="3968" y2="4896" x1="2816" />
+        </branch>
+        <branch name="XLXN_535(23:0)">
+            <wire x2="2560" y1="4960" y2="4960" x1="2368" />
+            <wire x2="2560" y1="4032" y2="4960" x1="2560" />
+            <wire x2="3200" y1="4032" y2="4032" x1="2560" />
+        </branch>
+        <branch name="XLXN_536(23:0)">
+            <wire x2="2576" y1="5024" y2="5024" x1="2368" />
+            <wire x2="3200" y1="4096" y2="4096" x1="2576" />
+            <wire x2="2576" y1="4096" y2="5024" x1="2576" />
         </branch>
     </sheet>
 </drawing>

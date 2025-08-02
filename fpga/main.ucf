@@ -32,7 +32,6 @@ NET "AUX_MCLK" LOC = B10;
 NET "AUX_SCLK" LOC = A10;
 NET "AUX_FSYNC" LOC = C9;
 
-# PlanAhead Generated physical constraints 
 
 NET "DA_BCLK" LOC = K1;
 NET "DA_DATA0" LOC = M3;
@@ -40,6 +39,25 @@ NET "DA_FSYNC" LOC = L3;
 NET "DA_MCLK" LOC = K3;
 NET "DA_RX" LOC = L1;
 NET "DA_TX" LOC = L2;
-NET "nDA_RESET" LOC = N3;
+NET "nAD_RESET" LOC = C7;
 NET "imx25_uart3_txd" LOC = P11;
 NET "imx25_uart3_rxd" LOC = T12;
+
+# PlanAhead Generated physical constraints 
+
+NET "AD0_BCLK" LOC = A5;
+NET "AD0_DATA0" LOC = A6;
+NET "AD0_DATA1" LOC = B6;
+NET "AD0_FSYNC" LOC = C5;
+NET "AD0_MCLK" LOC = C4;
+NET "AD0_RX" LOC = A7;
+NET "AD0_TX" LOC = C6;
+NET "AD1_BCLK" LOC = G1;
+NET "AD1_DATA0" LOC = H1;
+NET "AD1_DATA1" LOC = J3;
+NET "AD1_FSYNC" LOC = H3;
+NET "AD1_MCLK" LOC = G2;
+NET "AD1_RX" LOC = J1;
+NET "AD1_TX" LOC = J2;
+NET "DA_DATA1" LOC = M1;
+NET "nDA_RESET" LOC = N3;
