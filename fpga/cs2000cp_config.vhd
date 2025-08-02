@@ -44,18 +44,18 @@ architecture behavioral of cs2000cp_config is
 	constant chipaddress	: std_logic_vector(7 downto 0) := "10011110"; -- 7-bit address followed by R/nW
 	type cs2000_cfg_lut_t is array(0 to 11, 0 to 1) of std_logic_vector(7 downto 0);
 	constant cs2000_cfg_lut: cs2000_cfg_lut_t := (
-		(x"03", x"07"), -- AUX-Pin as PLL-Lock + Device-Config Enable 1
-		(x"05", x"09"), -- Freeze-Bit to 1 + Device-Config Enable 2
-		(x"17", x"18"), -- Clock-Output if PLL Unlocked + High-Accuracy-Mode
-		(x"16", x"08"), -- Clock-Skip Disabled + Ref-Clock DIV to "01" -> 16MHz to 28MHz range
-		(x"1E", x"00"), -- Loop-Bandwidth to 1 Hz
-		(x"04", x"01"), -- Hybrid-PLL mode and lock-clock-ratio to 0
+		(x"03", "00000111"), -- AUX-Pin as PLL-Lock + Device-Config Enable 1
+		(x"05", "00001001"), -- Freeze-Bit to 1 + Device-Config Enable 2
+		(x"17", "00001000"), -- Clock-Output Disabled if PLL Unlocked + High-Accuracy-Mode
+		(x"16", "00001000"), -- Clock-Skip Disabled + Ref-Clock DIV to "01" -> 16MHz to 28MHz range
+		(x"1E", "00000000"), -- Loop-Bandwidth to 1 Hz
+		(x"04", "00000001"), -- Hybrid-PLL mode and lock-clock-ratio to 0
 		(x"06", x"00"), -- Multiplicator-Value MSB
 		(x"07", x"0C"), -- Multiplicator-Value
 		(x"08", x"49"), -- Multiplicator-Value
 		(x"09", x"BA"), -- Multiplicator-Value LSB
-		(x"02", x"00"), -- Enable CLK- and AUX-Output
-		(x"05", x"01")  -- Set Freeze to 0 -> changes take effect immediately
+		(x"02", "00000000"), -- Enable CLK- and AUX-Output
+		(x"05", "00000001")  -- Set Freeze to 0 -> changes take effect immediately
 	);
 	-- 16MHz -> 12.288MHz = x0.768 -> 2^20 * 0.768 = 805306 = 0x000C49BA
 begin

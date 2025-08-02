@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="cs2000cp_config">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2025-7-26T22:24:30</timestamp>
+    <timestamp>2025-7-26T23:3:18</timestamp>
     <pin polarity="Input" x="0" y="-224" name="clk" />
     <pin polarity="Input" x="0" y="-128" name="i_start" />
     <pin polarity="Input" x="0" y="-32" name="i_txbusy" />
