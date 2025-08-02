@@ -91,17 +91,21 @@ At the moment it seems that the DSPs can only be programmed using a closed-sourc
 * [x] Support of internal Realtime-Clock
 * [x] Support of USB-Host interface (HID-Keyboard, HID-Mouse, Mass-Storage-Devices, Joystick, Soundcard, etc.)
 * [x] Support of internal SD-Card to read MAC-Address and the general configuration
+* [x] Support of internal 8-channel analog input- and output-cards including headamp- and phantom-power-control
+* [x] Support of internal 8-channel AUX-AD/DA-Converter (CS42438)
 * [x] Control of X32 surface (faders, buttons, LEDs, encoders) through x32ctrl-software
-* [x] Configuration of main-FPGA (Xilinx Spartan 3A, X3CS1400) via internal SPI-interface (use software fpgaconfig)
-* [x] Basic Audio-Processing using the 8-Channel AUX-AD/DA-Converter (CS42438) is working
+* [x] Configuration of main-FPGA (Xilinx Spartan 3A, X3CS1400) via internal SPI-interface (via fpgaconfig)
 
-Some things are on the ToDo-list:
-* [ ] Planned: Support of Analog In- and Outputs of X32 with basic mixing options (needs reverse engineering of the control-protocol of the 8-Channel-Boards to enable the outputs)
-* [ ] Planned: Support of UltraNet (create S/PDIF or AES/EBU transmitter with 384kHz)
+So the most important things (audio in/out, control-surface, display) are working already. The high-level-audio-functions within the DSP need still more investigation...
+
+More things are on the ToDo-list:
+* [ ] Planned: routing-function for the available 72 inputs (32x XLR, 8x AUX, 32x Card) to 56 outputs (16x XLR, 8x AUX, 32x Card)
+* [ ] Planned: basic audio-mixing (at least volume controlled by i.MX25) within the FPGA until the two AnalogDevices SHARC DSPs are under control
 * [ ] Planned: Support of both AnalogDevices DSPs via SPI (find toolchain for Analog Devices SHARC DSPs)
+* [ ] Planned: Support of UltraNet (create S/PDIF or AES/EBU transmitter with 384kHz)
 * [ ] Planned: ALSA Soundcard with I2S to main-FPGA (DeviceTree option "simple-audio-card" via SSI1 and AUDMUX is not initializing)
 * [ ] Planned: GPIO support via libgpiod (at the moment libgpiod is not working and has no control over /dev/gpiochipX)
-* [ ] Planned: Support of AES50
+* [ ] Planned: Support of AES50 (needs more investigation on AES50-protocol)
 
 LVGL v9.3.0 is running on the X32 with a good performance (30 fps). So this will be a basis for this open-source Operating System:
 ![alt_text](Documentation/openx32_3.jpg)
